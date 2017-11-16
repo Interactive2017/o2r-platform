@@ -155,6 +155,17 @@ services:
       - SUBSTITUTER_PORT=8090
       - DEBUG=substituter,substituter:*
 
+  opencpu:
+    image: opencpu/rstudio
+    restart: unless-stopped
+    # depends_on:
+    #   - configmongodb
+    volumes:
+      - o2rstorage:/tmp/o2r
+    environment:
+      - OPENCPU_PORT=8004
+      - DEBUG=*
+
   platform:
     image: nginx:latest
     depends_on:
