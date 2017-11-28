@@ -28,7 +28,10 @@
 			setUserLevel: setUserLevel,
 			getAllUsers: getAllUsers,
 			deleteCompendium: deleteCompendium,
-			substitute: substitute
+			substitute: substitute,
+			ocpuResultsVal: ocpuResultsVal,
+			ocpuCalculate: ocpuCalculate,
+			ocpuImages: ocpuImages
 		};
 
 		return service;
@@ -242,5 +245,20 @@
 			var _url = env.api + '/compendium/' + compId;
 			return $http.delete(_url);
 		}
+
+		function ocpuResultsVal(tempId){
+			var _url = env.api + '/ocpu/tmp/' + tempId + '/R/.val';
+			$http.get(_url);
+		}
+
+		function ocpuCalculate(params, endpoint){
+            var _url = env.api +  endpoint;
+            $http.post(_url, params);
+		}
+
+        function ocpuImages(tempId){
+            var _url = env.api + '/ocpu/tmp/' + tempId + '/graphics/1';
+            $http.get(_url);
+        }
 	};
 })();

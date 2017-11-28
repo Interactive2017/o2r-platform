@@ -235,6 +235,11 @@
                     substituteInfoService: substituteInfoService
                 }
             })
+            .state('erc.mainCompare', {
+                templateUrl: 'app/mainCompare/mainCompare.html',
+                controller: 'mainCompareController',
+                controllerAs: 'vm'
+            })
             .state('compareanalysis', {
                 url: "/compare/analysis?o&r&d&om&rm&dm",
                 templateUrl: "app/compareAnalysisView/compareAnalysis.html",

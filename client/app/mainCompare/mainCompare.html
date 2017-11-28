@@ -1,0 +1,32 @@
+<div class="manipulate-interactive">
+    <md-tabs  md-selected="vm.selectedTab" md-border-bottom md-autoselect>
+        <md-tab ng-repeat="figure in vm.figures track by $index"
+                label="Figure {{$index + 1}}">
+            <o2r-display-files o2r-file="{{figure.shinyURL}}" ng-if="vm.selectedTab == $index"></o2r-display-files>
+        </md-tab>
+    </md-tabs>
+    <md-menu md-position-mode="target-right target">
+        <md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+            <md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+        </md-button>
+        <md-menu-content width="2" ng-if="vm.compareType == 'timeseries'">
+            <md-menu-item>
+                <md-button ng-click="changeVisualization('side-by-side')" aria-label="Side-by-side">Side-By-Side</md-button>
+            </md-menu-item>
+            <md-menu-item>
+            <md-button ng-click="changeVisualization('combined')" aria-label="Combined plot">Combined</md-button>
+            </md-menu-item>
+        </md-menu-content>
+        <md-menu-content width="3" ng-if="vm.compareType == 'map'">
+            <md-menu-item>
+                <md-button ng-click="changeVisualization('side-by-side')" aria-label="Side-by-side">Side-By-Side</md-button>
+                </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="changeVisualization('overlay')" aria-label="Overlay">Overlay</md-button>
+            </md-menu-item>
+            <md-menu-item>
+                <md-button ng-click="changeVisualization('peephole')" aria-label="Peephole">Peephole</md-button>
+            </md-menu-item>
+        </md-menu-content>
+    </md-menu>
+</div>
