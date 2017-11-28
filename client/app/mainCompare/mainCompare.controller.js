@@ -12,10 +12,21 @@
         var vm = this;
         vm.selectedTab = 0;
 
+        $scope.mapCompareTypes = [
+            "Side-by-side",
+            "Overlay",
+            "Peephole"
+        ];
+
+        $scope.tsCompareTypes = [
+            "Side-by-side",
+            "Combined"
+        ];
+
         //vm.compareType = compare.metadata.o2r.interaction[0].type;
         vm.compareType = "map";
 
-        vm.icons = icons;
+        $scope.icons = icons;
 
         $scope.$watch('vm.selectedTab', function(newVal, oldVal){
             $log.debug('Tab changed to object: %s', newVal);
