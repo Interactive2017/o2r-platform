@@ -10,6 +10,7 @@
             "starter.o2rInspect",
             "starter.o2rErcDownload",
             "starter.o2rMetadataView",
+            "starter.o2rTimeseries",
             "treeControl",
             "hljs",
             "ui.router",
@@ -27,7 +28,8 @@
             'angular-logger',
             'angular-intro',
             'ngCookies',
-            'ngSanitize'])
+            'ngSanitize',
+            'plotly'])
         .constant('icons', icons())
         .config(config)
         .run(run);
