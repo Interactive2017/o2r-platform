@@ -27,7 +27,8 @@
             'angular-logger',
             'angular-intro',
             'ngCookies',
-            'ngSanitize'])
+            'ngSanitize',
+            'rzModule'])
         .constant('icons', icons())
         .config(config)
         .run(run);
