@@ -7,14 +7,16 @@
 
     mainCompareController.$inject = ['$scope', '$log', 'erc', 'icons'];
     function mainCompareController($scope, $log, erc, icons){
+
+        // TODO: make sure that page is loaded completely
+
         var logger = $log.getInstance('mainCompare');
         var compare = erc;
-        $log.info('hello');
         var vm = this;
         vm.selectedTab = 0;
         vm.figures = compare.metadata.o2r.interaction;
-
-
+        logger.info(vm.figures);
+        
         /** Initial compare type selection */
         $scope.mapCompareTypes = [
             "Side-by-side",
@@ -25,20 +27,22 @@
             "Side-by-side",
             "Combined"
         ];
-        //todo vm.compareType = compare.metadata.o2r.interaction[0].type;
-        vm.compareType = "map";
 
+        // At the beginning the first figure is loaded
+        vm.compareType = compare.metadata.o2r.interaction[0].type;
+        vm.widgets = compare.metadata.o2r.interaction[0].widgets;
+        logger.info(vm.widgits);
+
+        // TODO:
         /** Initial slider configuration */
-        /**
          // auf typ checken bevor ich die in das neue array mit aufnehme
-         vm.priceSlider = {
+         vm.slider = {
             value: 200,
             options: {
                 floor: 0,
                 ceil: 500
             }
         };
-         */
 
 
         $scope.icons = icons;
@@ -48,13 +52,13 @@
             //logger.info('Tab changed to object: %s', newVal);
             // newVal is the array index of the current figure
 
-            //todo set new comparison type
+            //TODO set new comparison type
             $scope.compareType = "map"; 
 
 
-            //todo build new sliders
+            //TODO build new sliders
 
-            //todo draw new visualization?
+            //TODO draw new visualization?
 
 
         });

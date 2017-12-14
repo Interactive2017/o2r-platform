@@ -4,11 +4,11 @@
         <md-tab ng-repeat="figure in vm.figures track by $index"
                 label="Figure {{$index + 1}}">
 
-            <!-- slider
+            <!--slider-->
                 <div ng-repeat="widget in vm.widgets">
-                    <p>Price: {{vm.priceSlider.value}}</p>
-                    <rzslider rz-slider-model="vm.priceSlider.value" rz-slider-options="vm.priceSlider.options"></rzslider>
-                </div>-->
+                    <p>Price: {{vm.slider.value}}</p>
+                    <rzslider rz-slider-model="vm.slider.value" rz-slider-options="vm.slider.options"></rzslider>
+                </div>
 				
 			<!-- Comparison type selection -->
 				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
