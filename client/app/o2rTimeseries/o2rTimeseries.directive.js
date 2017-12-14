@@ -45,7 +45,7 @@
             scope.data.push(angular.fromJson(value));   
         });
 
-        attrs.$observe('layout', function(value) {
+        attrs.$observe('title', function(value) {
             scope.title = value;
         })
 
