@@ -157,11 +157,14 @@ services:
 
   opencpu:
     image: opencpu/rstudio
+    hostname: opencpu
     restart: unless-stopped
     # depends_on:
     #   - configmongodb
     volumes:
       - o2rstorage:/tmp/o2r
+    ports:
+      - "8004:8004"
     environment:
       - OPENCPU_PORT=8004
       - DEBUG=*

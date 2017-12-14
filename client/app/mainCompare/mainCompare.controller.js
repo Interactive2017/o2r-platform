@@ -7,42 +7,61 @@
 
     mainCompareController.$inject = ['$scope', '$log', 'erc', 'icons'];
     function mainCompareController($scope, $log, erc, icons){
+        var logger = $log.getInstance('mainCompare');
         var compare = erc;
         $log.info('hello');
         var vm = this;
         vm.selectedTab = 0;
+        vm.figures = compare.metadata.o2r.interaction;
 
+
+        /** Initial compare type selection */
         $scope.mapCompareTypes = [
             "Side-by-side",
             "Overlay",
             "Peephole"
         ];
-
         $scope.tsCompareTypes = [
             "Side-by-side",
             "Combined"
         ];
-
-        //vm.compareType = compare.metadata.o2r.interaction[0].type;
+        //todo vm.compareType = compare.metadata.o2r.interaction[0].type;
         vm.compareType = "map";
+
+        /** Initial slider configuration */
+        /**
+         // auf typ checken bevor ich die in das neue array mit aufnehme
+         vm.priceSlider = {
+            value: 200,
+            options: {
+                floor: 0,
+                ceil: 500
+            }
+        };
+         */
+
 
         $scope.icons = icons;
 
+        //when another tab/figure has been selected by the user
         $scope.$watch('vm.selectedTab', function(newVal, oldVal){
-            $log.debug('Tab changed to object: %s', newVal);
+            //logger.info('Tab changed to object: %s', newVal);
+            // newVal is the array index of the current figure
 
-            var newObj = {};
-            newObj.code = [compare.metadata.o2r.interaction.ui_binding[newVal].underlyingCode];
-            newObj.data = [compare.metadata.o2r.interaction.ui_binding[newVal].underlyingData];
+            //todo set new comparison type
+            $scope.compareType = "map"; 
 
-            $scope.$parent.vm.mSetCodeData(newObj);
+
+            //todo build new sliders
+
+            //todo draw new visualization?
+
+
         });
 
-        vm.figures = compare.metadata.o2r.interaction.ui_binding;
 
         $scope.changeVisualization = function(type){
-
-        }
+            // todo show visualization
+        };
     }
-
-})();
+})()

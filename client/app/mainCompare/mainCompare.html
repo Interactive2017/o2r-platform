@@ -1,32 +1,44 @@
 <div class="manipulate-interactive">
+
     <md-tabs  md-selected="vm.selectedTab" md-border-bottom md-autoselect>
         <md-tab ng-repeat="figure in vm.figures track by $index"
                 label="Figure {{$index + 1}}">
-            <o2r-display-files o2r-file="{{figure.shinyURL}}" ng-if="vm.selectedTab == $index"></o2r-display-files>
+
+            <!-- slider
+                <div ng-repeat="widget in vm.widgets">
+                    <p>Price: {{vm.priceSlider.value}}</p>
+                    <rzslider rz-slider-model="vm.priceSlider.value" rz-slider-options="vm.priceSlider.options"></rzslider>
+                </div>-->
+				
+			<!-- Comparison type selection -->
+				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
+					<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+						<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+					</md-button>
+					<md-menu-content width="4">
+						<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
+							<md-button ng-click="changeVisualization(type)">
+								{{type}}
+							</md-button>
+						</md-menu-item>
+					</md-menu-content>
+				</md-menu>
+				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
+					<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+						<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+					</md-button>
+					<md-menu-content width="4">
+						<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
+							<md-button ng-click="changeVisualization(type)">
+								{{type}}
+							</md-button>
+						</md-menu-item>
+					</md-menu-content>
+				</md-menu>
+
+
         </md-tab>
     </md-tabs>
-    <md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
-        <md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-            <md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-        </md-button>
-        <md-menu-content width="4">
-            <md-menu-item ng-repeat="type in mapCompareTypes track by $index">
-                <md-button ng-click="changeVisualization(type)">
-                    {{type}}
-                </md-button>
-            </md-menu-item>
-        </md-menu-content>
-    </md-menu>
-    <md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
-        <md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-            <md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-        </md-button>
-        <md-menu-content width="4">
-            <md-menu-item ng-repeat="type in tsCompareTypes track by $index">
-                <md-button ng-click="changeVisualization(type)">
-                    {{type}}
-                </md-button>
-            </md-menu-item>
-        </md-menu-content>
-    </md-menu>
+
+    
 </div>
