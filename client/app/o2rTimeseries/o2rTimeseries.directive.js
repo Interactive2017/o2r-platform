@@ -2,22 +2,28 @@
     'use strict';
 
     /**
-     * Directive to display a plotly timeseries. Uses the existing plotly directive and extends it with some further information.
+     * Directive to display a plotly timeseries. 
+     * Uses the existing plotly directive and extends it with some further information.
      * 
-     * You can use the directive with <o2r-timeseries> </o2r-timeseries>
+     * You can use this directive with <o2r-timeseries> </o2r-timeseries>
      * 
-     * Insert the scope data and title. Data contains the data to be displayed, title is the title defined in the metadata for the figure.
+     * Insert the scope data and layout. Data contains the data to be displayed, 
+     * layout contains the title defined in the metadata for the figure.
      * 
      * Use the following structure:
-     * values = 
+     * data = 
      * [{
      * x: [2000,2001,2002,2003,2004,.....,2010],
      * y: [4,1,5,17,...,3]
      * }]
-     * 
-     * where x are the x-axis value and the y are the values for the y-axis. For multiple lines in the plot just insert multiple objects into the array.
-     * 
-     * Insert it in the end as vm object or directly like: <o2r-timeseries o2r-data={{vm.values}} o2r-title={"A new title"}></o2r-timeseries>
+     *
+     * where x are the x-axis value and the y are the values for the y-axis. 
+     * For multiple lines in the plot just insert multiple objects into the array.
+     *
+     * layout = {title: 'Title of the plot'};
+     *  
+     * Insert it in the end as vm object: 
+     * <o2r-timeseries o2r-data="vm.data" o2r-layout="vm.layout"></o2r-timeseries>
      */
 
     angular
@@ -29,26 +35,17 @@
         return{
 			restrict: 'E',
             templateUrl: 'app/o2rTimeseries/o2rTimeseries.template.html',
-            link: link,
             scope: {
-                data: '@o2rData',
-                title: '@o2rTitle'
-            }
+                data: '=o2rData',
+                layout: '=o2rLayout'
+            },
+            link: link
+        };
+
+        
+        function link(scope, element, attrs){
+
+            scope.options = {showLink: false, displayLogo: false};
         }
-
-    }
-
-    function link(scope, element, attrs){
-        scope.data = [];
-        attrs.$observe('data', function(value){
-            console.info("value");
-            scope.data.push(angular.fromJson(value));   
-        });
-
-        attrs.$observe('title', function(value) {
-            scope.title = value;
-        })
-
-        scope.options = {showLink: false, displayLogo: false};
     }
 })();
