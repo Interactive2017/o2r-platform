@@ -7,6 +7,8 @@
 					<div ng-repeat="widget in vm.widgets">
 						<rzslider rz-slider-model="widget.value" rz-slider-options="widget.options"></rzslider>
 					</div>
+
+					<md-button ng-click=vm.changeVisualization() class="md-raised">Load visualization</md-button>
 					
 				<!-- Comparison type selection -->
 					<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">

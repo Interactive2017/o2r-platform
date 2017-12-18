@@ -11,6 +11,7 @@
         var logger = $log.getInstance('mainCompare');
         var vm = this;
         vm.initialTab = 0;
+        vm.selectedTab = 0;
         var compare = erc;
         var first = true;
         $scope.icons = icons;   
@@ -29,37 +30,43 @@
         ];
 
         // function to initialize the slider
-        $scope.initializeSlider = function(figure){
+        vm.initializeSlider = function(figure){
             vm.widgets = compare.metadata.o2r.interaction[figure].widgets;
             for(var widget in vm.widgets){
                 vm.widgets[widget].value = vm.widgets[widget].default_value; // set default value
-                vm.widgets[widget].options = {floor: vm.widgets[widget].min_value, ceil: vm.widgets[widget].max_value }; // set min value
+                vm.widgets[widget].options = {floor: vm.widgets[widget].min_value, ceil: vm.widgets[widget].max_value, step: vm.widgets[widget].steps_size, precision: 10 }; // set min value
             }
         }
 
         // function to show comparison visulization
-        $scope.changeVisualization = function(type){
-            // TODO show visualization
+        vm.changeVisualization = function(){
+            logger.info("Change visualization");
+
+            // get visualization type 
+            var activeCompareType = vm.compareType;
+
+            // TODO: how to get slider values??????
+            
+            
+            // ===== TODO calculate and show visualization =============
         };
         
 
         // Load figure when tab was changed
-        /** another tab/figure has been selected by the user */
-        $scope.$watch('vm.selectedTab', function(newVal, oldVal){
-            if(first){
-                first = false;
-            }else if (!first){
+        $scope.$watch('vm.selectedTab', function(newVal, oldVal){  /** another tab/figure has been selected by the user */
+            
                 logger.info("Changed Tab");
+                vm.selectedTab = newVal;
 
                 // set new comparison type
-                vm.compareType = compare.metadata.o2r.interaction[newVal].type;            
+                vm.compareType = compare.metadata.o2r.interaction[vm.selectedTab].type;            
 
                 // build new sliders
-                $scope.initializeSlider(newVal);
+                vm.initializeSlider(vm.selectedTab);
 
                 //TODO draw new visualization?
-                //$scope.changeVisualization();
-            }
+                //vm.changeVisualization();
+            
         });
 
         
