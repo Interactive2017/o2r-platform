@@ -41,7 +41,8 @@
     "intro.js": "intro-js#^2.5.0",
     "angular-intro.js": "^3.3.0",
     "angular-cookies": "^1.6.5",
-    "angular-sanitize": "^1.6.5"
+    "angular-sanitize": "^1.6.5",
+    "cocoen": "^2.0.5"
   },
   "devDependencies": {
     "angular-mocks": "1.6.2",
