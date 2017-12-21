@@ -629,9 +629,26 @@ td.add-row-button {
 	End Substitution
 /***********************/
 
+/***********************
+	Start slider-image-comparison
+/***********************/
+
+
+
+slide-image-comparison{
+		width: 100%;
+		/*height: 50%;*/
+}
+
+.slider-image-show {
+		width: 100%%;
+}
+
 div.slide-comb {
 	width: 600px;
 	height: 400px;
+	width: 100%;
+	height: 100%;
 	position: relative;
 	overflow: hidden;
 }
@@ -642,7 +659,7 @@ div.slide-comb img {
 div.slide-comb .resized {
 	position: absolute;
 	top:0;
-	left: 0;
+	left:0;
 	height: 100%;
 	width: 50%;
 	overflow: hidden;
@@ -663,3 +680,7 @@ div.slide-comb .divider {
 		height: 200px;
 	}
 }
+
+/***********************
+	End slider-image-comparison
+/***********************/

@@ -29,13 +29,17 @@
             vm.original = "../../img/mammoth.png";
             vm.overlay = "../../img/penguin.png";
 
+            // right image
             $scope.images = {
-            		// image1: 'http://i.imgur.com/BIHN8KQ.jpg',
-            		// image2: 'http://i.imgur.com/nS6dvpq.jpg'
                 image1: vm.original,
                 image2: vm.overlay
           	}
-            console.log($scope.images);
+
+            // left image
+            $scope.imagesInv = {
+                image1: vm.overlay,
+                image2: vm.original
+          	}
 
        }
 
