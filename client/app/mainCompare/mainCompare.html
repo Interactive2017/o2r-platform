@@ -3,38 +3,40 @@
     <md-tabs  md-selected="vm.selectedTab" md-border-bottom md-autoselect>
 		<md-tab ng-repeat="figure in vm.figures track by $index" 
 		label="Figure {{$index + 1}}">
-				<!--slider-->
-					<div ng-repeat="widget in vm.widgets">
-						<rzslider rz-slider-model="widget.value" rz-slider-options="widget.options"></rzslider>
-					</div>
-
-					<md-button ng-click=vm.changeVisualization() class="md-raised">Load visualization</md-button>
 					
-				<!-- Comparison type selection -->
-					<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
-						<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-							<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+			<!-- Comparison type selection -->
+			<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
+				<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+					<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+				</md-button>
+				<md-menu-content width="4">
+					<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
+						<md-button ng-click="changeVisualization(type)">
+							{{type}}
 						</md-button>
-						<md-menu-content width="4">
-							<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
-								<md-button ng-click="changeVisualization(type)">
-									{{type}}
-								</md-button>
-							</md-menu-item>
-						</md-menu-content>
-					</md-menu>
-					<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
-						<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-							<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+			<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
+				<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+					<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+				</md-button>
+				<md-menu-content width="4">
+					<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
+						<md-button ng-click="changeVisualization(type)">
+							{{type}}
 						</md-button>
-						<md-menu-content width="4">
-							<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
-								<md-button ng-click="changeVisualization(type)">
-									{{type}}
-								</md-button>
-							</md-menu-item>
-						</md-menu-content>
-					</md-menu>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+
+
+			<!--slider-->
+			<div ng-repeat="slider in vm.sliders">
+				<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+			</div>
+
+			<md-button ng-click=vm.changeVisualization() class="md-raised">Load visualization</md-button>
 			
         </md-tab>
     </md-tabs>

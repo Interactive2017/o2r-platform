@@ -15,7 +15,7 @@
         var compare = erc;
         var first = true;
         $scope.icons = icons;   
-        vm.figures = compare.metadata.o2r.interaction;                
+        vm.figures = compare.metadata.o2r.interaction;  
         
         
         // compare type selction types
@@ -29,12 +29,20 @@
             "Combined"
         ];
 
-        // function to initialize the slider
+        // function to initialize the slider; create metatdata needed for slider
         vm.initializeSlider = function(figure){
-            vm.widgets = compare.metadata.o2r.interaction[figure].widgets;
-            for(var widget in vm.widgets){
-                vm.widgets[widget].value = vm.widgets[widget].default_value; // set default value
-                vm.widgets[widget].options = {floor: vm.widgets[widget].min_value, ceil: vm.widgets[widget].max_value, step: vm.widgets[widget].steps_size, precision: 10 }; // set min value
+            vm.sliders = compare.metadata.o2r.interaction[figure].widgets;
+            var notSlider = [];         
+            for(var slider in vm.sliders){
+                if(vm.sliders[slider].type == "slider"){
+                    vm.sliders[slider].value = vm.sliders[slider].default_value; // set default value
+                    vm.sliders[slider].options = {floor: vm.sliders[slider].min_value, ceil: vm.sliders[slider].max_value, step: vm.sliders[slider].steps_size, precision: 10 }; // set min value
+                } else {
+                    notSlider.unshift(slider);
+                }
+            }
+            for(var del in notSlider){
+                vm.sliders.splice(notSlider[del], 1);
             }
         }
 
