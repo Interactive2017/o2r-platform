@@ -1,6 +1,6 @@
 <div class="manipulate-interactive">
 
-    <md-tabs  md-selected="vm.selectedTab" md-border-bottom md-autoselect>
+    <md-tabs  md-selected="vm.selectedTab" md-dynamic-height md-border-bottom md-autoselect>
 		<md-tab ng-repeat="figure in vm.figures track by $index" 
 		label="Figure {{$index + 1}}">
 					
@@ -32,8 +32,9 @@
 
 
 			<!--slider-->
-			<div ng-repeat="slider in vm.sliders">
-				<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+			<div ng-repeat="slider in vm.sliders" style="padding-top: 0.5em">
+				{{slider.param_name}}: &emsp;
+				<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 50%"></rzslider>
 			</div>
 
 			<md-button ng-click=vm.changeVisualization() class="md-raised">Load visualization</md-button>
