@@ -53,7 +53,12 @@
             // get visualization type 
             var activeCompareType = vm.compareType;
 
-            // TODO: how to get slider values??????
+            // get slider value
+            for(var slider in vm.sliders){
+                // TODO: these values could for exmaple be stored as key value pairs for doing the recalculation
+                logger.info(vm.sliders[slider].param_name);
+                logger.info(vm.sliders[slider].value);
+            }
             
             
             // ===== TODO calculate and show visualization =============
