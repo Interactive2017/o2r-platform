@@ -46,6 +46,96 @@
         function link(scope, element, attrs){
 
             scope.options = {showLink: false, displayLogo: false};
+            mean(scope);
+            min(scope);
+            max(scope);
+            standardDeviation(scope);
         }
-    }
+    
+        //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only
+        function mean(scope) {
+            var mean;
+            var sum = 0;
+    
+            //iterate over the outer array and calculate the mean for each contained array
+            for(var i = 0; i < scope.data.length; i++) {
+                sum = scope.data[i].y.reduce(function(sum, value){
+                    return sum + value;
+                  }, 0);
+                mean = sum / scope.data[i].y.length;
+                //insert the value for the particular graph into the html
+                document.getElementById('mean').innerHTML = 'Mean: ' + mean;
+            }
+        }
+
+        //helper for the standrad deviation method
+        function average(data){
+            var sum = data.reduce(function(sum, value){
+              return sum + value;
+            }, 0);
+          
+            var avg = sum / data.length;
+            return avg;
+        }
+
+        //calculate the standard deviation for the timeseries
+        function standardDeviation(scope) {
+            var sd;
+            var tsValues;
+
+            for(var i = 0; i < scope.data.length; i++) {
+                tsValues = scope.data[i].y;
+                var avg = average(tsValues);
+      
+                var squareDiffs = tsValues.map(function(val){
+                    var diff = val - avg;
+                    var sqrDiff = diff * diff;
+                    return sqrDiff;
+                });
+                
+                var avgSquareDiff = average(squareDiffs);
+                
+                sd = Math.sqrt(avgSquareDiff);
+                }
+                //insert the value for the particular graph into the html
+                document.getElementById('sd').innerHTML = 'Standard Deviation: ' + sd;
+            }
+
+        }
+
+        function variance(scope) {
+            
+        }
+
+        //calculate the minimum of the timeseries
+        function min(scope) {
+            var min;
+
+            for(var i = 0; i < scope.data.length; i++) {
+                min = scope.data[i].y.reduce(function(a,b) {
+                    return Math.min(a,b)
+                })
+                //insert the value for the particular graph into the html
+                document.getElementById('min').innerHTML = 'Min: ' + min;
+            }
+        }
+
+        //calculate the maximum of the timeseries
+        function max(scope) {
+            var max;
+
+            for(var i = 0; i < scope.data.length; i++) {
+                max = scope.data[i].y.reduce(function(a,b) {
+                    return Math.max(a,b)
+                })
+                //insert the value for the particular graph into the html
+                document.getElementById('max').innerHTML = 'Max: ' + max;
+            }
+        }
+
+        function numberOfValues(scope) {
+
+        }
+    
+
 })();
