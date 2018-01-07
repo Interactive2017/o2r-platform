@@ -4,11 +4,11 @@
  * Requires two parameters: o2r-original-figure and o2r-modified-figure
  * 
  * Call directive as follows
- * <o2r-side-by-side o2r-original-figure="{{}}" o2r-modified-figure="{{}}"
+ * <o2r-side-by-side o2r-original-figure="{{}}" o2r-modified-figure="{{}}"></o2r-side-by-side>
  * 
  * Where o2r-original-figure MUST be an object as defined in repo metadata/compendium.json
  * and
- * where o2r-modified-figure MUST be an object containing only the timeseries returned by the openCPU endpoint
+ * where o2r-modified-figure MUST be an object containing only the timeseries returned by the openCPU endpoint or a link to the map image
  */
 (function(){
     'use strict';
@@ -23,24 +23,30 @@
         return{
             restrict: 'E',
             scope: {
-                original: '@o2rOriginalFigure',
-                modified: '@o2rModifiedFigure'
+                orig: '@o2rOriginalFigure',
+                modi: '@o2rModifiedFigure'
             },
             templateUrl: 'app/o2rSideBySide/o2rSideBySide.template.html',
             link: link
         };
 
         function link(scope, elements, attrs){
-            attrs.$observe('original', function(value){
+            logger.info('orig', scope.orig);
+            logger.info('modi', scope.modi);
+            scope.original = angular.fromJson(scope.orig);
+            if(scope.original.type == 'timeseries') scope.modified = angular.fromJson(scope.modi);
+            else scope.modified = scope.modi;
+            logger.info('scope.modified', scope.modified);
+            attrs.$observe('orig', function(value){
                 scope.original = value;
                 logger.info('original', scope.original);
                 if(scope.original.type == 'timeseries'){
                     scope.originalTime = prepareTimeSeries(scope.original.original.values);
                 }
             });
-            attrs.$observe('modified', function(value){
+            attrs.$observe('modi', function(value){
                 scope.modified = value;
-                if(scope.modified.type == 'timeseries'){
+                if(scope.original.type == 'timeseries'){
                     scope.modifiedTime = prepareTimeSeries(value);
                 }
             });
