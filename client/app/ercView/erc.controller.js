@@ -65,17 +65,22 @@
         }
 
         function sliderDirective(ev){
-              $mdDialog.show({
-                  controller: 'SliderDirectiveController',
-                  controllerAs: 'vm',
-                  templateUrl: 'app/sliderDirective/sliderDirective.html',
-                  parent: angular.element(document.body),
-                  targetEvent: ev,
-                  fullscreen: true,
-                  clickOutsideToClose: false,
-                  multiple: true
-              });
-          };
+            var originalImage = "../../img/deutschland01.png";
+            var overlayImage = "../../img/deutschland02.png";
+            // var originalImage = "../../img/muenster01.jpg";
+            // var overlayImage = "../../img/muenster02.jpg";
+
+            // TODO: get path of original image --> from metadata from erc
+            // TODO: get path of new processed image (from analysis --> from successfull job)
+            $mdDialog.show({
+                template: '<md-dialog aria-label="slider comparison" flex="100"><o2r-slider-image-comparison o2r-image-path-original="'+originalImage+'" o2r-image-path-overlay="'+overlayImage+'"></o2r-slider-image-comparison></md-dialog>',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                fullscreen: true,
+                clickOutsideToClose: false,
+                multiple: true
+            });
+        };
 
         function getShipment(){
             httpRequests.getShipment(vm.ercId)

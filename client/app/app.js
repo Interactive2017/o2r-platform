@@ -11,6 +11,7 @@
             "starter.o2rErcDownload",
             "starter.o2rMetadataView",
             "starter.slideImageComparison",
+            "starter.o2rSliderImageComparison",
             "treeControl",
             "hljs",
             "ui.router",
