@@ -50,6 +50,8 @@
             min(scope);
             max(scope);
             standardDeviation(scope);
+			variance(scope);
+			numberOfValues(scope);
         }
     
         //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only
@@ -101,10 +103,26 @@
                 document.getElementById('sd').innerHTML = 'Standard Deviation: ' + sd;
             }
 
-        }
+        
 
         function variance(scope) {
-            
+            var variance;
+            var yvals;
+			for(var i = 0; i < scope.data.length; i++)
+			{
+				yvals = scope.data[i].y;
+				var avg = average(yvals);
+				
+				var sq_diff = yvals.map(function(values)
+				{
+					var squared_diff = (values - avg) * (values - avg);
+					return squared_diff;
+				});
+				
+				variance = average(sq_diff);
+				//Inserting into HTML
+				document.getElementById('variance').innerHTML = 'Variance: ' + variance;
+			}
         }
 
         //calculate the minimum of the timeseries
@@ -134,8 +152,16 @@
         }
 
         function numberOfValues(scope) {
-
+			var count;
+			for(var i = 0; i < scope.data.length; i++)
+			{
+				//Using x in case y values are absent or missing
+				count = scope.data[i].x.length
+				
+				//Insert into HTML
+				document.getElementById('numberOfValues').innerHTML = 'Number of values: ' + count;
+			}
         }
-    
+    }
 
 })();
