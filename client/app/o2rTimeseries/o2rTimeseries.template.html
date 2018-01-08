@@ -1,1 +1,9 @@
 <plotly plotly-data="data" plotly-layout="layout" plotly-options="options" plotly-events="plotlyEvents"></plotly>
+<div>
+    <p>Mean: {{vm.mean | number:3}}</p>
+    <p>Standard Deviation: {{vm.sd | number:3}}</p>
+    <p>Variance: {{vm.variance | number:3}}</p>
+    <p>Minimum: {{vm.min | number:3}}</p>
+    <p>Maximum: {{vm.max | number:3}}</p>
+    <p>Number of Values: {{vm.num | number:3}}</p>
+</div>

@@ -46,12 +46,12 @@
         function link(scope, element, attrs){
 
             scope.options = {showLink: false, displayLogo: false};
-            mean(scope);
-            min(scope);
-            max(scope);
-            standardDeviation(scope);
-			variance(scope);
-			numberOfValues(scope);
+            vm.mean = mean(scope);
+            vm.min = min(scope);
+            vm.max = max(scope);
+            vm.sd = standardDeviation(scope);
+			vm.variance = variance(scope);
+			vm.num = numberOfValues(scope);
         }
     
         //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only
@@ -66,7 +66,7 @@
                   }, 0);
                 mean = sum / scope.data[i].y.length;
                 //insert the value for the particular graph into the html
-                document.getElementById('mean').innerHTML = 'Mean: ' + mean;
+                return mean;
             }
         }
 
@@ -100,7 +100,7 @@
                 sd = Math.sqrt(avgSquareDiff);
                 }
                 //insert the value for the particular graph into the html
-                document.getElementById('sd').innerHTML = 'Standard Deviation: ' + sd;
+                return sd;
             }
 
         
@@ -121,7 +121,7 @@
 				
 				variance = average(sq_diff);
 				//Inserting into HTML
-				document.getElementById('variance').innerHTML = 'Variance: ' + variance;
+				return variance;
 			}
         }
 
@@ -134,7 +134,7 @@
                     return Math.min(a,b)
                 })
                 //insert the value for the particular graph into the html
-                document.getElementById('min').innerHTML = 'Min: ' + min;
+                return min;
             }
         }
 
@@ -147,7 +147,7 @@
                     return Math.max(a,b)
                 })
                 //insert the value for the particular graph into the html
-                document.getElementById('max').innerHTML = 'Max: ' + max;
+                return max;
             }
         }
 
@@ -159,7 +159,7 @@
 				count = scope.data[i].x.length
 				
 				//Insert into HTML
-				document.getElementById('numberOfValues').innerHTML = 'Number of values: ' + count;
+				return count;
 			}
         }
     }
