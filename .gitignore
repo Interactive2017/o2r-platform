@@ -9,3 +9,11 @@ client/app/config/config.js
 
 # ignore npm debug logs
 npm-debug.log
+
+# ignore user specific webstorm ide files
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+

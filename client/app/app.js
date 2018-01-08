@@ -29,7 +29,8 @@
             'angular-intro',
             'ngCookies',
             'ngSanitize',
-            'plotly'])
+            'plotly',
+            'rzModule'])
         .constant('icons', icons())
         .config(config)
         .run(run);
@@ -236,6 +237,11 @@
                 resolve: {
                     substituteInfoService: substituteInfoService
                 }
+            })
+            .state('erc.mainCompare', {
+                templateUrl: 'app/mainCompare/mainCompare.html',
+                controller: 'mainCompareController',
+                controllerAs: 'vm'
             })
             .state('compareanalysis', {
                 url: "/compare/analysis?o&r&d&om&rm&dm",
