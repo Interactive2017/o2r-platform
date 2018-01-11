@@ -46,12 +46,12 @@
         function link(scope, element, attrs){
 
             scope.options = {showLink: false, displayLogo: false};
-            vm.mean = mean(scope);
-            vm.min = min(scope);
-            vm.max = max(scope);
-            vm.sd = standardDeviation(scope);
-			vm.variance = variance(scope);
-			vm.num = numberOfValues(scope);
+            scope.mean = mean(scope);
+            scope.min = min(scope);
+            scope.max = max(scope);
+            scope.sd = standardDeviation(scope);
+			scope.variance = variance(scope);
+			scope.num = numberOfValues(scope);
         }
     
         //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only
