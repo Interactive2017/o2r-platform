@@ -157,11 +157,14 @@ services:
 
   opencpu:
     image: opencpu/rstudio
+    hostname: opencpu
     restart: unless-stopped
     # depends_on:
     #   - configmongodb
     volumes:
       - o2rstorage:/tmp/o2r
+    ports:
+      - "8004:8004"
     environment:
       - OPENCPU_PORT=8004
       - DEBUG=*
@@ -181,6 +184,6 @@ services:
       - "./dev/nginx.conf:/etc/nginx/nginx.conf:ro"
       - "./dev/socket.html:/usr/share/nginx/html/dev/socket.html:ro"
       - "./client:/usr/share/nginx/html:ro"
-      #- "./dev/config-toolbox.js:/etc/nginx/html/app/config/config.js:ro"
+      - "./dev/config-toolbox.js:/etc/nginx/html/app/config/config.js:ro"
     ports:
       - "80:80"
