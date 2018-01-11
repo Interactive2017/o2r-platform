@@ -50,7 +50,6 @@
         vm.publish = true;
         vm.sendToZenodo = sendToZenodo;
         vm.publishInZenodo = publishInZenodo;
-        vm.uploadPackage = uploadPackage;
 
         logger.info(vm.publication);
 
@@ -63,23 +62,6 @@
             $state.go(defView.state);
             getShipment();
         }
-
-        // ------------------------------------------------------------
-
-        function uploadPackage(ev, data){
-							$mdDialog.show({
-                  controller: 'UploadPackageController',
-                  controllerAs: 'vm',
-                  templateUrl: 'app/uploadPackage/uploadPackage.html',
-									parent: angular.element(document.body),
-									targetEvent: ev,
-									fullscreen: true,
-									clickOutsideToClose: false,
-									multiple: true
-							});
-					}
-
-        // ------------------------------------------------------------
 
         function getShipment(){
             httpRequests.getShipment(vm.ercId)
