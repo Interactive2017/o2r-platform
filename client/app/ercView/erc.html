@@ -1,6 +1,6 @@
 <!-- Top nav -->
 <div flex="100" layout="row">
-    <md-button ng-click="vm.sliderDirective()" aria-label="Slider Directive">Slider Directive<md-icon aria-label md-svg-src="{{vm.icons.upload}}"></md-icon></md-button>
+    <md-button ng-click="vm.sliderImageDirective()" aria-label="Slider Directive">Slider Image Directive<md-icon aria-label md-svg-src="{{vm.icons.upload}}"></md-icon></md-button>
     <span flex></span>
     <md-button ng-if="vm.loggedIn" ng-disabled="vm.shipped" ng-click="vm.sendToZenodo()" aria-label="Ship to Zenodo">Ship to Zenodo<md-icon aria-label md-svg-src="{{vm.icons.rowing}}"></md-icon></md-button>
     <md-button ng-if="vm.loggedIn" ng-disabled="vm.publish" ng-click="vm.publishInZenodo()" aria-label="Publish in Zenodo">Publish in Zenodo</md-button>

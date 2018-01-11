@@ -38,14 +38,18 @@
                         image1: scope.o2rImagePathOriginal,
                         image2: scope.o2rImagePathOverlay
                     }
-                    scope.imagesInv = {
-                        image1: scope.o2rImagePathOverlay,
-                        image2: scope.o2rImagePathOriginal
-                    }
 
+                    scope.switchImages = switchImages;
                     scope.cancel = cancel;
 
                     /////
+
+                    function switchImages () {
+                        scope.images = {
+                            image1: scope.images.image2,
+                            image2: scope.images.image1
+                        }
+                    };
 
                     function cancel () {
                         $mdDialog.cancel();

@@ -50,7 +50,7 @@
         vm.publish = true;
         vm.sendToZenodo = sendToZenodo;
         vm.publishInZenodo = publishInZenodo;
-        vm.sliderDirective = sliderDirective;
+        vm.sliderImageDirective = sliderImageDirective;
 
         logger.info(vm.publication);
 
@@ -64,11 +64,19 @@
             getShipment();
         }
 
-        function sliderDirective(ev){
+        function sliderImageDirective(ev){
+
+            // to be deleted |------>
+
             var originalImage = "../../img/deutschland01.png";
             var overlayImage = "../../img/deutschland02.png";
             // var originalImage = "../../img/muenster01.jpg";
             // var overlayImage = "../../img/muenster02.jpg";
+
+            // to be deleted <------|
+
+            // var originalImage = vm.publication.metadata.o2r.interaction.figure. ... // original image for comparison
+            // var overlayImage = get/new/processed/image/path // overlay image for comparison
 
             // TODO: get path of original image --> from metadata from erc
             // TODO: get path of new processed image (from analysis --> from successfull job)

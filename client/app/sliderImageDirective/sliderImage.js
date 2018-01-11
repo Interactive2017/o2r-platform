@@ -1,12 +1,6 @@
 angular
 .module('starter.slideImageComparison')
 .directive('slideImageComparison', function($window) {
-// angular
-// 	.module('starter.o2rDisplayFiles')
-// 	.directive('o2rDisplayFiles', o2rDisplayFiles);
-//
-// o2rDisplayFiles.$inject= ['$log', 'env'];
-// function o2rDisplayFiles($log, env){
 
 	function moveOver(handle, resized, container) {
 
@@ -50,9 +44,6 @@ angular
 			imageInfo: '=info'
 		},
 		link: function(scope, elem, attr) {
-				console.log(scope);
-				console.log(scope.imageInfo);
-
         	var w = angular.element($window);
 
         	var container = angular.element(elem[0].querySelector('.slide-comb'));
@@ -78,6 +69,6 @@ angular
 			moveOver(divider, resized, container);
 
 		},
-		templateUrl: 'app/sliderDirective/slider.html'
+		templateUrl: 'app/sliderImageDirective/sliderImage.html'
 	};
 });
