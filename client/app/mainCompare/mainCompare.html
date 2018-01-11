@@ -1,9 +1,9 @@
 <div class="manipulate-interactive">
 
     <md-tabs  md-selected="vm.selectedTab" md-dynamic-height md-border-bottom md-autoselect>
-		<md-tab ng-repeat="figure in vm.figures track by $index" 
+		<md-tab ng-repeat="figure in vm.figures track by $index"
 		label="Figure {{$index + 1}}">
-					
+
 			<!-- Comparison type selection -->
 			<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
 				<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
@@ -38,9 +38,11 @@
 			</div>
 
 			<md-button ng-click=vm.changeVisualization() class="md-raised">Load visualization</md-button>
-			
+
+      <md-button ng-click="vm.sliderImageDirective()" aria-label="Slider Directive">Slider Image Directive</md-button>
+
         </md-tab>
     </md-tabs>
 
-    
+
 </div>

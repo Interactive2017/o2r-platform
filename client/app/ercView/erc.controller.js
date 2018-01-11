@@ -50,7 +50,6 @@
         vm.publish = true;
         vm.sendToZenodo = sendToZenodo;
         vm.publishInZenodo = publishInZenodo;
-        vm.sliderImageDirective = sliderImageDirective;
 
         logger.info(vm.publication);
 
@@ -63,32 +62,6 @@
             $state.go(defView.state);
             getShipment();
         }
-
-        function sliderImageDirective(ev){
-
-            // to be deleted |------>
-
-            var originalImage = "../../img/deutschland01.png";
-            var overlayImage = "../../img/deutschland02.png";
-            // var originalImage = "../../img/muenster01.jpg";
-            // var overlayImage = "../../img/muenster02.jpg";
-
-            // to be deleted <------|
-
-            // var originalImage = vm.publication.metadata.o2r.interaction.figure. ... // original image for comparison
-            // var overlayImage = get/new/processed/image/path // overlay image for comparison
-
-            // TODO: get path of original image --> from metadata from erc
-            // TODO: get path of new processed image (from analysis --> from successfull job)
-            $mdDialog.show({
-                template: '<md-dialog aria-label="slider comparison" flex="100"><o2r-slider-image-comparison o2r-image-path-original="'+originalImage+'" o2r-image-path-overlay="'+overlayImage+'"></o2r-slider-image-comparison></md-dialog>',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                fullscreen: true,
-                clickOutsideToClose: false,
-                multiple: true
-            });
-        };
 
         function getShipment(){
             httpRequests.getShipment(vm.ercId)
