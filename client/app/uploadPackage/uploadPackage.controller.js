@@ -52,6 +52,10 @@
                 vm.packageData.figure_id = reqData.figure_id;
                 vm.packageData.type = reqData.figure_type;
                 vm.packageData.endpoint = reqData.figure_endpoint;
+                vm.packageData.x_axis_label = reqData.x_axis_label;
+                vm.packageData.y_axis_label = reqData.y_axis_label;
+                vm.packageData.x_axis_parameter = reqData.x_axis_parameter;
+                vm.packageData.y_axis_parameter = reqData.y_axis_parameter;
 
                 var addWidgetValue = addWidget();
                 // check if widget inputfields are filled

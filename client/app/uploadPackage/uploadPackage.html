@@ -63,6 +63,62 @@
           </md-card>
         </div>
 
+        <div layout="row">
+          <!-- x_axis_label CARD -->
+          <md-card style="width: 25%;">
+            <md-card-content>
+              <h4>x-axis-label</h4>
+              <md-input-container class="md-block" md-is-error="vm.showError('x_axis_label')">
+                <label>x-axis-label</label>
+                <input type="text" ng-model="vm.required.x_axis_label" ng-value="vm.required.x_axis_label" ng-change="vm.simpleUpdate('x_axis_label', vm.required.x_axis_label, false)" name="x_axis_label" required>
+                <div ng-messages="requiredForm.x_axis_label.$error">
+                    <div ng-message="required">Required field</div>
+                </div>
+              </md-input-container>
+            </md-card-content>
+          </md-card>
+          <!-- y_axis_label CARD -->
+          <md-card style="width: 25%;">
+            <md-card-content>
+              <h4>y-axis-label</h4>
+              <md-input-container class="md-block" md-is-error="vm.showError('y_axis_label')">
+                <label>y-axis-label</label>
+                <input type="text" ng-model="vm.required.y_axis_label" ng-value="vm.required.y_axis_label" ng-change="vm.simpleUpdate('y_axis_label', vm.required.y_axis_label, false)" name="y_axis_label" required>
+                <div ng-messages="requiredForm.y_axis_label.$error">
+                    <div ng-message="required">Required field</div>
+                </div>
+              </md-input-container>
+            </md-card-content>
+          </md-card>
+          <!-- x_axis_parameter CARD -->
+          <md-card style="width: 25%;">
+            <md-card-content>
+              <h4>x-axis-parameter</h4>
+              <md-input-container class="md-block" md-is-error="vm.showError('x_axis_parameter')">
+                <label>x-axis-parameter</label>
+                <input type="text" ng-model="vm.required.x_axis_parameter" ng-value="vm.required.x_axis_parameter" ng-change="vm.simpleUpdate('x_axis_parameter', vm.required.x_axis_parameter, false)" name="x_axis_parameter" required>
+                <div ng-messages="requiredForm.x_axis_parameter.$error">
+                    <div ng-message="required">Required field</div>
+                </div>
+              </md-input-container>
+            </md-card-content>
+          </md-card>
+          <!-- y_axis_parameter CARD -->
+          <md-card style="width: 25%;">
+            <md-card-content>
+              <h4>x-axis-parameter</h4>
+              <md-input-container class="md-block" md-is-error="vm.showError('y_axis_parameter')">
+                <label>x-axis-parameter</label>
+                <input type="text" ng-model="vm.required.y_axis_parameter" ng-value="vm.required.y_axis_parameter" ng-change="vm.simpleUpdate('y_axis_parameter', vm.required.y_axis_parameter, false)" name="y_axis_parameter" required>
+                <div ng-messages="requiredForm.y_axis_parameter.$error">
+                    <div ng-message="required">Required field</div>
+                </div>
+              </md-input-container>
+            </md-card-content>
+          </md-card>
+
+        </div>
+
         <!-- WIDGET ROW -->
         <hr>
         <md-divider></md-divider>
