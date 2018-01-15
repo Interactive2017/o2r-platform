@@ -53,14 +53,22 @@
             // get visualization type
             var activeCompareType = vm.compareType;
 
+            var params = '{';
+
             // get slider value
             for(var slider in vm.sliders){
                 // TODO: these values could for exmaple be stored as key value pairs for doing the recalculation
                 logger.info(vm.sliders[slider].param_name);
                 logger.info(vm.sliders[slider].value);
+                //TODO go on here
+                params = params + vm.sliders[slider].param_name + '":' + '"' + vm.sliders[slider].value + '"';
             }
 
 
+            //call ocpu with slider params
+            //httpRequests.ocpuCalculate(params, vm.figures.endpoint);
+            
+            
             // ===== TODO calculate and show visualization =============
         };
 

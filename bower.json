@@ -42,6 +42,8 @@
     "angular-intro.js": "^3.3.0",
     "angular-cookies": "^1.6.5",
     "angular-sanitize": "^1.6.5",
+    "angular-plotly": "^0.1.3",
+    "plotlyjs": "plotly#^1.18.1",
     "angularjs-slider": "^6.4.3",
     "jszip": "Stuk/jszip#^3.1.5",
     "file-saver": "^1.3.4"

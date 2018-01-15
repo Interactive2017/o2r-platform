@@ -12,6 +12,7 @@
             "starter.o2rMetadataView",
             "starter.slideImageComparison",
             "starter.o2rSliderImageComparison",
+            "starter.o2rTimeseries",
             "treeControl",
             "hljs",
             "ui.router",
@@ -30,6 +31,7 @@
             'angular-intro',
             'ngCookies',
             'ngSanitize',
+            'plotly',
             'rzModule'])
         .constant('icons', icons())
         .config(config)
