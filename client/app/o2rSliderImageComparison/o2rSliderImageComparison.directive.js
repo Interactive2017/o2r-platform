@@ -53,9 +53,33 @@
 
                     function cancel () {
                         $mdDialog.cancel();
-                    };
+                    };                    
+
+                    function download() {
+                        
+                            //create zip containing a text file (parameter values) and images
+                            var zip = new JSZip();
+                            zip.file("parameters.txt", "Test parameters");
+                            var img = zip.folder("images");
+                            var image = $.get("/../../img/deutschland01.png");
+                            img.file("deutschland.png", image);
+                        
+                            console.log("test");
+                            
+                            // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                            zip.generateAsync({type:"blob"})
+                            .then(function(content) {
+                                // see FileSaver.js
+                                saveAs(content, "example.zip");
+                            });
+                    }
+                        scope.download = download;
                 }
             })
         }
+
+        
     }
 })(window.angular)
+
+

@@ -44,9 +44,9 @@ angular
 			imageInfo: '=info'
 		},
 		link: function(scope, elem, attr) {
-        	var w = angular.element($window);
+        		var w = angular.element($window);
 
-        	var container = angular.element(elem[0].querySelector('.slide-comb'));
+			   var container = angular.element(elem[0].querySelector('.slide-comb'));
 
 			// Adjust resize image
 			var resized = angular.element(elem[0].querySelector('.resized'));
@@ -74,16 +74,3 @@ angular
 
 	
 });
-
-function download() {
-	//TODO
-	var zip = new JSZip();
-	zip.file("parameters.txt", "Test parameters");
-	var img = zip.folder("images");
-	img.file("imageInfo.image1");
-	zip.generateAsync({type:"blob"})
-	.then(function(content) {
-		// see FileSaver.js
-		saveAs(content, "example.zip");
-	});
-}
