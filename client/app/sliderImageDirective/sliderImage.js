@@ -71,4 +71,19 @@ angular
 		},
 		templateUrl: 'app/sliderImageDirective/sliderImage.html'
 	};
+
+	
 });
+
+function download() {
+	//TODO
+	var zip = new JSZip();
+	zip.file("parameters.txt", "Test parameters");
+	var img = zip.folder("images");
+	img.file("imageInfo.image1");
+	zip.generateAsync({type:"blob"})
+	.then(function(content) {
+		// see FileSaver.js
+		saveAs(content, "example.zip");
+	});
+}
