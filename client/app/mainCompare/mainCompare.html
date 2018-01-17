@@ -11,7 +11,7 @@
 				</md-button>
 				<md-menu-content width="4">
 					<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
-						<md-button ng-click="changeVisualization(type)">
+						<md-button ng-click="vm.type = type">
 							{{type}}
 						</md-button>
 					</md-menu-item>
@@ -23,7 +23,7 @@
 				</md-button>
 				<md-menu-content width="4">
 					<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
-						<md-button ng-click="changeVisualization(type)">
+						<md-button ng-click="vm.type = type">
 							{{type}}
 						</md-button>
 					</md-menu-item>
@@ -37,8 +37,16 @@
 				<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 50%"></rzslider>
 			</div>
 
-			<md-button ng-click=vm.changeVisualization() class="md-raised">Load visualization</md-button>
+			<md-button ng-click="vm.changeVisualization(vm.type)" class="md-raised">Load visualization</md-button>
 
+			<!--timeseries items-->
+			<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.compareType == 'timeseries' && vm.type == 'Combined'"></o2r-timeseries>
+			<side-by-side ng-if="vm.compareType == 'timeseries' && vm.type == 'Side-by-side'"></side-by-side>
+
+			<!--map items to display-->
+			<side-by-side ng-if="vm.compareType == 'map' && vm.type == 'Side-by-side'"></side-by-side>
+			<peephole ng-if="vm.compareType == 'map' && vm.type == 'Peephole'"></peephole>
+			<hans-approach ng-if="vm.compareType == 'map' && vm.type == 'Overlay'"></hans-approach>
         </md-tab>
     </md-tabs>
 
