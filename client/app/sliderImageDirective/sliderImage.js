@@ -1,5 +1,6 @@
 
 /*
+This directive is for a slider image comparison. Two images will be loaded, one above the other, and it will be able to view differences by sliding over the images.
 use this directive with as follows:
 ######################################
 in the .js-file:
