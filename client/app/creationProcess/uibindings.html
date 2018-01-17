@@ -1,8 +1,258 @@
 <md-card>
-        <md-card-content>
+    <md-card-content>
 
-            <p>only possible when ERC is saved, because uploadPackageDirective directly saves to the metadata</p>
-            <md-button class="md-raised" ng-click="vm.uploadPackage()">upload OCPU package</md-button>
+      <h4>Upload Pacakges for OpenCPU</h4>
 
-        </md-card-content>
+      <md-list layout="column">
+          <md-list-item
+              class="md-3-line"
+              ng-repeat="binding in vm.bindings track by $index"
+              layout-wrap
+              ng-mouseenter="vm.options[$index]=true"
+              ng-mouseleave="vm.options[$index]=false">
+              <div class="md-list-item-text md-whiteframe-z1 required-whiteframe-padding" layout="row">
+                  <div class="interaction_table">
+                      <table>
+                        <tr>
+                          <td>{{binding.figure_id}}</td>
+                          <td class="interaction_description">(ID)</td>
+                        </tr>
+                        <tr>
+                          <td>{{binding.type}}</td>
+                          <td class="interaction_description">(Type)</td>
+                        </tr>
+                        <tr>
+                          <td>{{binding.endpoint}}</td>
+                          <td class="interaction_description">(Endpoint)</td>
+                        </tr>
+                        <tr>
+                          <td>{{binding.widgets.length}}</td>
+                          <td class="interaction_description">(Amount of Widgets)</td>
+                        </tr>
+                      </table>
+                  </div>
+              </div>
+          </md-list-item>
+      </md-list>
+
+    </md-card-content>
 </md-card>
+
+<div>
+  <form name="requiredForm" novalidate>
+    <!-- FIGURE ROW -->
+    <div layout="row">
+        <h4>Figure Information</h4>
+        <span flex></span>
+        <md-button title="add figure" class="md-raised md-primary md-icon-button" ng-click="vm.savePackage()">
+            <md-icon class="o2r-white-icon" md-svg-src="{{vm.icons.add}}" arial-label="Add dialog"></md-icon>
+        </md-button>
+    </div>
+    <div layout="row">
+      <!-- FIGURE_ID CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Figure Title</h4>
+          <md-input-container class="md-block" md-is-error="vm.showError('figure_id')">
+            <label>Figure Title</label>
+            <input type="text" ng-model="vm.required.figure_id" ng-value="vm.required.figure_id" ng-change="vm.simpleUpdate('figure_id', vm.required.figure_id, false)" name="figure_id" required>
+            <div ng-messages="requiredForm.figure_id.$error">
+                <div ng-message="required">Required field</div>
+            </div>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+      <!-- TYPE CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Figure Type</h4>
+          <md-input-container class="md-block" md-is-error="vm.showError('figure_type')">
+            <!-- <label>Figure Type</label> -->
+            <!-- <input type="text" ng-model="vm.required.figure_type" ng-value="vm.required.figure_type" ng-change="vm.simpleUpdate('figure_type', vm.required.figure_type, false)" name="figure_type" required> -->
+            <md-radio-group ng-model="vm.required.figure_type" ng-change="vm.simpleUpdate('figure_type', vm.required.figure_type, false)" name="figure_type" required>
+                <md-radio-button value="map" class="md-primary">map</md-radio-button>
+                <md-radio-button value="timeseries" class="md-primary">timeseries</md-radio-button>
+            </md-radio-group>
+            <!-- <div ng-messages="requiredForm.figure_id.$error">
+                <div ng-message="required">Required field</div>
+            </div> -->
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+      <!-- Endpoint CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Figure Endpoint</h4>
+          <md-input-container class="md-block" md-is-error="vm.showError('figure_endpoint')">
+            <label>Figure Endpoint</label>
+            <input type="text" ng-model="vm.required.figure_endpoint" ng-value="vm.required.figure_endpoint" ng-change="vm.simpleUpdate('figure_endpoint', vm.required.figure_endpoint, false)" name="figure_endpoint" required>
+            <div ng-messages="requiredForm.figure_endpoint.$error">
+                <div ng-message="required">Required field</div>
+            </div>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+    </div>
+
+    <div layout="row">
+      <!-- x_axis_label CARD -->
+      <md-card style="width: 25%;">
+        <md-card-content>
+          <h4>x-axis-label</h4>
+          <md-input-container class="md-block" md-is-error="vm.showError('x_axis_label')">
+            <label>x-axis-label</label>
+            <input type="text" ng-model="vm.required.x_axis_label" ng-value="vm.required.x_axis_label" ng-change="vm.simpleUpdate('x_axis_label', vm.required.x_axis_label, false)" name="x_axis_label" required>
+            <div ng-messages="requiredForm.x_axis_label.$error">
+                <div ng-message="required">Required field</div>
+            </div>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+      <!-- y_axis_label CARD -->
+      <md-card style="width: 25%;">
+        <md-card-content>
+          <h4>y-axis-label</h4>
+          <md-input-container class="md-block" md-is-error="vm.showError('y_axis_label')">
+            <label>y-axis-label</label>
+            <input type="text" ng-model="vm.required.y_axis_label" ng-value="vm.required.y_axis_label" ng-change="vm.simpleUpdate('y_axis_label', vm.required.y_axis_label, false)" name="y_axis_label" required>
+            <div ng-messages="requiredForm.y_axis_label.$error">
+                <div ng-message="required">Required field</div>
+            </div>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+      <!-- x_axis_parameter CARD -->
+      <md-card style="width: 25%;">
+        <md-card-content>
+          <h4>x-axis-parameter</h4>
+          <md-input-container class="md-block" md-is-error="vm.showError('x_axis_parameter')">
+            <label>x-axis-parameter</label>
+            <input type="text" ng-model="vm.required.x_axis_parameter" ng-value="vm.required.x_axis_parameter" ng-change="vm.simpleUpdate('x_axis_parameter', vm.required.x_axis_parameter, false)" name="x_axis_parameter" required>
+            <div ng-messages="requiredForm.x_axis_parameter.$error">
+                <div ng-message="required">Required field</div>
+            </div>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+      <!-- y_axis_parameter CARD -->
+      <md-card style="width: 25%;">
+        <md-card-content>
+          <h4>y-axis-parameter</h4>
+          <md-input-container class="md-block" md-is-error="vm.showError('y_axis_parameter')">
+            <label>y-axis-parameter</label>
+            <input type="text" ng-model="vm.required.y_axis_parameter" ng-value="vm.required.y_axis_parameter" ng-change="vm.simpleUpdate('y_axis_parameter', vm.required.y_axis_parameter, false)" name="y_axis_parameter" required>
+            <div ng-messages="requiredForm.y_axis_parameter.$error">
+                <div ng-message="required">Required field</div>
+            </div>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+
+    </div>
+
+    <!-- WIDGET ROW -->
+    <hr>
+    <md-divider></md-divider>
+    <div layout="row">
+        <h4>Widget Information</h4>
+        <span flex></span>
+        <md-button title="add widget" class="md-raised md-primary md-icon-button" ng-click="vm.addWidget()">
+            <md-icon class="o2r-white-icon" md-svg-src="{{vm.icons.add}}" arial-label="Add dialog"></md-icon>
+        </md-button>
+    </div>
+    <div layout="row">
+
+      <!-- DEFAULT_VALUE CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Widget Default Value</h4>
+          <md-input-container class="md-block">
+            <label>Widget Default Value</label>
+            <input type="number" ng-model="vm.required.widgets.default_value" ng-value="vm.required.widgets.default_value" ng-change="vm.simpleUpdate('default_value', vm.required.widgets.default_value, true)" name="default_value">
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+      <!-- MIN_VALUE CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Widget Min Value</h4>
+          <md-input-container class="md-block">
+            <label>Widget Min Value</label>
+            <input type="number" ng-model="vm.required.widgets.min_value" ng-value="vm.required.widgets.min_value" ng-change="vm.simpleUpdate('min_value', vm.required.widgets.min_value, true)" name="min_value">
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+      <!-- MAX_VALUE CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Widget Max Value</h4>
+          <md-input-container class="md-block">
+            <label>Widget Max Value</label>
+            <input type="number" ng-model="vm.required.widgets.max_value" ng-value="vm.required.widgets.max_value" ng-change="vm.simpleUpdate('max_value', vm.required.widgets.max_value, true)" name="max_value">
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+
+    </div>
+    <div layout="row">
+
+      <!-- PARAM_NAME CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Widget Param Name</h4>
+          <md-input-container class="md-block">
+            <label>Widget Param Name</label>
+            <input type="text" ng-model="vm.required.widgets.param_name" ng-value="vm.required.widgets.param_name" ng-change="vm.simpleUpdate('param_name', vm.required.widgets.param_name, true)" name="param_name">
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+
+      <!-- TYPE CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Widget Type</h4>
+          <md-input-container class="md-block">
+            <!-- <label>Widget Type</label> -->
+            <!-- <input type="text" ng-model="vm.required.widgets.type" ng-value="vm.required.widgets.type" ng-change="vm.simpleUpdate('type', vm.required.widgets.type, true)" name="type"> -->
+            <md-radio-group ng-model="widgetModel.type">
+                <md-radio-button value="slider" class="md-primary">slider</md-radio-button>
+            </md-radio-group>
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+
+      <!-- STEPS_SIZE CARD -->
+      <md-card style="width: 33%;">
+        <md-card-content>
+          <h4>Widget Steps Size</h4>
+          <md-input-container class="md-block">
+            <label>Widget Steps Size</label>
+            <input type="number" ng-model="vm.required.widgets.steps_size" ng-value="vm.required.widgets.steps_size" ng-change="vm.simpleUpdate('steps_size', vm.required.widgets.steps_size, true)" name="steps_size">
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+
+    </div>
+    <div layout="row">
+
+      <!-- DESCRIPTION CARD -->
+      <md-card style="width: 100%;">
+        <md-card-content>
+          <h4>Widget Description</h4>
+          <md-input-container class="md-block">
+            <label>Widget Description</label>
+            <input type="text" ng-model="vm.required.widgets.description" ng-value="vm.required.widgets.description" ng-change="vm.simpleUpdate('description', vm.required.widgets.description, true)" name="description">
+          </md-input-container>
+        </md-card-content>
+      </md-card>
+    </div>
+
+  </form>
+
+  <div class="md-toolbar-tools white-font">
+      <span flex></span>
+      <md-button class="md-icon-button" ng-click="vm.savePackage()">
+          <md-icon class="o2r-white-icon" md-svg-src="{{vm.icons.done}}" arial-label="Done dialog"></md-icon>
+      </md-button>
+  </div>
+</div>
