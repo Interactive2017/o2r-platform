@@ -412,6 +412,10 @@ treecontrol.tree-classic li.tree-leaf i.tree-leaf-head {
 	height: 85vh;
 }
 
+.erc-rightside > md-card-content{
+	overflow: auto;
+}
+
 .erc-side-toggle{
 	margin-top: 8px;
 	margin-bottom: 8px;

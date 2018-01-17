@@ -1,13 +1,46 @@
+
+/*
+use this directive with as follows:
+######################################
+in the .js-file:
+
+$scope.images = {
+		image1: "/url/to/img1",
+		image2: "/url/to/img2"
+}
+######################################
+in the .html-file:
+
+<slide-image-comparison info="images"></slide-image-comparison>
+
+for o2r project:
+
+// TODO: to be deleted if below TODO change and TODO implement are finished |------>
+var originalImage = "../../img/deutschland01.png";
+var overlayImage = "../../img/deutschland02.png";
+// to be deleted <------|
+
+// TODO change: var originalImage = compare.metadata.o2r.interaction.figure. ... // original image for comparison
+// TODO implement: var overlayImage = get/new/processed/image/path // overlay image for comparison
+
+$scope.images = {
+		image1: originalImage, //scope.o2rImagePathOriginal,
+		image2: overlayImage //scope.o2rImagePathOverlay
+}
+
+*/
+
+
 angular
 .module('starter.slideImageComparison')
 .directive('slideImageComparison', function($window) {
 
-	function moveOver(handle, resized, container) {
+	function moveOver(handle, resized, container, clicked) {
 
 		var move = {};
 
 		var divideWidth = handle.prop('offsetWidth'),
-			containerOffsetLeft = container.prop('offsetLeft'),
+			containerOffsetLeft = $('.slide-comb').offset().left, // container.prop('offsetLeft'),
 			containerOffsetTop = container.prop('offsetTop'),
 			containerWidth = container.prop('offsetWidth');
 
@@ -32,9 +65,16 @@ angular
 
 		}
 
-		// Support desktop + touch
-		container[0].addEventListener('touchmove', moveSlide, false);
-		container[0].addEventListener('mousemove', moveSlide, false);
+		// onClick move - second click stop move
+		container[0].addEventListener('click', function() {
+				if (clicked == true) {
+						container[0].removeEventListener('mousemove', moveSlide, false);
+						clicked = false;
+				} else {
+						container[0].addEventListener('mousemove', moveSlide, false);
+						clicked = true;
+				}
+		}, false);
 
 	}
 
@@ -64,9 +104,10 @@ angular
 
 			// Get divider
 			var divider = angular.element(elem[0].querySelector('.divider'));
+			var clicked = false;
 
 			// Bind move event
-			moveOver(divider, resized, container);
+			moveOver(divider, resized, container, clicked);
 
 		},
 		templateUrl: 'app/sliderImageDirective/sliderImage.html'
