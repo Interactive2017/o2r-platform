@@ -64,27 +64,6 @@
             // ===== TODO calculate and show visualization =============
         };
 
-        vm.sliderImageDirective = function(ev){
-
-            // TODO: to be deleted if below TODO change and TODO implement are finished |------>
-            var originalImage = "../../img/deutschland01.png";
-            var overlayImage = "../../img/deutschland02.png";
-            // to be deleted <------|
-
-            // TODO change: var originalImage = compare.metadata.o2r.interaction.figure. ... // original image for comparison
-            // TODO implement: var overlayImage = get/new/processed/image/path // overlay image for comparison
-
-            $mdDialog.show({
-                template: '<md-dialog aria-label="slider comparison" flex="100"><o2r-slider-image-comparison o2r-image-path-original="'+originalImage+'" o2r-image-path-overlay="'+overlayImage+'"></o2r-slider-image-comparison></md-dialog>',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                fullscreen: true,
-                clickOutsideToClose: false,
-                multiple: true
-            });
-        };
-
-
         // Load figure when tab was changed
         $scope.$watch('vm.selectedTab', function(newVal, oldVal){  /** another tab/figure has been selected by the user */
 
