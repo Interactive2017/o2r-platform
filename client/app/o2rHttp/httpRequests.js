@@ -247,18 +247,18 @@
 		}
 
 		function ocpuResultsVal(tempId){
-			var _url = env.api + '/ocpu/tmp/' + tempId + '/R/.val';
-			$http.get(_url);
+			var _url = env.api + '/ocpu/tmp/' + tempId + '/R/.val/json';
+			return $http.get(_url);
 		}
 
 		function ocpuCalculate(params, endpoint){
-            var _url = env.api +  endpoint;
-            $http.post(_url, params);
+			var _url = env.api +  endpoint;
+            return $http.post(_url, params);
 		}
 
         function ocpuImages(tempId){
-            var _url = env.api + '/ocpu/tmp/' + tempId + '/graphics/1';
-            $http.get(_url);
+            var _url = env.api + '/ocpu/tmp/' + tempId + '/graphics/1/png';
+            return $http.get(_url);
         }
 	};
 })();
