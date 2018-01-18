@@ -19,6 +19,11 @@
         $scope.icons = icons;   
         vm.figures = compare.metadata.o2r.interaction;
         vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
+        vm.layout = {title: "Combined plot",
+                   xaxis: {
+                       rangeslider:{}
+                   }
+       };
         
         // compare type selction types
         $scope.mapCompareTypes = [
@@ -93,12 +98,17 @@
                             originalValues = compare.metadata.o2r.interaction[vm.selectedTab].original.values;
                         }
                         else {
-                            //call the timeseries directive with the original and new values
+                            //set the title of the plot to combined Plot
+                            vm.layout = {title: "Combined plot",
+                                        xaxis: {rangeslider:{}}
+                                    };
+                            //pass the timeseries itmes into a structure that plotly can handle
                             var original = parseTimeseriesJson(originalValues);
                             var newValues = parseTimeseriesJson(vm.modifiedFigure);
                             var visualization = [];
                             visualization.push(original);
                             visualization.push(newValues);
+                            //call the timeseries directive with the original and new values
                             vm.combinedTimeseriesData = visualization;
                         }
                         
