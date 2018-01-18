@@ -37,17 +37,29 @@
             if(scope.original.type == 'timeseries') scope.modified = angular.fromJson(scope.modi);
             else scope.modified = scope.modi;
             logger.info('scope.modified', scope.modified);
+            scope.originalTime = [];
+            scope.originalTime.push(prepareTimeSeries(scope.original.original.values));
+            if(scope.original.type == 'timeseries'){
+                scope.modifiedTime = [];
+                scope.modifiedTime.push(prepareTimeSeries(scope.modified));
+            }
+
             attrs.$observe('orig', function(value){
+                
                 scope.original = value;
                 logger.info('original', scope.original);
                 if(scope.original.type == 'timeseries'){
-                    scope.originalTime = prepareTimeSeries(scope.original.original.values);
+                    scope.originalTime = [];
+                    scope.originalTime.push(prepareTimeSeries(scope.original.original.values));
                 }
             });
+
+
             attrs.$observe('modi', function(value){
                 scope.modified = value;
                 if(scope.original.type == 'timeseries'){
-                    scope.modifiedTime = prepareTimeSeries(value);
+                    scope.modifiedTime = [];
+                    scope.modifiedTime.push(prepareTimeSeries(value));
                 }
             });
 
@@ -57,15 +69,15 @@
                 //     pointForecast: [],
                 //     lo80: []    
                 // }
-                for(var i in arr[0]){
-                    if(arr[0].hasOwnProperty(i)){
+                for(var i in arr[0][0]){
+                    if(arr[0][0].hasOwnProperty(i)){
                         result[i] = [];
                     }
                 }
-                for(var i in arr){
-                    for(var j in arr[i]){
-                        if(arr[i].hasOwnProperty(j)){
-                            result[j].push(arr[i][j]);
+                for(var i in arr[0]){
+                    for(var j in arr[0][i]){
+                        if(arr[0][i].hasOwnProperty(j)){
+                            result[j].push(arr[0][i][j]);
                         }
                     }
                 }
