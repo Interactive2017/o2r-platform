@@ -44,14 +44,15 @@
 
         
         function link(scope, element, attrs){
-
+            
             scope.options = {showLink: false, displayLogo: false};
             scope.mean = mean(scope);
             scope.min = min(scope);
             scope.max = max(scope);
             scope.sd = standardDeviation(scope);
 			scope.variance = variance(scope);
-			scope.num = numberOfValues(scope);
+            scope.num = numberOfValues(scope);
+            scope.download = download();
         }
     
         //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only
@@ -161,6 +162,12 @@
 				//Insert into HTML
 				return count;
 			}
+        }
+
+        // TODO download Plotly() is not defined --> irgendiw die funktion importieren??
+        function download(){
+            console.log("download");
+            downloadPlotly();
         }
     }
 

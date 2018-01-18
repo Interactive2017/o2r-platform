@@ -29,6 +29,33 @@
             "Combined"
         ];
 
+
+        vm.data = [{
+            x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
+            y: [4,1,5,17,10,3,10,15,12,11,9,7,1]
+           },{
+           x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
+           y: [11,12,15,1,5,10,14,12,18,4,18,15,10]
+           }];
+     
+        vm.data2 = [{
+            x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
+            y: [4,1,5,17,10,11,5,6,4,11,9,7,1]
+        },{
+            x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
+            y: [11,12,15,1,5,10,14,12,18,4,18,15,10]
+        }];
+    
+        vm.layout = {title: "Original plot",
+                    xaxis: {
+                        rangeslider:{}
+                    }
+        };
+        vm.layout2 = {title: "Parameter changed plot",
+        xaxis: {
+            rangeslider:{}
+        }};
+
         // function to initialize the slider; create metatdata needed for slider
         vm.initializeSlider = function(figure){
             vm.sliders = compare.metadata.o2r.interaction[figure].widgets;
