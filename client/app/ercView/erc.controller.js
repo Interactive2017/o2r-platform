@@ -5,8 +5,9 @@
         .module('starter')
         .controller('ErcController', ErcController);
 
-    ErcController.$inject = ['$scope', '$stateParams', '$log', '$state', '$mdDialog', 'erc', 'publications', 'icons', 'header', '$mdSidenav', 'env', 'ngProgressFactory', 'httpRequests', 'login'];
-    function ErcController($scope, $stateParams, $log, $state, $mdDialog, erc, publications, icons, header, $mdSidenav, env, ngProgressFactory, httpRequests, login){
+    ErcController.$inject = ['$scope', '$stateParams', '$log', '$mdDialog', '$state', 'erc', 'publications', 'icons', 'header', '$mdSidenav', 'env', 'ngProgressFactory', 'httpRequests', 'login'];
+    function ErcController($scope, $stateParams, $log, $mdDialog, $state, erc, publications, icons, header, $mdSidenav, env, ngProgressFactory, httpRequests, login){
+
         var logger = $log.getInstance('ErcCtrl');
         var defView = {};
         defView.state = 'erc.reproduce';
@@ -111,8 +112,8 @@
                 .then(function (res){
                     httpRequests.publishERC(res.data[0])
                     .then(function (res2){
-                        logger.info("published")
-                        logger.info(res2)
+                        logger.info("published");
+                        logger.info(res2);
                     })
                     .catch(function (err2){
                         logger.info(err2);
