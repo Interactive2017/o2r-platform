@@ -633,6 +633,15 @@ td.add-row-button {
 	End Substitution
 /***********************/
 
+.interaction_table table, th, td, tr {
+		border: none;
+}
+
+.interaction_description {
+		font-size: 80%;
+		padding-left: 5%;
+}
+
 /***********************
 	Start hans-approach = slide-image-comparison
 /***********************/
