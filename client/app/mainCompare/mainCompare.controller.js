@@ -19,7 +19,7 @@
         $scope.icons = icons;   
         vm.figures = compare.metadata.o2r.interaction;  
         
-        vm.layout = {title: "Original plot",
+        vm.layout = {title: "Combined plot",
                    xaxis: {
                        rangeslider:{}
                    }
@@ -118,20 +118,25 @@
                 //call the values from ocpu when the type is "timeseries"
                 if(activeCompareType == 'timeseries') {
                     httpRequests.ocpuResultsVal(ocpuID).then(function(compareValues){
-                        //call the timeseries directive with the parameters from the response
-                        var data =  compareValues.data; //hand this over to the directive
+                        //call the timeseries directive with the parameters from  overthe response
+                        var data =  compareValues.data; //hand this to the directive
                         var originalValues = compare.metadata.o2r.interaction[vm.selectedTab].original.values;
                         if(type == 'Side-by-side') {
                             //call the side by side directive with the values
                             originalValues = compare.metadata.o2r.interaction[vm.selectedTab].original.values;
                         }
                         else {
-                            //call the timeseries directive with the original and new values
+                            //set the title of the plot to combined Plot
+                            vm.layout = {title: "Combined plot",
+                                        xaxis: {rangeslider:{}}
+                                    };
+                            //pass the timeseries itmes into a structure that plotly can handle
                             var original = parseTimeseriesJson(originalValues);
                             var newValues = parseTimeseriesJson(data)
                             var visualization = [];
                             visualization.push(original);
                             visualization.push(newValues);
+                            //call the timeseries directive with the original and new values
                             vm.combinedTimeseriesData = visualization;
                         }
                         
