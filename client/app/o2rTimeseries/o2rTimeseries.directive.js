@@ -52,7 +52,42 @@
             scope.sd = standardDeviation(scope);
 			scope.variance = variance(scope);
             scope.num = numberOfValues(scope);
-            scope.download = download();
+
+            // TODO download Plotly() is not defined --> irgendiw die funktion importieren??
+            function download(){
+                console.log("download");
+                /*
+                doc.fromHTML($('#plotly').html(), 15, 15, {
+                    'width': 170,
+                        'elementHandlers': specialElementHandlers
+                });
+                doc.save('sample-file.pdf');       */
+
+                console.log(document.getElementsByClassName("js-plotly-plot").item(0));
+                Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(0), {format: 'png', width: 800, height: 600})
+                .then(function(dataUrl) {
+                    console.log(dataUrl);
+
+                    //create zip containing a text file (parameter values) and images
+                    var zip = new JSZip();
+                    zip.file("parameters.txt", "Test parameters");
+                    var img = zip.folder("images");
+                    
+                    var base64 = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+                      
+                    img.file("image.png", base64, {base64: true});
+                                    
+                    // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                    zip.generateAsync({type:"blob"})
+                    .then(function(content) {
+                        // see FileSaver.js
+                        saveAs(content, "example.zip");
+                    });
+                })
+                
+            }
+            scope.download = download;
+            
         }
     
         //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only
@@ -164,11 +199,7 @@
 			}
         }
 
-        // TODO download Plotly() is not defined --> irgendiw die funktion importieren??
-        function download(){
-            console.log("download");
-            downloadPlotly();
-        }
+        
     }
 
 })();
