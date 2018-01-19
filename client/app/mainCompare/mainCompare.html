@@ -46,7 +46,8 @@
 			<!--map items to display-->
 			<side-by-side ng-if="vm.compareType == 'map' && vm.type == 'Side-by-side'"></side-by-side>
 			<peephole ng-if="vm.compareType == 'map' && vm.type == 'Peephole'"></peephole>
-			<hans-approach ng-if="vm.compareType == 'map' && vm.type == 'Overlay'"></hans-approach>
+			<slide-image-comparison info="vm.images" ng-if="vm.compareType == 'map' && vm.type == 'Overlay'"></slide-image-comparison>
+			<!-- <hans-approach ng-if="vm.compareType == 'map' && vm.type == 'Overlay'"></hans-approach> -->
         </md-tab>
     </md-tabs>
 
