@@ -2,6 +2,7 @@
     <md-card-content>
 
       <h4>Upload Pacakges for OpenCPU</h4>
+      <p>Before you click "update" make sure you have added the figure to UI-Bindings</p>
 
       <md-list layout="column">
           <md-list-item
@@ -10,7 +11,7 @@
               layout-wrap
               ng-mouseenter="vm.options[$index]=true"
               ng-mouseleave="vm.options[$index]=false">
-              <div class="md-list-item-text md-whiteframe-z1 required-whiteframe-padding" layout="row">
+              <div class="md-list-item-text md-whiteframe-z1 required-whiteframe-padding" layout="row" style="background-color:#53a8ff">
                   <div class="interaction_table">
                       <table>
                         <tr>
@@ -44,8 +45,8 @@
     <div layout="row">
         <h4>Figure Information</h4>
         <span flex></span>
-        <md-button title="add figure" class="md-raised md-primary md-icon-button" ng-click="vm.savePackage()">
-            <md-icon class="o2r-white-icon" md-svg-src="{{vm.icons.add}}" arial-label="Add dialog"></md-icon>
+        <md-button title="add figure" class="md-raised md-primary white-font" ng-click="vm.savePackage()">
+            add Figure to UI-Bindings
         </md-button>
     </div>
     <div layout="row">
