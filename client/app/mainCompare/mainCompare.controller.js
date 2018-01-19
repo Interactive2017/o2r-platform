@@ -17,9 +17,9 @@
         var compare = erc;
         var first = true;
 
-        $scope.icons = icons;   
-        vm.figures = compare.metadata.o2r.interaction;  
-        
+        $scope.icons = icons;
+        vm.figures = compare.metadata.o2r.interaction;
+
         vm.layout = {title: "Combined plot",
 
                    xaxis: {
@@ -130,6 +130,17 @@
                         }
                         else if(type == 'Overlay') {
                             //call the Hans apporach with the image
+
+                            let originalImage = "../../img/deutschland01.png";
+                            let overlayImage = "../../img/deutschland02.png";
+
+                            // TODO change: var originalImage = compare.metadata.o2r.interaction[selectedTab].original.image // original image for comparison
+                            // TODO implement: var overlayImage = image // get/new/processed/image/path // overlay image for comparison
+
+                            $scope.images = {
+                            		image1: originalImage, //scope.o2rImagePathOriginal,
+                            		image2: overlayImage //scope.o2rImagePathOverlay
+                            }
                         }
                         else {
                             //Peephole image stuff
