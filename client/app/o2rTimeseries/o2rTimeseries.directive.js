@@ -44,7 +44,6 @@
 
         
         function link(scope, element, attrs){
-
             scope.options = {showLink: false, displayLogo: false};
             scope.mean = mean(scope);
             scope.min = min(scope);
