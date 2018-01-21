@@ -3,18 +3,15 @@
 
     angular
         .module('starter')
-        .controller('UIBindingsController', UIBindingsController);
+        .controller('UploadPackageController', UploadPackageController);
 
-    UIBindingsController.$inject = ['$scope', '$log', '$stateParams', 'creationObject', 'icons', '$mdDialog'];
-
-    function UIBindingsController($scope, $log, $stateParams, creationObject, icons, $mdDialog){
-        var logger = $log.getInstance('UiBindings');
-
+    UploadPackageController.$inject = ['$scope', '$stateParams', '$log', '$mdDialog', 'icons', '$q', 'publications', 'httpRequests'];
+    function UploadPackageController($scope, $stateParams, $log, $mdDialog, icons, $q, publications, httpRequests){
+        var logger = $log.getInstance('UploadPackageCtrl');
         var vm = this;
+
         vm.icons = icons;
-        vm.bindings = creationObject.getUibindings();
-        vm.erc = creationObject.get();
-        vm.addBinding = creationObject.addBinding;
+        vm.cancel = cancel;
         vm.simpleUpdate = simpleUpdate;
         vm.showError = showError;
         vm.savePackage = savePackage;
@@ -69,13 +66,41 @@
                         alert("Save not possible:\nWidget field:"+addWidgetValue.field+" not filled\nand no widgets were added before.");
                     } else {
                         logger.info(vm.packageData);
-                         vm.addBinding(vm.packageData);
-                         resetPackage();
+                        let passon = {
+                            pkg: vm.packageData
+                        }
+                        savePkgToDB(passon)
+                          .then(function(res) {
+                              logger.info(res);
+                              if (res.error == undefined) {
+                                  $mdDialog.cancel();
+                              } else {
+                                  alert("Save not successfull.\n"+res.error+".");
+                              }
+                          })
+                          .catch(function(err){
+                              logger.info(err);
+                              return {error: "SAVE metadata of choosen ERC is not possible."};
+                          });
                     }
                 } else {
                     logger.info(vm.packageData);
-                     vm.addBinding(vm.packageData);
-                     resetPackage();
+                    let passon = {
+                        pkg: vm.packageData
+                    }
+                    savePkgToDB(passon)
+                      .then(function(res) {
+                          logger.info(res);
+                          if (res.error == undefined) {
+                              $mdDialog.cancel();
+                          } else {
+                              alert("Save not successfull.\n"+res.error+".");
+                          }
+                      })
+                      .catch(function(err){
+                          logger.info(err);
+                          return {error: "SAVE metadata of choosen ERC is not possible."};
+                      });
                 }
             } else {
                 logger.info("Save not possible:\nAt least one required figure inputfield is not filled.");
@@ -85,6 +110,44 @@
 
         function cancel() {
           resetPackage();
+          $mdDialog.cancel();
+        };
+
+        function savePkgToDB(passon) {
+            return getMetadata()
+              .then(function(res){
+                  logger.info(res);
+                  if (res.metadata.o2r.interaction == undefined || res.metadata.o2r.interaction.length == undefined) {
+                      res.metadata.o2r.interaction = [];
+                  }
+                  res.metadata.o2r.interaction.push(passon.pkg);
+
+                  return httpRequests.updateMetadata($stateParams.ercid, res.metadata.o2r)
+                    .then(function(res){
+                        logger.info(res);
+                        return res;
+                    })
+                    .catch(function(err){
+                        logger.info(err);
+                        return {error: "UPDATE metadata of choosen ERC is not possible."};
+                    });
+              })
+              .catch(function(err){
+                  logger.info(err);
+                  return {error: "GET metadata of choosen ERC is not possible."};
+              });
+        };
+
+        function getMetadata() {
+          let ercId = $stateParams.ercid;
+          return publications.getRequest(ercId).then(function(result){
+              if(result.status == 404){
+                  return $q.reject('404 Not Found');
+              }
+              else {
+                  return result;
+              }
+          });
         };
 
         function addWidget() {
@@ -123,9 +186,6 @@
         function resetPackage() {
             vm.required = {};
             vm.packageData = {};
-            vm.packageData.widgets = [];
         }
-
     }
-
-})();
+})()
