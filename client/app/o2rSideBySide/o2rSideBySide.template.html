@@ -2,14 +2,14 @@
     <!-- Left Side -->
     <div flex="50">
         <h3>Original</h3>
-        <o2r-timeseries ng-if="original.type == 'timeseries'" o2r-data="originalTime" o2r-title="{{original.title}}"></o2r-timeseries>
+        <o2r-timeseries ng-if="original.type == 'timeseries'" o2r-data="originalTime" o2r-title="{{original.title}}" flex></o2r-timeseries>
         <!-- <o2r-display-files ng-if="original.type == 'map'" o2r-file="{{original.original.image}}"></o2r-display-files> -->
         <img ng-if="original.type == 'map'" ng-src="{{original.original.image}}" alt="image" flex>
     </div>
     <!-- Right Side -->
     <div flex="50">
         <h3>Modified</h3>
-        <o2r-timeseries ng-if="original.type == 'timeseries'" o2r-data="modifiedTime" o2r-title="{{original.title + ' modified'}}"></o2r-timeseries>
+        <o2r-timeseries ng-if="original.type == 'timeseries'" o2r-data="modifiedTime" o2r-title="{{original.title + ' modified'}}" flex></o2r-timeseries>
         <!-- <o2r-display-files ng-if="original.type == 'map'" o2r-file="{{modifiedMap}}"></o2r-display-files>         -->
         <img ng-if="original.type == 'map'" ng-src="{{modified}}" alt="imagsdfe" flex>
     </div>
