@@ -5,8 +5,8 @@
         .module('starter')
         .controller('mainCompareController', mainCompareController);
 
-    mainCompareController.$inject = ['$scope', '$log', 'erc', 'icons', 'httpRequests', '$window', '$mdDialog'];
-    function mainCompareController($scope, $log, erc, icons, httpRequests, $window, $mdDialog){
+    mainCompareController.$inject = ['$scope', '$log', 'erc', 'icons', 'httpRequests', '$window'];
+    function mainCompareController($scope, $log, erc, icons, httpRequests, $window){
 
         var logger = $log.getInstance('mainCompare');
         var vm = this;
@@ -17,14 +17,14 @@
         var compare = erc;
         var first = true;
         $scope.icons = icons;   
-        vm.figures = compare.metadata.o2r.interaction;  
-        
+        vm.figures = compare.metadata.o2r.interaction;
+        vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
         vm.layout = {title: "Combined plot",
+
                    xaxis: {
                        rangeslider:{}
                    }
        };
-        
         // compare type selction types
         $scope.mapCompareTypes = [
             "Side-by-side",
@@ -83,8 +83,8 @@
         // function to show comparison visulization
         vm.changeVisualization = function(type){
             logger.info("Change visualization");
-            
-            // get visualization type 
+
+            // get visualization type
             var activeCompareType = vm.compareType;
 
             var params = '{';
@@ -103,7 +103,6 @@
                     params = params + '}';
                 }
             }
-            
 
 
             //call ocpu with slider params
@@ -118,8 +117,8 @@
                 //call the values from ocpu when the type is "timeseries"
                 if(activeCompareType == 'timeseries') {
                     httpRequests.ocpuResultsVal(ocpuID).then(function(compareValues){
-                        //call the timeseries directive with the parameters from  overthe response
-                        var data =  compareValues.data; //hand this to the directive
+                        //call the timeseries directive with the parameters from the response
+                        vm.modifiedFigure =  compareValues.data; //hand this over to the directive
                         var originalValues = compare.metadata.o2r.interaction[vm.selectedTab].original.values;
                         if(type == 'Side-by-side') {
                             //call the side by side directive with the values
@@ -132,14 +131,14 @@
                                     };
                             //pass the timeseries itmes into a structure that plotly can handle
                             var original = parseTimeseriesJson(originalValues);
-                            var newValues = parseTimeseriesJson(data)
+                            var newValues = parseTimeseriesJson(vm.modifiedFigure);
                             var visualization = [];
                             visualization.push(original);
                             visualization.push(newValues);
                             //call the timeseries directive with the original and new values
                             vm.combinedTimeseriesData = visualization;
                         }
-                        
+
                         logger.info(compareValues);
                     })
                 }
@@ -162,34 +161,13 @@
                         }
                     })
                 }
-                
+
             });
 
-            
+
             // ===== TODO calculate and show visualization =============
         };
 
-        vm.sliderImageDirective = function(ev){
-
-            // TODO: to be deleted if below TODO change and TODO implement are finished |------>
-            var originalImage = "../../img/deutschland01.png";
-            var overlayImage = "../../img/deutschland02.png";
-            // to be deleted <------|
-
-            // TODO change: var originalImage = compare.metadata.o2r.interaction.figure. ... // original image for comparison
-            // TODO implement: var overlayImage = get/new/processed/image/path // overlay image for comparison
-
-            $mdDialog.show({
-                template: '<md-dialog aria-label="slider comparison" flex="100"><o2r-slider-image-comparison o2r-image-path-original="'+originalImage+'" o2r-image-path-overlay="'+overlayImage+'"></o2r-slider-image-comparison></md-dialog>',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                fullscreen: true,
-                clickOutsideToClose: false,
-                multiple: true
-            });
-        };
-
-        
         /**
          * Parse the data to a format that the timeseries directive can use it
          * @param {Object} data received from the ocpu
@@ -211,8 +189,8 @@
 
         // Load figure when tab was changed
         $scope.$watch('vm.selectedTab', function(newVal, oldVal){  /** another tab/figure has been selected by the user */
-
-                logger.info("Changed Tab");
+            
+                logger.info("Changed Tab", newVal);
                 vm.selectedTab = newVal;
 
                 // set new comparison type

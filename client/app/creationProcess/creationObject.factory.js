@@ -4,7 +4,7 @@
     angular
         .module('starter')
         .factory('creationObject', creationObject);
-    
+
     creationObject.$inject = ['$log'];
     function creationObject($log){
         var logger = $log.getInstance('creationObject');
@@ -27,9 +27,7 @@
             updateAuthor: updateAuthor,
             addAuthor: addAuthor,
             addBinding: addBinding,
-            updateBinding: updateBinding,
             removeAuthor: removeAuthor,
-            removeBinding: removeBinding,
             updateTemporalBegin: updateTemporalBegin,
             updateTemporalEnd: updateTemporalEnd,
             updateSpatialFiles: updateSpatialFiles,
@@ -107,10 +105,10 @@
         }
 
         function getUibindings(){
-            if(erc.metadata.o2r.interaction.ui_binding.length==undefined){
-                erc.metadata.o2r.interaction.ui_binding = [];
+            if(erc.metadata.o2r.interaction.length==undefined){
+                erc.metadata.o2r.interaction = [];
             }
-            return angular.copy(erc.metadata.o2r.interaction.ui_binding);
+            return angular.copy(erc.metadata.o2r.interaction);
         }
 
         function getInputFiles(){
@@ -120,7 +118,7 @@
             };
             return angular.copy(inputFiles);
         }
-        
+
         function updateAuthor(index, name, aff, orcid){
             //if(angular.isUndefined(erc.metadata.o2r.author[index])) erc.metadata.o2r.author[index] = {affiliation: ""};
             if(name) erc.metadata.o2r.author[index].name = name;
@@ -133,21 +131,11 @@
         }
 
         function addBinding(binding){
-            erc.metadata.o2r.interaction.ui_binding.push(binding);
-        }        
-
-        function updateBinding(index, shiny, data, code){
-            if(shiny) erc.metadata.o2r.interaction.ui_binding[index].shinyURL = shiny;
-            if(data) erc.metadata.o2r.interaction.ui_binding[index].underlyingData = data;
-            if(code) erc.metadata.o2r.interaction.ui_binding[index].underlyingCode = code;            
+            erc.metadata.o2r.interaction.push(binding);
         }
 
         function removeAuthor(index){
             erc.metadata.o2r.author.splice(index, 1);
-        }
-
-        function removeBinding(index){
-            erc.metadata.o2r.interaction.ui_binding.splice(index, 1);
         }
 
         //allowed values for lic: 'text', 'code', 'data', 'uibindings'
@@ -160,6 +148,7 @@
 
         function simpleUpdate(attr, val){
             erc.metadata.o2r[attr] = val;
+            logger.info('updated ', attr);
             logger.info('updated ', attr);
         }
 

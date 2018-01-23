@@ -4,7 +4,7 @@
     angular
         .module('starter')
         .controller('CreationProcessController', CreationProcessController);
-    
+
     CreationProcessController.$inject = ['$scope', '$document', '$log', '$state', '$mdDialog', '$mdToast', 'header', 'creationService', 'creationObject', 'httpRequests', 'icons', '$window'];
 
     function CreationProcessController($scope, $document, $log, $state, $mdDialog, $mdToast, header, creationService, creationObject, httpRequests, icons, $window){
@@ -125,7 +125,7 @@
             httpRequests
                 .updateMetadata(erc.id, erc.metadata.o2r)
                 .then(function(res){
-                    logger.info(res);   
+                    logger.info(res);
                     saved = true;
                     showToast();
                     vm.saveOrUpdate = "Update";
@@ -146,7 +146,7 @@
             if(angular.isDefined(error)){
                 text = 'Failed saving!';
                 toastClass = 'creationProcess-failure-toast';
-            } 
+            }
             $mdToast.show(
                 $mdToast
                     .simple()
@@ -181,7 +181,7 @@
                             .parent($document[0].body)
                             .ok('Cancel and Delete')
                             .cancel('Continue uploading');
-            
+
             var cancelNoDelete = $mdDialog
                             .confirm()
                             .title('Do you want to cancel?')
@@ -220,10 +220,10 @@
                 //continue with editing
                 //no action needed for this
             }
-                    
+
 
         }
-        
+
         function nextState(current){
             var goto;
             switch (current) {
