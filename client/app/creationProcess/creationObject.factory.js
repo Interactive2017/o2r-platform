@@ -5,8 +5,8 @@
         .module('starter')
         .factory('creationObject', creationObject);
 
-    creationObject.$inject = ['$log'];
-    function creationObject($log){
+    creationObject.$inject = ['$log', 'httpRequests'];
+    function creationObject($log, httpRequests){
         var logger = $log.getInstance('creationObject');
 
         var erc = {};
@@ -131,7 +131,72 @@
         }
 
         function addBinding(binding){
-            erc.metadata.o2r.interaction.push(binding);
+            var params = '{';
+            // get slider value
+            for(var i = 0; i < binding.widgets.length; i++){
+                params = params + '"' + binding.widgets[i].param_name + '":' +  binding.widgets[i].default_value;
+                if(i < binding.widgets.length - 1) {
+                    params = params + ',';
+                }
+                else {
+                    params = params + '}';
+                }
+            }
+            let endpoint = binding.endpoint;
+            binding.original = {};
+            httpRequests
+              .ocpuCalculate(params, endpoint)
+              .then(function(linkList) {
+                  var body = linkList.data
+                  var splitBody = body.split('/');
+                  var ocpuID = splitBody[3];
+
+                  //call the values from ocpu when the type is "timeseries"
+                  if(binding.type == 'timeseries') {
+                      console.log("not implemented right now");
+                      // httpRequests.ocpuResultsVal(ocpuID)
+                      //     .then(function(compareValues){
+                      //         binding.original.values = compareValues.data;
+                      //
+                      //         erc.metadata.o2r.interaction.push(binding);
+                      //         alert("push success");
+                      //     },function(err) {
+                      //         console.log("error with timeseries");
+                      //         console.log(err);
+                      //     })
+                  }
+                  //if the type is "map" then the image is requested
+                  else {
+                      httpRequests.ocpuImages(ocpuID)
+                          .then(function(compareImage){
+
+                              var img = new Image();
+                              img.src = compareImage.config.url;
+
+                              img.onload = function() {
+                                  var canvas, ctx, dataURL, base64;
+                                  canvas = document.createElement("canvas");
+                                  ctx = canvas.getContext("2d");
+                                  canvas.width = img.width;
+                                  canvas.height = img.height;
+                                  ctx.drawImage(img, 0, 0);
+                                  dataURL = canvas.toDataURL("image/png");
+                                  base64 = dataURL.replace(/^data:image\/png;base64,/, "");
+                                  binding.original.image = base64;
+
+                                  erc.metadata.o2r.interaction.push(binding);
+                                  alert("push success");
+                              }
+
+                          },function(err) {
+                              console.log("error with map");
+                              console.log(err);
+                          })
+                  }
+              },function(err) {
+                  console.log("error with ocpu calculation");
+                  console.log(err);
+              })
         }
 
         function removeAuthor(index){

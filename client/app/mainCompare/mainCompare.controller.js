@@ -17,9 +17,9 @@
         var compare = erc;
         var first = true;
 
-        $scope.icons = icons;   
+        $scope.icons = icons;
         vm.figures = compare.metadata.o2r.interaction;
-        vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
+        // vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
         vm.layout = {title: "Combined plot",
 
                    xaxis: {
@@ -125,7 +125,7 @@
                         logger.info(compareImage);
                         if(type == 'Side-by-side') {
                             //call the side by side directive with the image
-                            var originalImage = compare.metadata.o2r.interaction[selectedTab].original.image; //this is just the path to ocpu
+                            var originalImage = compare.metadata.o2r.interaction[vm.selectedTab].original.image; //this is just the path to ocpu
 
                         }
                         else if(type == 'Overlay') {
@@ -164,7 +164,7 @@
 
         // Load figure when tab was changed
         $scope.$watch('vm.selectedTab', function(newVal, oldVal){  /** another tab/figure has been selected by the user */
-            
+
                 logger.info("Changed Tab", newVal);
                 vm.selectedTab = newVal;
 
