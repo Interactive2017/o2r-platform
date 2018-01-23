@@ -55,6 +55,13 @@
             }
         }
 
+        vm.switchImages = function() {
+            vm.images = {
+                image1: vm.images.image2,
+                image2: vm.images.image1
+            }
+        }
+
         // function to show comparison visulization
         vm.changeVisualization = function(type){
             logger.info("Change visualization");
@@ -131,16 +138,18 @@
                         else if(type == 'Overlay') {
                             //call the Hans apporach with the image
 
-                            let originalImage = "../../img/deutschland01.png";
-                            let overlayImage = "../../img/deutschland02.png";
+                            // for testing :
+                            // let originalImage = "../../img/deutschland01.png";
+                            // let overlayImage = "../../img/deutschland02.png";
 
-                            // TODO change: var originalImage = compare.metadata.o2r.interaction[selectedTab].original.image // original image for comparison
-                            // TODO implement: var overlayImage = image // get/new/processed/image/path // overlay image for comparison
+                             var originalImage = compare.metadata.o2r.interaction[selectedTab].original.image // original image for comparison
+                             var overlayImage = image // overlay image for comparison
 
-                            $scope.images = {
+                            vm.images = {
                             		image1: originalImage, //scope.o2rImagePathOriginal,
                             		image2: overlayImage //scope.o2rImagePathOverlay
                             }
+
                         }
                         else {
                             //Peephole image stuff

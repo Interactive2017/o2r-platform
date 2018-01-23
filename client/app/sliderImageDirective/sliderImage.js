@@ -21,6 +21,13 @@ angular
 .module('starter.slideImageComparison')
 .directive('slideImageComparison', function($window) {
 
+	function switchImages(scope) {
+			scope.imageInfo = {
+					image1: scope.imageInfo.image2,
+					image2: scope.imageInfo.image1
+			}
+	}
+
 	function moveOver(handle, resized, container, clicked) {
 
 		var move = {};
@@ -40,7 +47,11 @@ angular
 				top: pageY - containerOffsetTop
 			};
 
-			moveWidth = ((move.left + (move.left/100))*100/containerWidth)-100+'%';
+			moveWidth = ((move.left)*100/containerWidth)-100;
+			if (moveWidth < 0) {
+					moveWidth = ((move.left)*100/containerWidth);
+			}
+			moveWidth = moveWidth+'%';
 
 			handle.css({
 				left: moveWidth
@@ -61,6 +72,7 @@ angular
 						clicked = true;
 				}
 		}, false);
+		// container[0].addEventListener('drag', moveSlide, false);
 
 	}
 

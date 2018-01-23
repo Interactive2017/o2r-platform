@@ -38,6 +38,7 @@
 			</div>
 
 			<md-button ng-click="vm.changeVisualization(vm.type)" class="md-raised">Load visualization</md-button>
+			<md-button ng-if="vm.compareType == 'map' && vm.type == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">Switch Images</md-button>
 
 			<!--timeseries items-->
 			<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.compareType == 'timeseries' && vm.type == 'Combined'"></o2r-timeseries>
