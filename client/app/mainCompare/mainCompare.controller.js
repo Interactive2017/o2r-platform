@@ -16,7 +16,7 @@
         vm.combinedTimeseriesData = [];
         var compare = erc;
         var first = true;
-        $scope.icons = icons;   
+        $scope.icons = icons;
         vm.figures = compare.metadata.o2r.interaction;
         vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
         vm.downloadData = {};
@@ -45,7 +45,7 @@
            x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
            y: [11,12,15,1,5,10,14,12,18,4,18,15,10]
            }];
-     
+
         vm.data2 = [{
             x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
             y: [4,1,5,17,10,11,5,6,4,11,9,7,1]
@@ -53,7 +53,7 @@
             x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
             y: [11,12,15,1,5,10,14,12,18,4,18,15,10]
         }];
-    
+
         vm.layout = {title: "Original plot",
                     xaxis: {
                         rangeslider:{}
@@ -192,7 +192,7 @@
 
         // Load figure when tab was changed
         $scope.$watch('vm.selectedTab', function(newVal, oldVal){  /** another tab/figure has been selected by the user */
-            
+
                 logger.info("Changed Tab", newVal);
                 vm.selectedTab = newVal;
 
@@ -207,7 +207,7 @@
 
         });
 
-        function downlaod(){
+        vm.download = function(){
             // todo check if timeseries or map
 
 
@@ -224,11 +224,11 @@
                     var zip = new JSZip();
                     zip.file("parameters.txt", JSON.stringify(vm.downloadData));
                     var img = zip.folder("images");
-                    
+
                     var base64 = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
-                    
+
                     img.file("image.png", base64, {base64: true});
-                                    
+
                     // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
                     zip.generateAsync({type:"blob"})
                     .then(function(content) {
@@ -238,16 +238,19 @@
                 })
             } else {
                 // Download map
+
+                var modifiedMap = vm.modifiedFigure;
+
                 //create zip containing a text file (parameter values) and images
                 var zip = new JSZip();
                 zip.file("parameters.txt", JSON.stringify(vm.downloadData));
                 var img = zip.folder("images");
-                
+
                 // todo
                 var base64 = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
-                
+
                 img.file("image.png", base64, {base64: true});
-                                
+
                 // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
                 zip.generateAsync({type:"blob"})
                 .then(function(content) {
@@ -256,7 +259,7 @@
                 });
             }
 
-        
+
         }
 
     }
