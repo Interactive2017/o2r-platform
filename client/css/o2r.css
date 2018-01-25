@@ -539,6 +539,10 @@ treecontrol.tree-classic li.tree-leaf i.tree-leaf-head {
 	background-color: green !important;
 }
 
+.creationProcess-running-toast > .md-toast-content{
+	background-color: orange !important;
+}
+
 .creationProcess-failure-toast > .md-toast-content{
 	background-color: red !important;
 }

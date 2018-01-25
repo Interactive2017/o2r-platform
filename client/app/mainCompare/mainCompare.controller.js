@@ -19,6 +19,7 @@
 
         $scope.icons = icons;
         vm.figures = compare.metadata.o2r.interaction;
+        // vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
 
         vm.layout = {title: "Combined plot",
 
@@ -99,8 +100,8 @@
                 //call the values from ocpu when the type is "timeseries"
                 if(activeCompareType == 'timeseries') {
                     httpRequests.ocpuResultsVal(ocpuID).then(function(compareValues){
-                        //call the timeseries directive with the parameters from  overthe response
-                        var data =  compareValues.data; //hand this to the directive
+                        //call the timeseries directive with the parameters from the response
+                        vm.modifiedFigure =  compareValues.data; //hand this over to the directive
                         var originalValues = compare.metadata.o2r.interaction[vm.selectedTab].original.values;
                         if(type == 'Side-by-side') {
                             //call the side by side directive with the values
@@ -113,7 +114,7 @@
                                     };
                             //pass the timeseries itmes into a structure that plotly can handle
                             var original = parseTimeseriesJson(originalValues);
-                            var newValues = parseTimeseriesJson(data)
+                            var newValues = parseTimeseriesJson(vm.modifiedFigure);
                             var visualization = [];
                             visualization.push(original);
                             visualization.push(newValues);
@@ -132,7 +133,7 @@
                         logger.info(compareImage);
                         if(type == 'Side-by-side') {
                             //call the side by side directive with the image
-                            var originalImage = compare.metadata.o2r.interaction[selectedTab].original.image; //this is just the path to ocpu
+                            var originalImage = compare.metadata.o2r.interaction[vm.selectedTab].original.image; //this is just the path to ocpu
 
                         }
                         else if(type == 'Overlay') {
@@ -185,7 +186,7 @@
         // Load figure when tab was changed
         $scope.$watch('vm.selectedTab', function(newVal, oldVal){  /** another tab/figure has been selected by the user */
 
-                logger.info("Changed Tab");
+                logger.info("Changed Tab", newVal);
                 vm.selectedTab = newVal;
 
                 // set new comparison type

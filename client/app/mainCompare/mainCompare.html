@@ -38,14 +38,17 @@
 			</div>
 
 			<md-button ng-click="vm.changeVisualization(vm.type)" class="md-raised">Load visualization</md-button>
+
 			<md-button ng-if="vm.compareType == 'map' && vm.type == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">Switch Images</md-button>
+
+            <!-- <o2r-side-by-side o2r-original-figure="{{vm.figures[]}}" o2r-modified-figure="{{vm.changedMap}}"></o2r-side-by-side> -->
 
 			<!--timeseries items-->
 			<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.compareType == 'timeseries' && vm.type == 'Combined'"></o2r-timeseries>
-			<side-by-side ng-if="vm.compareType == 'timeseries' && vm.type == 'Side-by-side'"></side-by-side>
-
+			<o2r-side-by-side ng-if="vm.compareType == 'timeseries' && vm.type == 'Side-by-side'" o2r-original-figure="{{vm.figures[vm.selectedTab]}}" o2r-modified-figure="{{vm.modifiedFigure}}"></o2r-side-by-side>
+			
 			<!--map items to display-->
-			<side-by-side ng-if="vm.compareType == 'map' && vm.type == 'Side-by-side'"></side-by-side>
+			<!-- <o2r-side-by-side ng-if="vm.compareType == 'map' && vm.type == 'Side-by-side'"></o2r-side-by-side> -->
 			<peephole ng-if="vm.compareType == 'map' && vm.type == 'Peephole'"></peephole>
 			<slide-image-comparison info="vm.images" ng-if="vm.compareType == 'map' && vm.type == 'Overlay'"></slide-image-comparison>
 			<!-- <hans-approach ng-if="vm.compareType == 'map' && vm.type == 'Overlay'"></hans-approach> -->

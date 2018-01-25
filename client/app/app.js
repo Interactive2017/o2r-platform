@@ -10,6 +10,7 @@
             "starter.o2rInspect",
             "starter.o2rErcDownload",
             "starter.o2rMetadataView",
+            "starter.o2rSideBySide",
             "starter.o2rTimeseries",
             "starter.slideImageComparison",
             "treeControl",
