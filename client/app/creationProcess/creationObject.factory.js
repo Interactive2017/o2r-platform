@@ -5,8 +5,8 @@
         .module('starter')
         .factory('creationObject', creationObject);
 
-    creationObject.$inject = ['$log', 'httpRequests'];
-    function creationObject($log, httpRequests){
+    creationObject.$inject = ['$log', 'httpRequests', '$mdToast', '$document'];
+    function creationObject($log, httpRequests, $mdToast, $document){
         var logger = $log.getInstance('creationObject');
 
         var erc = {};
@@ -131,6 +131,9 @@
         }
 
         function addBinding(binding){
+            var text = 'Start adding figure ...';
+            var toastClass = 'creationProcess-running-toast';
+            showNotificationToast(text, toastClass);
             var params = '{';
             // get slider value
             for(var i = 0; i < binding.widgets.length; i++){
@@ -153,17 +156,22 @@
 
                   //call the values from ocpu when the type is "timeseries"
                   if(binding.type == 'timeseries') {
-                      console.log("not implemented right now");
-                      // httpRequests.ocpuResultsVal(ocpuID)
-                      //     .then(function(compareValues){
-                      //         binding.original.values = compareValues.data;
-                      //
-                      //         erc.metadata.o2r.interaction.push(binding);
-                      //         alert("push success");
-                      //     },function(err) {
-                      //         console.log("error with timeseries");
-                      //         console.log(err);
-                      //     })
+                      httpRequests.ocpuResultsVal(ocpuID)
+                          .then(function(compareValues){
+                              binding.original.values = compareValues.data;
+
+                              erc.metadata.o2r.interaction.push(binding);
+
+                              var text = 'Figure added! (timeseries)';
+                              var toastClass = 'creationProcess-success-toast';
+                              showNotificationToast(text, toastClass);
+                          },function(err) {
+                              var text = 'Failed adding figure! (timeseries)';
+                              var toastClass = 'creationProcess-failure-toast';
+                              showNotificationToast(text, toastClass);
+                              console.log("error with timeseries");
+                              console.log(err);
+                          })
                   }
                   //if the type is "map" then the image is requested
                   else {
@@ -185,18 +193,36 @@
                                   binding.original.image = base64;
 
                                   erc.metadata.o2r.interaction.push(binding);
-                                  alert("push success");
+                                  var text = 'Figure added! (map)';
+                                  var toastClass = 'creationProcess-success-toast';
+                                  showNotificationToast(text, toastClass);
                               }
 
                           },function(err) {
+                              var text = 'Failed adding figure! (map)';
+                              var toastClass = 'creationProcess-failure-toast';
+                              showNotificationToast(text, toastClass);
                               console.log("error with map");
                               console.log(err);
                           })
                   }
               },function(err) {
+                  var text = 'Failed adding figure! (ocpu calculation)';
+                  var toastClass = 'creationProcess-failure-toast';
+                  showNotificationToast(text, toastClass);
                   console.log("error with ocpu calculation");
                   console.log(err);
               })
+        }
+
+        function showNotificationToast(text, toastClass) {
+            $mdToast.show(
+                $mdToast.simple()
+                .textContent(text)
+                .toastClass(toastClass)
+                .position('top right')
+                .parent($document[0].body.children.main.children["ui-view"])
+            );
         }
 
         function removeAuthor(index){
