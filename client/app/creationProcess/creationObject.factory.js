@@ -189,8 +189,8 @@
                                   canvas.height = img.height;
                                   ctx.drawImage(img, 0, 0);
                                   dataURL = canvas.toDataURL("image/png");
-                                  base64 = dataURL.replace(/^data:image\/png;base64,/, "");
-                                  binding.original.image = base64;
+                                  // base64 = dataURL.replace(/^data:image\/png;base64,/, "");
+                                  binding.original.image = dataURL;
 
                                   erc.metadata.o2r.interaction.push(binding);
                                   var text = 'Figure added! (map)';

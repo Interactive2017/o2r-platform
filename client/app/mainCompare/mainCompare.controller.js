@@ -19,7 +19,11 @@
 
         $scope.icons = icons;
         vm.figures = compare.metadata.o2r.interaction;
-        // vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
+        // if (vm.compareType == 'timeseries') {
+        //     vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
+        // } else {
+        //     vm.modifiedFigure = vm.figures[vm.selectedTab].original.image;
+        // }
 
         vm.layout = {title: "Combined plot",
 
@@ -56,10 +60,16 @@
             }
         }
 
+        vm.overlayOnTop = "overlay on top";
         vm.switchImages = function() {
             vm.images = {
                 image1: vm.images.image2,
                 image2: vm.images.image1
+            }
+            if (vm.overlayOnTop == "original on top") {
+                vm.overlayOnTop = "overlay on top";
+            } else {
+                vm.overlayOnTop = "original on top";
             }
         }
 
@@ -129,32 +139,40 @@
                 else {
                     httpRequests.ocpuImages(ocpuID).then(function(compareImage){
                         //do something with the image
-                        var image = compareImage.data; //hand this over to the image directive
-                        logger.info(compareImage);
-                        if(type == 'Side-by-side') {
-                            //call the side by side directive with the image
-                            var originalImage = compare.metadata.o2r.interaction[vm.selectedTab].original.image; //this is just the path to ocpu
+                        var img = new Image();
+                        img.src = compareImage.config.url;    // compareImage.data
 
-                        }
-                        else if(type == 'Overlay') {
-                            //call the Hans apporach with the image
+                        img.onload = function() {
+                            var canvas, ctx, dataURL, base64;
+                            canvas = document.createElement("canvas");
+                            ctx = canvas.getContext("2d");
+                            canvas.width = img.width;
+                            canvas.height = img.height;
+                            ctx.drawImage(img, 0, 0);
+                            dataURL = canvas.toDataURL("image/png");
+                            vm.modifiedFigure = dataURL;
 
-                            // for testing :
-                            // let originalImage = "../../img/deutschland01.png";
-                            // let overlayImage = "../../img/deutschland02.png";
+                            logger.info(compareImage);
+                            if(type == 'Side-by-side') {
+                                //call the side by side directive with the image
+                                var originalImage = compare.metadata.o2r.interaction[vm.selectedTab].original.image; //this is just the path to ocpu
 
-                             var originalImage = compare.metadata.o2r.interaction[selectedTab].original.image // original image for comparison
-                             var overlayImage = image // overlay image for comparison
-
-                            vm.images = {
-                            		image1: originalImage, //scope.o2rImagePathOriginal,
-                            		image2: overlayImage //scope.o2rImagePathOverlay
                             }
+                            else if(type == 'Overlay') {
+                                //call the Hans apporach with the image
+                                 var originalImage = "data:image/png;base64, " + vm.figures[vm.selectedTab].original.image // original image for comparison
+                                 var overlayImage = vm.modifiedFigure // overlay image for comparison
 
-                        }
-                        else {
-                            //Peephole image stuff
-                        }
+                                vm.images = {
+                                		image1: originalImage,
+                                		image2: overlayImage
+                                }
+
+                            }
+                            else {
+                                //Peephole image stuff
+                            }
+                          }
                     })
                 }
 
@@ -191,6 +209,11 @@
 
                 // set new comparison type
                 vm.compareType = compare.metadata.o2r.interaction[vm.selectedTab].type;
+                if (vm.compareType == 'timeseries') {
+                    vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
+                } else {
+                    vm.modifiedFigure = vm.figures[vm.selectedTab].original.image;
+                }
 
                 // build new sliders
                 vm.initializeSlider(vm.selectedTab);
