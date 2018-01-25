@@ -160,7 +160,7 @@
                             }
                             else if(type == 'Overlay') {
                                 //call the Hans apporach with the image
-                                 var originalImage = "data:image/png;base64, " + vm.figures[vm.selectedTab].original.image // original image for comparison
+                                 var originalImage = vm.figures[vm.selectedTab].original.image // original image for comparison // "data:image/png;base64, " +
                                  var overlayImage = vm.modifiedFigure // overlay image for comparison
 
                                 vm.images = {
