@@ -14,27 +14,19 @@ in the .html-file:
 
 <slide-image-comparison info="images"></slide-image-comparison>
 
-for o2r project:
-
-// TODO: to be deleted if below TODO change and TODO implement are finished |------>
-var originalImage = "../../img/deutschland01.png";
-var overlayImage = "../../img/deutschland02.png";
-// to be deleted <------|
-
-// TODO change: var originalImage = compare.metadata.o2r.interaction.figure. ... // original image for comparison
-// TODO implement: var overlayImage = get/new/processed/image/path // overlay image for comparison
-
-$scope.images = {
-		image1: originalImage, //scope.o2rImagePathOriginal,
-		image2: overlayImage //scope.o2rImagePathOverlay
-}
-
 */
 
 
 angular
 .module('starter.slideImageComparison')
 .directive('slideImageComparison', function($window) {
+
+	function switchImages(scope) {
+			scope.imageInfo = {
+					image1: scope.imageInfo.image2,
+					image2: scope.imageInfo.image1
+			}
+	}
 
 	function moveOver(handle, resized, container, clicked) {
 
@@ -55,7 +47,11 @@ angular
 				top: pageY - containerOffsetTop
 			};
 
-			moveWidth = (move.left - 1)*100/containerWidth+'%';
+			moveWidth = ((move.left)*100/containerWidth)-100;
+			if (moveWidth < 0) {
+					moveWidth = ((move.left)*100/containerWidth);
+			}
+			moveWidth = moveWidth+'%';
 
 			handle.css({
 				left: moveWidth
@@ -76,6 +72,7 @@ angular
 						clicked = true;
 				}
 		}, false);
+		// container[0].addEventListener('drag', moveSlide, false);
 
 	}
 

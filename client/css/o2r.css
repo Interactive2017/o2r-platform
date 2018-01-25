@@ -652,17 +652,14 @@ td.add-row-button {
 
 slide-image-comparison{
 		width: 100%;
-}
-
-.slider-image-show {
-		width: 100%%;
+		height: 100%;
 }
 
 div.slide-comb {
-	width: 600px;
-	height: 400px;
+	width: 480px;
+	height: 350px;
 	width: 100%;
-	height: 100%;
+	/*height: 100%;*/
 	position: relative;
 	overflow: hidden;
 }
@@ -688,6 +685,9 @@ div.slide-comb .divider {
 	background: rgba(0,0,0,.5);
 }
 
+/*div.slide-comb .divider:hover{
+	cursor: pointer;
+}*/
 @media (max-width: 767px) {
 	div.slide-comb {
 		width: 300px;

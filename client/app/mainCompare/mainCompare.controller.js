@@ -20,6 +20,7 @@
         $scope.icons = icons;
         vm.figures = compare.metadata.o2r.interaction;
         // vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
+
         vm.layout = {title: "Combined plot",
 
                    xaxis: {
@@ -52,6 +53,13 @@
             }
             for(var del in notSlider){
                 vm.sliders.splice(notSlider[del], 1);
+            }
+        }
+
+        vm.switchImages = function() {
+            vm.images = {
+                image1: vm.images.image2,
+                image2: vm.images.image1
             }
         }
 
@@ -130,6 +138,19 @@
                         }
                         else if(type == 'Overlay') {
                             //call the Hans apporach with the image
+
+                            // for testing :
+                            // let originalImage = "../../img/deutschland01.png";
+                            // let overlayImage = "../../img/deutschland02.png";
+
+                             var originalImage = compare.metadata.o2r.interaction[selectedTab].original.image // original image for comparison
+                             var overlayImage = image // overlay image for comparison
+
+                            vm.images = {
+                            		image1: originalImage, //scope.o2rImagePathOriginal,
+                            		image2: overlayImage //scope.o2rImagePathOverlay
+                            }
+
                         }
                         else {
                             //Peephole image stuff
