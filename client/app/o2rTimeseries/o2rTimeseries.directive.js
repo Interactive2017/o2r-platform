@@ -44,28 +44,42 @@
 
         
         function link(scope, element, attrs){
-            console.info(scope.data);
+
             scope.options = {showLink: false, displayLogo: false};
-            //check if there are two lines in the timeseries
-            if(scope.data.length > 1) {
-                scope.two = true;
-                scope.meanModified = mean(scope.data, 1);
-                scope.minModified = min(scope.data, 1);
-                scope.maxModified = max(scope.data, 1);
-                scope.sdModified = standardDeviation(scope.data, 1);
-                scope.varianceModified = variance(scope.data, 1);
-                scope.numModified = numberOfValues(scope.data, 1);
-            }
-            else {
-                scope.two = false;
-            }
-            //the original statistics are calculated every time
-            scope.meanOriginal = mean(scope.data, 0);
-            scope.minOriginal = min(scope.data, 0);
-            scope.maxOriginal = max(scope.data, 0);
-            scope.sdOriginal = standardDeviation(scope.data, 0);
-			scope.varianceOriginal = variance(scope.data, 0);
-            scope.numOriginal = numberOfValues(scope.data, 0);
+                //check if there are two lines in the timeseries
+                if(scope.data.length > 1) {
+                    scope.two = true;
+                    //calculat the statistics for the modified data
+                    calcStats(1);
+                }
+                else {
+                    scope.two = false;
+                    //calculate the statistics for the original data
+                    calcStats(0);
+                }
+
+                scope.$watch('data', function(newvalue, oldvalue){
+                    scope.data = newvalue;
+                    if(scope.data.length > 1) {
+                        console.info('in observe true');
+                        scope.two = true;
+                        calcStats(1);
+                    }
+                    else {
+                        scope.two = false;
+                    }
+                    calcStats(0);
+                });
+                //the original statistics are calculated every time
+                function calcStats(index){
+
+                    scope.meanOriginal = mean(scope.data, index);
+                    scope.minOriginal = min(scope.data, index);
+                    scope.maxOriginal = max(scope.data, index);
+                    scope.sdOriginal = standardDeviation(scope.data, index);
+                    scope.varianceOriginal = variance(scope.data, index);
+                    scope.numOriginal = numberOfValues(scope.data, index);
+                }
         }
     
         //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only

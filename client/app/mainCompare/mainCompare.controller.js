@@ -20,6 +20,7 @@
         $scope.icons = icons;   
         vm.figures = compare.metadata.o2r.interaction;
         vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
+        vm.combinedTimeseriesData.push(parseTimeseriesJson(compare.metadata.o2r.interaction[vm.selectedTab].original.values));
         vm.layout = {title: "Combined plot",
 
                    xaxis: {
