@@ -41,9 +41,13 @@
         */
         vm.inspect.code = [];
         vm.inspect.code.push({
-            path: vm.publication.metadata.o2r.file.filepath,
-            type: vm.publication.metadata.o2r.file.mimetype,
-            name: vm.publication.metadata.o2r.file.filename
+            // TODO: changed by 
+            path: "vm.publication.metadata.o2r.file.filepath",
+            type: "vm.publication.metadata.o2r.file.mimetype",
+            name: "vm.publication.metadata.o2r.file.filename"
+            // path: vm.publication.metadata.o2r.file.filepath,
+            // type: vm.publication.metadata.o2r.file.mimetype,
+            // name: vm.publication.metadata.o2r.file.filename
         });
 
         vm.loggedIn = login.isLoggedIn();
