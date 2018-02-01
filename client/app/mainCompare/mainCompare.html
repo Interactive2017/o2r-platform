@@ -42,7 +42,7 @@
 			
 			<!--timeseries items-->
 			<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.compareType == 'timeseries' && vm.type == 'Combined'"></o2r-timeseries>
-			<o2r-side-by-side ng-if="vm.compareType == 'timeseries' && vm.type == 'Side-by-side'" o2r-original-figure="{{vm.figures[vm.selectedTab]}}" o2r-modified-figure="{{vm.modifiedFigure}}"></o2r-side-by-side>
+			<o2r-side-by-side ng-if="vm.compareType == 'timeseries' && vm.type == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]" o2r-modified-figure="vm.modifiedFigure"></o2r-side-by-side>
 			
 			<!--map items to display-->
 			<!-- <o2r-side-by-side ng-if="vm.compareType == 'map' && vm.type == 'Side-by-side'"></o2r-side-by-side> -->
