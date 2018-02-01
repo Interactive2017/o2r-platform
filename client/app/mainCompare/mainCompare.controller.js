@@ -9,11 +9,12 @@
     function mainCompareController($scope, $log, erc, icons, httpRequests, $window){
 
         var logger = $log.getInstance('mainCompare');
+        logger.info('starting controller');
         var vm = this;
         vm.initialTab = 0;
         vm.selectedTab = 0;
         vm.type = 'Side-by-side';
-        var compare = erc;
+        var compare = angular.copy(erc);
         var first = true;
 
         $scope.icons = icons;   
