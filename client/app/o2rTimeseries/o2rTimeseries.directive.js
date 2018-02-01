@@ -67,18 +67,28 @@
                     }
                     else {
                         scope.two = false;
+                        calcStats(0);
                     }
-                    calcStats(0);
                 });
                 //the original statistics are calculated every time
                 function calcStats(index){
+                    if(index == 0) {
 
-                    scope.meanOriginal = mean(scope.data, index);
-                    scope.minOriginal = min(scope.data, index);
-                    scope.maxOriginal = max(scope.data, index);
-                    scope.sdOriginal = standardDeviation(scope.data, index);
-                    scope.varianceOriginal = variance(scope.data, index);
-                    scope.numOriginal = numberOfValues(scope.data, index);
+                        scope.meanOriginal = mean(scope.data, index);
+                        scope.minOriginal = min(scope.data, index);
+                        scope.maxOriginal = max(scope.data, index);
+                        scope.sdOriginal = standardDeviation(scope.data, index);
+                        scope.varianceOriginal = variance(scope.data, index);
+                        scope.numOriginal = numberOfValues(scope.data, index);
+                    }
+                    else {
+                        scope.meanModified = mean(scope.data, index);
+                        scope.minModified = min(scope.data, index);
+                        scope.maxModified = max(scope.data, index);
+                        scope.sdModified = standardDeviation(scope.data, index);
+                        scope.varianceModified = variance(scope.data, index);
+                        scope.numModified = numberOfValues(scope.data, index);
+                    }
                 }
         }
     
