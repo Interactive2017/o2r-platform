@@ -21,30 +21,33 @@
 		<md-divider></md-divider>
 		<div layout-padding></div>
 		<!-- Comparison type selection -->
-		<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
-			<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-				<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-			</md-button>
-			<md-menu-content width="4">
-				<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
-					<md-button ng-click="vm.type = type">
-						{{type}}
-					</md-button>
-				</md-menu-item>
-			</md-menu-content>
-		</md-menu>
-		<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
-			<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-				<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-			</md-button>
-			<md-menu-content width="4">
-				<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
-					<md-button ng-click="vm.type = type">
-						{{type}}
-					</md-button>
-				</md-menu-item>
-			</md-menu-content>
-		</md-menu>
+		<div layout="row">
+			<span flex></span>
+			<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
+				<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+					<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+				</md-button>
+				<md-menu-content width="4">
+					<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
+						<md-button ng-click="vm.type = type">
+							{{type}}
+						</md-button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+			<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
+				<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+					<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+				</md-button>
+				<md-menu-content width="4">
+					<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
+						<md-button ng-click="vm.type = type">
+							{{type}}
+						</md-button>
+					</md-menu-item>
+				</md-menu-content>
+			</md-menu>
+		</div>
             <!-- <o2r-side-by-side o2r-original-figure="{{vm.figures[]}}" o2r-modified-figure="{{vm.changedMap}}"></o2r-side-by-side> -->
 			
 			<!--timeseries items-->
