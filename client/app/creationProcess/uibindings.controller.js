@@ -62,7 +62,7 @@
                 var reqData = vm.required;
                 vm.packageData.figure_id = reqData.figure_id;
                 vm.packageData.type = reqData.figure_type;
-                vm.packageData.endpoint = reqData.figure_endpoint;
+                vm.packageData.endpoint = "/ocpu/library/"+vm.erc.id+"/R/"+reqData.figure_endpoint;
                 if (vm.tsType == true) {
                     vm.packageData.x_axis_label = reqData.x_axis_label;
                     vm.packageData.y_axis_label = reqData.y_axis_label;
