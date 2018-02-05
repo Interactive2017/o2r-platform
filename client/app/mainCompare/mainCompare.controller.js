@@ -137,15 +137,6 @@
                         var img = new Image();
                         img.src = compareImage.config.url;    // compareImage.data
                         vm.modifiedFigure = img.src;
-                        // img.onload = function() {
-                        //     var canvas, ctx, dataURL, base64;
-                        //     canvas = document.createElement("canvas");
-                        //     ctx = canvas.getContext("2d");
-                        //     canvas.width = img.width;
-                        //     canvas.height = img.height;
-                        //     ctx.drawImage(img, 0, 0);
-                        //     dataURL = canvas.toDataURL("image/png");
-                        //     vm.modifiedFigure = dataURL;
 
                             logger.info(compareImage);
                             if(type == 'Side-by-side') {
@@ -155,23 +146,14 @@
                             }
                             else if(type == 'Overlay') {
                                 //call the Hans apporach with the image
-                                //  var originalImage = vm.figures[vm.selectedTab].original.image // original image for comparison // "data:image/png;base64, " +
-                                //  var overlayImage = vm.modifiedFigure // overlay image for comparison
-
                                 vm.images = {
                                 		image1: compare.metadata.o2r.interaction[vm.selectedTab].original.image,
                                 		image2: vm.modifiedFigure
                                 }
-
-                                // console.log(vm.overlayImage);
-
-                                // // vm.overlayImage = 'loaded';
-                                // console.log(vm.overlayImage);
                             }
                             else {
                                 //Peephole image stuff
                             }
-                        //   }
                     })
                 }
 
