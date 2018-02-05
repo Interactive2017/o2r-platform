@@ -64,11 +64,10 @@
 				<peephole ng-if="vm.maptype == 'Peephole'"></peephole>
 				<hans-approach ng-if="vm.maptype == 'Overlay'"></hans-approach>
 	
-				<div ng-if="vm.overlayImage == 'loaded'">
-					<md-button ng-if="vm.maptype == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">switch images</md-button>
-					<p ng-if="vm.maptype == 'Overlay'">{{vm.overlayOnTop}}</p>
-					<slide-image-comparison info="vm.images" ng-if="vm.maptype == 'Overlay'"></slide-image-comparison>
-				</div>
+        <md-button ng-if="vm.maptype == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">switch images</md-button>
+        <p ng-if="vm.maptype == 'Overlay'">{{vm.overlayOnTop}}</p>
+        <slide-image-comparison info="vm.images" ng-if="vm.maptype == 'Overlay'"></slide-image-comparison>
+
 			</div>
 
 
