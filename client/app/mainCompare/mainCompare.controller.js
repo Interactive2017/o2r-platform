@@ -102,7 +102,7 @@
         // function to show comparison visulization
         vm.changeVisualization = function(type){
             logger.info("Change visualization");
-
+vm.overlayImage = 'unloaded';
             // get visualization type
             var activeCompareType = vm.compareType;
 
@@ -196,6 +196,10 @@
                                 		image2: overlayImage
                                 }
 
+                                console.log(vm.overlayImage);
+
+                                vm.overlayImage = 'loaded';
+                                console.log(vm.overlayImage);
                             }
                             else {
                                 //Peephole image stuff
