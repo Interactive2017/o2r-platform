@@ -21,7 +21,9 @@
         vm.figures = compare.metadata.o2r.interaction;
         // prepare all timeseries values to fit to required structure
         for(var i in vm.figures){
-            vm.figures[i].original.values = [parseTimeseriesJson(vm.figures[i].original.values)];
+            if(vm.figures[i].type == 'timeseries') {
+                vm.figures[i].original.values = [parseTimeseriesJson(vm.figures[i].original.values)];
+            };
         };
         vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
         vm.combinedTimeseriesData = vm.figures[vm.selectedTab].original.values;
@@ -129,7 +131,7 @@
                         //do something with the image
                         var img = new Image();
                         img.src = compareImage.config.url;    // compareImage.data
-
+                        vm.modifiedFigure = img.src;
                         img.onload = function() {
                             var canvas, ctx, dataURL, base64;
                             canvas = document.createElement("canvas");
