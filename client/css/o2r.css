@@ -699,6 +699,6 @@ div.slide-comb .divider {
 	End hans-approach
 /***********************/
 
-#tab-content-5 > div > div > div > span.rz-pointer.rz-pointer-min{
+.rz-pointer.rz-pointer-min{
 	background-color: rgb(0,66,134) !important;
 }
