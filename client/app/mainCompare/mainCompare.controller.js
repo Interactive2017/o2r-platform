@@ -16,6 +16,7 @@
         vm.combinedTimeseriesData = [];
         var compare = erc;
         var first = true;
+        vm.downloadData = [];
 
         $scope.icons = icons;
         vm.figures = compare.metadata.o2r.interaction;
@@ -75,7 +76,17 @@
             var notSlider = [];
             for(var slider in vm.sliders){
                 if(vm.sliders[slider].type == "slider"){
-                    vm.sliders[slider].value = vm.sliders[slider].default_value; // set default value
+
+                    var slider_loaded_value;
+
+                    if(vm.downloadData[vm.selectedTab] != undefined) {
+                        if (vm.downloadData[vm.selectedTab][vm.sliders[slider].param_name] != undefined) {
+                            var paramDownloadName = vm.sliders[slider].param_name;
+                            slider_loaded_value = vm.downloadData[vm.selectedTab][paramDownloadName];
+                        }
+                    }
+
+                    ( slider_loaded_value != undefined ? vm.sliders[slider].value = slider_loaded_value : vm.sliders[slider].value = vm.sliders[slider].default_value );
                     vm.sliders[slider].options = {floor: vm.sliders[slider].min_value, ceil: vm.sliders[slider].max_value, step: vm.sliders[slider].steps_size, precision: 10 }; // set min value
                 } else {
                     notSlider.unshift(slider);
@@ -124,7 +135,7 @@ vm.overlayImage = 'unloaded';
                 }
             }
 
-            vm.downloadData = params;
+            vm.downloadData[vm.selectedTab] = JSON.parse(params);
 
 
             //call ocpu with slider params
@@ -258,11 +269,11 @@ vm.overlayImage = 'unloaded';
 
         vm.download = function(){
 
-            if (vm.downloadData == undefined) {
+            if (vm.downloadData[vm.selectedTab] == undefined) {
                 var paramText = "no parameter changed\nboth images are the original image";
             } else {
                 var paramText = "";
-                var downloadParams = JSON.parse(vm.downloadData);
+                var downloadParams = vm.downloadData[vm.selectedTab];
                 for (var k in downloadParams) {
                     paramText += k + " : " + downloadParams[k] + " \n"; 
                 }
