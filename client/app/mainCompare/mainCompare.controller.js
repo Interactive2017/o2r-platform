@@ -13,7 +13,8 @@
         var vm = this;
         vm.initialTab = 0;
         vm.selectedTab = 0;
-        vm.type = 'Side-by-side';
+        vm.maptype = 'Side-by-side';
+        vm.timeseriestype = 'Side-by-side';
         var compare = angular.copy(erc);
         var first = true;
         vm.downloadData = [];
@@ -34,6 +35,12 @@
                        rangeslider:{}
                    }
        };
+
+        vm.images = {
+           image1:vm.figures[vm.selectedTab].original.image,
+           image2: vm.modifiedFigure
+        }
+
         // compare type selction types
         $scope.mapCompareTypes = [
             "Side-by-side",
@@ -99,23 +106,23 @@
             }
         }
 
-        vm.overlayOnTop = "overlay on top";
+        vm.overlayOnTop = "overlay left";
         vm.switchImages = function() {
             vm.images = {
                 image1: vm.images.image2,
                 image2: vm.images.image1
             }
-            if (vm.overlayOnTop == "original on top") {
-                vm.overlayOnTop = "overlay on top";
+            if (vm.overlayOnTop == "original left") {
+                vm.overlayOnTop = "overlay left";
             } else {
-                vm.overlayOnTop = "original on top";
+                vm.overlayOnTop = "original left";
             }
         }
 
         // function to show comparison visulization
         vm.changeVisualization = function(type){
             logger.info("Change visualization");
-            vm.overlayImage = 'unloaded';
+            // vm.overlayImage = 'unloaded';
             // get visualization type
             var activeCompareType = vm.compareType;
 
@@ -172,15 +179,6 @@
                         var img = new Image();
                         img.src = compareImage.config.url;    // compareImage.data
                         vm.modifiedFigure = img.src;
-                        img.onload = function() {
-                            var canvas, ctx, dataURL, base64;
-                            canvas = document.createElement("canvas");
-                            ctx = canvas.getContext("2d");
-                            canvas.width = img.width;
-                            canvas.height = img.height;
-                            ctx.drawImage(img, 0, 0);
-                            dataURL = canvas.toDataURL("image/png");
-                            vm.modifiedFigure = dataURL;
 
                             logger.info(compareImage);
                             if(type == 'Side-by-side') {
@@ -190,23 +188,14 @@
                             }
                             else if(type == 'Overlay') {
                                 //call the Hans apporach with the image
-                                 var originalImage = vm.figures[vm.selectedTab].original.image // original image for comparison // "data:image/png;base64, " +
-                                 var overlayImage = vm.modifiedFigure // overlay image for comparison
-
                                 vm.images = {
-                                		image1: originalImage,
-                                		image2: overlayImage
+                                		image1: compare.metadata.o2r.interaction[vm.selectedTab].original.image,
+                                		image2: vm.modifiedFigure
                                 }
-
-                                console.log(vm.overlayImage);
-
-                                vm.overlayImage = 'loaded';
-                                console.log(vm.overlayImage);
                             }
                             else {
                                 //Peephole image stuff
                             }
-                          }
                     })
                 }
 
