@@ -82,9 +82,9 @@ angular
 			imageInfo: '=info'
 		},
 		link: function(scope, elem, attr) {
-        	var w = angular.element($window);
+        		var w = angular.element($window);
 
-        	var container = angular.element(elem[0].querySelector('.slide-comb'));
+			   var container = angular.element(elem[0].querySelector('.slide-comb'));
 
 			// Adjust resize image
 			var resized = angular.element(elem[0].querySelector('.resized'));
@@ -110,4 +110,6 @@ angular
 		},
 		templateUrl: 'app/sliderImageDirective/sliderImage.html'
 	};
+
+	
 });

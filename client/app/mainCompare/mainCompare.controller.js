@@ -17,6 +17,7 @@
         vm.timeseriestype = 'Side-by-side';
         var compare = angular.copy(erc);
         var first = true;
+        vm.downloadData = [];
 
         $scope.icons = icons;
         vm.figures = compare.metadata.o2r.interaction;
@@ -51,13 +52,50 @@
             "Combined"
         ];
 
+
+        vm.data = [{
+            x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
+            y: [4,1,5,17,10,3,10,15,12,11,9,7,1]
+           },{
+           x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
+           y: [11,12,15,1,5,10,14,12,18,4,18,15,10]
+           }];
+
+        vm.data2 = [{
+            x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
+            y: [4,1,5,17,10,11,5,6,4,11,9,7,1]
+        },{
+            x: [2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013],
+            y: [11,12,15,1,5,10,14,12,18,4,18,15,10]
+        }];
+
+        vm.layout = {title: "Original plot",
+                    xaxis: {
+                        rangeslider:{}
+                    }
+        };
+        vm.layout2 = {title: "Parameter changed plot",
+        xaxis: {
+            rangeslider:{}
+        }};
+
         // function to initialize the slider; create metatdata needed for slider
         vm.initializeSlider = function(figure){
             vm.sliders = compare.metadata.o2r.interaction[figure].widgets;
             var notSlider = [];
             for(var slider in vm.sliders){
                 if(vm.sliders[slider].type == "slider"){
-                    vm.sliders[slider].value = vm.sliders[slider].default_value; // set default value
+
+                    var slider_loaded_value;
+
+                    if(vm.downloadData[vm.selectedTab] != undefined) {
+                        if (vm.downloadData[vm.selectedTab][vm.sliders[slider].param_name] != undefined) {
+                            var paramDownloadName = vm.sliders[slider].param_name;
+                            slider_loaded_value = vm.downloadData[vm.selectedTab][paramDownloadName];
+                        }
+                    }
+
+                    ( slider_loaded_value != undefined ? vm.sliders[slider].value = slider_loaded_value : vm.sliders[slider].value = vm.sliders[slider].default_value );
                     vm.sliders[slider].options = {floor: vm.sliders[slider].min_value, ceil: vm.sliders[slider].max_value, step: vm.sliders[slider].steps_size, precision: 10 }; // set min value
                 } else {
                     notSlider.unshift(slider);
@@ -96,6 +134,7 @@
                 logger.info(vm.sliders[i].param_name);
                 logger.info(vm.sliders[i].value);
                 //TODO go on here
+
                 params = params + '"' + vm.sliders[i].param_name + '":' +  vm.sliders[i].value;
                 if(i < vm.sliders.length - 1) {
                     params = params + ',';
@@ -104,6 +143,8 @@
                     params = params + '}';
                 }
             }
+
+            vm.downloadData[vm.selectedTab] = JSON.parse(params);
 
 
             //call ocpu with slider params
@@ -205,6 +246,74 @@
 
         });
 
+        vm.download = function(){
+
+            if (vm.downloadData[vm.selectedTab] == undefined) {
+                var paramText = "no parameter changed\nboth images are the original image";
+            } else {
+                var paramText = "";
+                var downloadParams = vm.downloadData[vm.selectedTab];
+                for (var k in downloadParams) {
+                    paramText += k + " : " + downloadParams[k] + " \n"; 
+                }
+            }
+
+            if(vm.compareType == "timeseries"){
+                // Downlaod timeseries
+                Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(0), {format: 'png', width: 800, height: 600})
+                .then(function(dataUrl01) {
+                    Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(1), {format: 'png', width: 800, height: 600})
+                    .then(function(dataUrl02) {
+                        console.log(dataUrl01);
+                        console.log(dataUrl02);
+
+                        //create zip containing a text file (parameter values) and images
+                        var zip = new JSZip();
+                        zip.file("parameters.txt", paramText);
+                        var img = zip.folder("images");
+
+                        var base64_left = dataUrl01.replace(/^data:image\/(png|jpg);base64,/, "");
+                        var base64_right = dataUrl02.replace(/^data:image\/(png|jpg);base64,/, "");
+
+                        img.file("left.png", base64_left, {base64: true});
+                        img.file("right.png", base64_right, {base64: true});
+
+                        // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                        zip.generateAsync({type:"blob"})
+                        .then(function(content) {
+                            var figureNum = vm.selectedTab+1;
+                            // see FileSaver.js
+                            saveAs(content, compare.id+"_figure"+figureNum+".zip");
+                        });
+
+                    })
+                })
+            } else {
+                // Download map
+                var modifiedMap = vm.modifiedFigure;
+                
+                //create zip containing a text file (parameter values) and images
+                var zip = new JSZip();
+                zip.file("parameters.txt", paramText);
+                var img = zip.folder("images");
+
+                var base64_original = vm.figures[vm.selectedTab].original.image.replace(/^data:image\/(png|jpg);base64,/, "");
+                var base64_manipulated = vm.modifiedFigure.replace(/^data:image\/(png|jpg);base64,/, "");
+                
+                img.file("original.png", base64_original, {base64: true});
+                img.file("manipulated.png", base64_manipulated, {base64: true});
+
+                // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                zip.generateAsync({type:"blob"})
+                .then(function(content) {
+                    var figureNum = vm.selectedTab+1;
+                    // see FileSaver.js
+                    saveAs(content, compare.id+"_figure"+figureNum+".zip");
+                });
+            }
+
+
+        }
 
     }
 })()
