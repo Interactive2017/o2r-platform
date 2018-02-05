@@ -9,22 +9,24 @@
     function mainCompareController($scope, $log, erc, icons, httpRequests, $window){
 
         var logger = $log.getInstance('mainCompare');
+        logger.info('starting controller');
         var vm = this;
         vm.initialTab = 0;
         vm.selectedTab = 0;
         vm.type = 'Side-by-side';
-        vm.combinedTimeseriesData = [];
-        var compare = erc;
+        var compare = angular.copy(erc);
         var first = true;
 
         $scope.icons = icons;
         vm.figures = compare.metadata.o2r.interaction;
-        // if (vm.compareType == 'timeseries') {
-        //     vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
-        // } else {
-        //     vm.modifiedFigure = vm.figures[vm.selectedTab].original.image;
-        // }
-
+        // prepare all timeseries values to fit to required structure
+        for(var i in vm.figures){
+            if(vm.figures[i].type == 'timeseries') {
+                vm.figures[i].original.values = [parseTimeseriesJson(vm.figures[i].original.values)];
+            };
+        };
+        vm.modifiedFigure = vm.figures[vm.selectedTab].original.values;
+        vm.combinedTimeseriesData = vm.figures[vm.selectedTab].original.values;
         vm.layout = {title: "Combined plot",
 
                    xaxis: {
@@ -76,7 +78,7 @@
         // function to show comparison visulization
         vm.changeVisualization = function(type){
             logger.info("Change visualization");
-vm.overlayImage = 'unloaded';
+            vm.overlayImage = 'unloaded';
             // get visualization type
             var activeCompareType = vm.compareType;
 
@@ -111,28 +113,16 @@ vm.overlayImage = 'unloaded';
                 if(activeCompareType == 'timeseries') {
                     httpRequests.ocpuResultsVal(ocpuID).then(function(compareValues){
                         //call the timeseries directive with the parameters from the response
-                        vm.modifiedFigure =  compareValues.data; //hand this over to the directive
-                        var originalValues = compare.metadata.o2r.interaction[vm.selectedTab].original.values;
-                        if(type == 'Side-by-side') {
-                            //call the side by side directive with the values
-                            originalValues = compare.metadata.o2r.interaction[vm.selectedTab].original.values;
-                        }
-                        else {
-                            //set the title of the plot to combined Plot
-                            vm.layout = {title: "Combined plot",
-                                        xaxis: {rangeslider:{}}
-                                    };
-                            //pass the timeseries itmes into a structure that plotly can handle
-                            var original = parseTimeseriesJson(originalValues);
-                            var newValues = parseTimeseriesJson(vm.modifiedFigure);
-                            var visualization = [];
-                            visualization.push(original);
-                            visualization.push(newValues);
-                            //call the timeseries directive with the original and new values
-                            vm.combinedTimeseriesData = visualization;
-                        }
-
-                        logger.info(compareValues);
+                        vm.modifiedFigure =  [parseTimeseriesJson(compareValues.data)]; //hand this over to the directive
+                        var originalValues = vm.figures[vm.selectedTab].original.values;
+                        //set the title of the plot to combined Plot
+                        vm.layout = {title: "Combined plot",
+                                    xaxis: {rangeslider:{}}
+                                };
+                        //pass the timeseries itmes into a structure that plotly can handle
+                        var visualization = [originalValues[0], vm.modifiedFigure[0]];
+                        //call the timeseries directive with the original and new values
+                        vm.combinedTimeseriesData = visualization;
                     })
                 }
                 //if the type is "map" then the image is requested
@@ -141,7 +131,7 @@ vm.overlayImage = 'unloaded';
                         //do something with the image
                         var img = new Image();
                         img.src = compareImage.config.url;    // compareImage.data
-
+                        vm.modifiedFigure = img.src;
                         img.onload = function() {
                             var canvas, ctx, dataURL, base64;
                             canvas = document.createElement("canvas");

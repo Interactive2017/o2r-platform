@@ -1,9 +1,21 @@
 <plotly plotly-data="data" plotly-layout="layout" plotly-options="options" plotly-events="plotlyEvents"></plotly>
-<div>
-    <p>Mean: {{mean | number:3}}</p>
-    <p>Standard Deviation: {{sd | number:3}}</p>
-    <p>Variance: {{variance | number:3}}</p>
-    <p>Minimum: {{min | number:3}}</p>
-    <p>Maximum: {{max | number:3}}</p>
-    <p>Number of Values: {{num | number:3}}</p>
+<div layout="row">
+    <div flex="50">
+        <h4 ng-if="two == true">Original values</h4>
+        <p>Mean: {{meanOriginal | number:3}}</p>
+        <p>Standard Deviation: {{sdOriginal | number:3}}</p>
+        <p>Variance: {{varianceOriginal | number:3}}</p>
+        <p>Minimum: {{minOriginal | number:3}}</p>
+        <p>Maximum: {{maxOriginal | number:3}}</p>
+        <p>Number of Values: {{numOriginal | number:0}}</p>
+    </div>
+    <div ng-if="two == true" flex="50">
+        <h4>Modified values</h4>        
+        <p>Mean: {{meanModified | number:3}}</p>
+        <p>Standard Deviation: {{sdModified | number:3}}</p>
+        <p>Variance: {{varianceModified | number:3}}</p>
+        <p>Minimum: {{minModified | number:3}}</p>
+        <p>Maximum: {{maxModified| number:3}}</p>
+        <p>Number of Values: {{numModified | number:0}}</p>
+    </div>
 </div>
