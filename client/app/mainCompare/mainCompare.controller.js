@@ -13,7 +13,8 @@
         var vm = this;
         vm.initialTab = 0;
         vm.selectedTab = 0;
-        vm.type = 'Side-by-side';
+        vm.maptype = 'Side-by-side';
+        vm.timeseriestype = 'Side-by-side';
         var compare = angular.copy(erc);
         var first = true;
 

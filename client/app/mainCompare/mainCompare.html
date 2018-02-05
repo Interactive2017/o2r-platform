@@ -14,7 +14,8 @@
 
 			<!-- <div layout="row">
 				<span flex></span> -->
-			<md-button ng-click="vm.changeVisualization(vm.type)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
+			<md-button ng-if="vm.compareType == 'map'" ng-click="vm.changeVisualization(vm.maptype)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
+			<md-button ng-if="vm.compareType == 'timeseries'" ng-click="vm.changeVisualization(vm.timeseriestype)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
 			<!-- </div> -->
 			<div layout-padding></div>
 			<md-divider></md-divider>
@@ -28,7 +29,7 @@
 					</md-button>
 					<md-menu-content width="4">
 						<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
-							<md-button ng-click="vm.type = type">
+							<md-button ng-click="vm.maptype = type">
 								{{type}}
 							</md-button>
 						</md-menu-item>
@@ -40,7 +41,7 @@
 					</md-button>
 					<md-menu-content width="4">
 						<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
-							<md-button ng-click="vm.type = type">
+							<md-button ng-click="vm.timeseriestype = type">
 								{{type}}
 							</md-button>
 						</md-menu-item>
@@ -51,22 +52,22 @@
 
 			<!--timeseries items-->
 			<div ng-if="vm.compareType == 'timeseries'">
-				<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.type == 'Combined'"></o2r-timeseries>
-				<o2r-side-by-side ng-if="vm.type == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]"
+				<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.timeseriestype == 'Combined'"></o2r-timeseries>
+				<o2r-side-by-side ng-if="vm.timeseriestype == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]"
 				 o2r-modified-figure="vm.modifiedFigure"></o2r-side-by-side>
 			</div>
 
 			<!--map items to display-->
 			<div ng-if="vm.compareType == 'map'">
 
-				<o2r-side-by-side ng-if="vm.type == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]" o2r-modified-figure="vm.modifiedFigure"></o2r-side-by-side>
-				<peephole ng-if="vm.type == 'Peephole'"></peephole>
-				<hans-approach ng-if="vm.type == 'Overlay'"></hans-approach>
+				<o2r-side-by-side ng-if="vm.maptype == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]" o2r-modified-figure="vm.modifiedFigure"></o2r-side-by-side>
+				<peephole ng-if="vm.maptype == 'Peephole'"></peephole>
+				<hans-approach ng-if="vm.maptype == 'Overlay'"></hans-approach>
 	
 				<div ng-if="vm.overlayImage == 'loaded'">
-					<md-button ng-if="vm.type == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">switch images</md-button>
-					<p ng-if="vm.type == 'Overlay'">{{vm.overlayOnTop}}</p>
-					<slide-image-comparison info="vm.images" ng-if="vm.type == 'Overlay'"></slide-image-comparison>
+					<md-button ng-if="vm.maptype == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">switch images</md-button>
+					<p ng-if="vm.maptype == 'Overlay'">{{vm.overlayOnTop}}</p>
+					<slide-image-comparison info="vm.images" ng-if="vm.maptype == 'Overlay'"></slide-image-comparison>
 				</div>
 			</div>
 
