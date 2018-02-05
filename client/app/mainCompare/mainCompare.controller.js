@@ -114,6 +114,7 @@ vm.overlayImage = 'unloaded';
                 logger.info(vm.sliders[i].param_name);
                 logger.info(vm.sliders[i].value);
                 //TODO go on here
+
                 params = params + '"' + vm.sliders[i].param_name + '":' +  vm.sliders[i].value;
                 if(i < vm.sliders.length - 1) {
                     params = params + ',';
@@ -256,54 +257,68 @@ vm.overlayImage = 'unloaded';
         });
 
         vm.download = function(){
-            // todo check if timeseries or map
 
+            if (vm.downloadData == undefined) {
+                var paramText = "no parameter changed\nboth images are the original image";
+            } else {
+                var paramText = "";
+                var downloadParams = JSON.parse(vm.downloadData);
+                for (var k in downloadParams) {
+                    paramText += k + " : " + downloadParams[k] + " \n"; 
+                }
+            }
 
-            console.log("download");
             if(vm.compareType == "timeseries"){
-
                 // Downlaod timeseries
-                console.log(document.getElementsByClassName("js-plotly-plot").item(0));
                 Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(0), {format: 'png', width: 800, height: 600})
-                .then(function(dataUrl) {
-                    console.log(dataUrl);
+                .then(function(dataUrl01) {
+                    Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(1), {format: 'png', width: 800, height: 600})
+                    .then(function(dataUrl02) {
+                        console.log(dataUrl01);
+                        console.log(dataUrl02);
 
-                    //create zip containing a text file (parameter values) and images
-                    var zip = new JSZip();
-                    zip.file("parameters.txt", JSON.stringify(vm.downloadData));
-                    var img = zip.folder("images");
+                        //create zip containing a text file (parameter values) and images
+                        var zip = new JSZip();
+                        zip.file("parameters.txt", paramText);
+                        var img = zip.folder("images");
 
-                    var base64 = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
+                        var base64_left = dataUrl01.replace(/^data:image\/(png|jpg);base64,/, "");
+                        var base64_right = dataUrl02.replace(/^data:image\/(png|jpg);base64,/, "");
 
-                    img.file("image.png", base64, {base64: true});
+                        img.file("left.png", base64_left, {base64: true});
+                        img.file("right.png", base64_right, {base64: true});
 
-                    // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
-                    zip.generateAsync({type:"blob"})
-                    .then(function(content) {
-                        // see FileSaver.js
-                        saveAs(content, "example.zip");
-                    });
+                        // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                        zip.generateAsync({type:"blob"})
+                        .then(function(content) {
+                            var figureNum = vm.selectedTab+1;
+                            // see FileSaver.js
+                            saveAs(content, compare.id+"_figure"+figureNum+".zip");
+                        });
+
+                    })
                 })
             } else {
                 // Download map
-
                 var modifiedMap = vm.modifiedFigure;
-
+                
                 //create zip containing a text file (parameter values) and images
                 var zip = new JSZip();
-                zip.file("parameters.txt", JSON.stringify(vm.downloadData));
+                zip.file("parameters.txt", paramText);
                 var img = zip.folder("images");
 
-                // todo
-                var base64 = dataUrl.replace(/^data:image\/(png|jpg);base64,/, "");
-
-                img.file("image.png", base64, {base64: true});
+                var base64_original = vm.figures[vm.selectedTab].original.image.replace(/^data:image\/(png|jpg);base64,/, "");
+                var base64_manipulated = vm.modifiedFigure.replace(/^data:image\/(png|jpg);base64,/, "");
+                
+                img.file("original.png", base64_original, {base64: true});
+                img.file("manipulated.png", base64_manipulated, {base64: true});
 
                 // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
                 zip.generateAsync({type:"blob"})
                 .then(function(content) {
+                    var figureNum = vm.selectedTab+1;
                     // see FileSaver.js
-                    saveAs(content, "example.zip");
+                    saveAs(content, compare.id+"_figure"+figureNum+".zip");
                 });
             }
 
