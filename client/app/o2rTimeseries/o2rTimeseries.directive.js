@@ -44,31 +44,66 @@
 
         
         function link(scope, element, attrs){
-            scope.options = {showLink: false, displayLogo: false};
-            scope.mean = mean(scope);
-            scope.min = min(scope);
-            scope.max = max(scope);
-            scope.sd = standardDeviation(scope);
-			scope.variance = variance(scope);
-            scope.num = numberOfValues(scope);
 
-            
+            scope.options = {showLink: false, displayLogo: false};
+                //check if there are two lines in the timeseries
+                if(scope.data.length > 1) {
+                    scope.two = true;
+                    //calculat the statistics for the modified data
+                    calcStats(1);
+                }
+                else {
+                    scope.two = false;
+                    //calculate the statistics for the original data
+                    calcStats(0);
+                }
+
+                scope.$watch('data', function(newvalue, oldvalue){
+                    scope.data = newvalue;
+                    if(scope.data.length > 1) {
+                        console.info('in observe true');
+                        scope.two = true;
+                        calcStats(1);
+                    }
+                    else {
+                        scope.two = false;
+                        calcStats(0);
+                    }
+                });
+                //the original statistics are calculated every time
+                function calcStats(index){
+                    if(index == 0) {
+
+                        scope.meanOriginal = mean(scope.data, index);
+                        scope.minOriginal = min(scope.data, index);
+                        scope.maxOriginal = max(scope.data, index);
+                        scope.sdOriginal = standardDeviation(scope.data, index);
+                        scope.varianceOriginal = variance(scope.data, index);
+                        scope.numOriginal = numberOfValues(scope.data, index);
+                    }
+                    else {
+                        scope.meanModified = mean(scope.data, index);
+                        scope.minModified = min(scope.data, index);
+                        scope.maxModified = max(scope.data, index);
+                        scope.sdModified = standardDeviation(scope.data, index);
+                        scope.varianceModified = variance(scope.data, index);
+                        scope.numModified = numberOfValues(scope.data, index);
+                    }
+                }
         }
     
         //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only
-        function mean(scope) {
+        function mean(data, index) {
             var mean;
             var sum = 0;
     
             //iterate over the outer array and calculate the mean for each contained array
-            for(var i = 0; i < scope.data.length; i++) {
-                sum = scope.data[i].y.reduce(function(sum, value){
-                    return sum + value;
-                  }, 0);
-                mean = sum / scope.data[i].y.length;
-                //insert the value for the particular graph into the html
-                return mean;
-            }
+            sum = data[index].y.reduce(function(sum, value){
+                return sum + value;
+                }, 0);
+            mean = sum / data[index].y.length;
+
+            return mean;
         }
 
         //helper for the standrad deviation method
@@ -82,86 +117,70 @@
         }
 
         //calculate the standard deviation for the timeseries
-        function standardDeviation(scope) {
+        function standardDeviation(data, index) {
             var sd;
             var tsValues;
 
-            for(var i = 0; i < scope.data.length; i++) {
-                tsValues = scope.data[i].y;
-                var avg = average(tsValues);
-      
-                var squareDiffs = tsValues.map(function(val){
-                    var diff = val - avg;
-                    var sqrDiff = diff * diff;
-                    return sqrDiff;
-                });
-                
-                var avgSquareDiff = average(squareDiffs);
-                
-                sd = Math.sqrt(avgSquareDiff);
-                }
-                //insert the value for the particular graph into the html
-                return sd;
-            }
+            tsValues = data[index].y;
+            var avg = average(tsValues);
 
-        
+            var squareDiffs = tsValues.map(function (val) {
+                var diff = val - avg;
+                var sqrDiff = diff * diff;
+                return sqrDiff;
+            });
 
-        function variance(scope) {
+            var avgSquareDiff = average(squareDiffs);
+
+            sd = Math.sqrt(avgSquareDiff);
+            return sd;
+        }
+
+
+
+        function variance(data, index) {
             var variance;
             var yvals;
-			for(var i = 0; i < scope.data.length; i++)
-			{
-				yvals = scope.data[i].y;
-				var avg = average(yvals);
-				
-				var sq_diff = yvals.map(function(values)
-				{
-					var squared_diff = (values - avg) * (values - avg);
-					return squared_diff;
-				});
-				
-				variance = average(sq_diff);
-				//Inserting into HTML
-				return variance;
-			}
+
+            yvals = data[index].y;
+            var avg = average(yvals);
+            
+            var sq_diff = yvals.map(function(values)
+            {
+                var squared_diff = (values - avg) * (values - avg);
+                return squared_diff;
+            });
+            
+            variance = average(sq_diff);
+            return variance;
         }
 
         //calculate the minimum of the timeseries
-        function min(scope) {
+        function min(data, index) {
             var min;
 
-            for(var i = 0; i < scope.data.length; i++) {
-                min = scope.data[i].y.reduce(function(a,b) {
-                    return Math.min(a,b)
-                })
-                //insert the value for the particular graph into the html
-                return min;
-            }
+            min = data[index].y.reduce(function(a,b) {
+                return Math.min(a,b)
+            })
+            return min;
         }
 
         //calculate the maximum of the timeseries
-        function max(scope) {
+        function max(data, index) {
             var max;
 
-            for(var i = 0; i < scope.data.length; i++) {
-                max = scope.data[i].y.reduce(function(a,b) {
-                    return Math.max(a,b)
-                })
-                //insert the value for the particular graph into the html
-                return max;
-            }
+            max = data[index].y.reduce(function(a,b) {
+                return Math.max(a,b)
+            })
+            return max;
         }
 
-        function numberOfValues(scope) {
-			var count;
-			for(var i = 0; i < scope.data.length; i++)
-			{
-				//Using x in case y values are absent or missing
-				count = scope.data[i].x.length
-				
-				//Insert into HTML
-				return count;
-			}
+        function numberOfValues(data, index) {
+            var count;
+            //Using x in case y values are absent or missing
+            count = data[index].x.length
+
+            return count;
         }
 
         

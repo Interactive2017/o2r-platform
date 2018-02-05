@@ -1,36 +1,8 @@
 <div class="manipulate-interactive">
 
-    <md-tabs  md-selected="vm.selectedTab" md-dynamic-height md-border-bottom md-autoselect>
-		<md-tab ng-repeat="figure in vm.figures track by $index"
-		label="Figure {{$index + 1}}">
+	<md-tabs md-selected="vm.selectedTab" md-dynamic-height md-border-bottom md-autoselect>
+		<md-tab ng-repeat="figure in vm.figures track by $index" label="Figure {{$index + 1}}">
 
-
-
-			<!-- Comparison type selection -->
-			<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
-				<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-					<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-				</md-button>
-				<md-menu-content width="4">
-					<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
-						<md-button ng-click="vm.type = type">
-							{{type}}
-						</md-button>
-					</md-menu-item>
-				</md-menu-content>
-			</md-menu>
-			<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
-				<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-					<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-				</md-button>
-				<md-menu-content width="4">
-					<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
-						<md-button ng-click="vm.type = type">
-							{{type}}
-						</md-button>
-					</md-menu-item>
-				</md-menu-content>
-			</md-menu>
 
 
 			<!--slider-->
@@ -38,31 +10,70 @@
 				{{slider.description}}: &emsp;
 				<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 50%"></rzslider>
 			</div>
+			<div layout-padding></div>
 
-			<button ng-click="vm.download()"> Download</button>			
-
-			<md-button ng-click="vm.changeVisualization(vm.type)" class="md-raised">Load visualization</md-button>
-
-            <!-- <o2r-side-by-side o2r-original-figure="{{vm.figures[]}}" o2r-modified-figure="{{vm.changedMap}}"></o2r-side-by-side> -->
+			<!-- <div layout="row">
+				<span flex></span> -->
+			<md-button ng-click="vm.changeVisualization(vm.type)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
+			<button ng-click="vm.download()"> Download</button>
+			<!-- </div> -->
+			<div layout-padding></div>
+			<md-divider></md-divider>
+			<div layout-padding></div>
+			<!-- Comparison type selection -->
+			<div layout="row">
+				<span flex></span>
+				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
+					<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+						<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+					</md-button>
+					<md-menu-content width="4">
+						<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
+							<md-button ng-click="vm.type = type">
+								{{type}}
+							</md-button>
+						</md-menu-item>
+					</md-menu-content>
+				</md-menu>
+				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
+					<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
+						<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
+					</md-button>
+					<md-menu-content width="4">
+						<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
+							<md-button ng-click="vm.type = type">
+								{{type}}
+							</md-button>
+						</md-menu-item>
+					</md-menu-content>
+				</md-menu>
+			</div>
+			<!-- <o2r-side-by-side o2r-original-figure="{{vm.figures[]}}" o2r-modified-figure="{{vm.changedMap}}"></o2r-side-by-side> -->
 
 			<!--timeseries items-->
-			<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.compareType == 'timeseries' && vm.type == 'Combined'"></o2r-timeseries>
-			<o2r-side-by-side ng-if="vm.compareType == 'timeseries' && vm.type == 'Side-by-side'" o2r-original-figure="{{vm.figures[vm.selectedTab]}}" o2r-modified-figure="{{vm.modifiedFigure}}"></o2r-side-by-side>
+			<div ng-if="vm.compareType == 'timeseries'">
+				<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.type == 'Combined'"></o2r-timeseries>
+				<o2r-side-by-side ng-if="vm.type == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]"
+				 o2r-modified-figure="vm.modifiedFigure"></o2r-side-by-side>
+			</div>
 
-      <!--map items to display-->
-      <!-- <o2r-side-by-side ng-if="vm.compareType == 'map' && vm.type == 'Side-by-side'"></o2r-side-by-side> -->
-      <peephole ng-if="vm.compareType == 'map' && vm.type == 'Peephole'"></peephole>
+			<!--map items to display-->
+			<div ng-if="vm.compareType == 'map'">
 
-      <div ng-if="vm.overlayImage == 'loaded'">
-          <md-button ng-if="vm.compareType == 'map' && vm.type == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">switch images</md-button>
-          <p ng-if="vm.compareType == 'map' && vm.type == 'Overlay'" >{{vm.overlayOnTop}}</p>
-          <slide-image-comparison info="vm.images" ng-if="vm.compareType == 'map' && vm.type == 'Overlay'"></slide-image-comparison>
-      </div>
+				<o2r-side-by-side ng-if="vm.type == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]" o2r-modified-figure="vm.modifiedFigure"></o2r-side-by-side>
+				<peephole ng-if="vm.type == 'Peephole'"></peephole>
+				<hans-approach ng-if="vm.type == 'Overlay'"></hans-approach>
+	
+				<div ng-if="vm.overlayImage == 'loaded'">
+					<md-button ng-if="vm.type == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">switch images</md-button>
+					<p ng-if="vm.type == 'Overlay'">{{vm.overlayOnTop}}</p>
+					<slide-image-comparison info="vm.images" ng-if="vm.type == 'Overlay'"></slide-image-comparison>
+				</div>
+			</div>
 
-    			<!-- <hans-approach ng-if="vm.compareType == 'map' && vm.type == 'Overlay'"></hans-approach> -->
 
-        </md-tab>
-    </md-tabs>
+		</md-tab>
+	</md-tabs>
 
 
 </div>

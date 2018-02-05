@@ -698,3 +698,7 @@ div.slide-comb .divider {
 /***********************
 	End hans-approach
 /***********************/
+
+.rz-pointer.rz-pointer-min{
+	background-color: rgb(0,66,134) !important;
+}

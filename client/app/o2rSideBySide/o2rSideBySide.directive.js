@@ -23,67 +23,10 @@
         return{
             restrict: 'E',
             scope: {
-                orig: '@o2rOriginalFigure',
-                modi: '@o2rModifiedFigure'
+                orig: '=o2rOriginalFigure',
+                modi: '=o2rModifiedFigure'
             },
-            templateUrl: 'app/o2rSideBySide/o2rSideBySide.template.html',
-            link: link
+            templateUrl: 'app/o2rSideBySide/o2rSideBySide.template.html'
         };
-
-        function link(scope, elements, attrs){
-            logger.info('orig', scope.orig);
-            logger.info('modi', scope.modi);
-            scope.original = angular.fromJson(scope.orig);
-            if(scope.original.type == 'timeseries') scope.modified = angular.fromJson(scope.modi);
-            else scope.modified = scope.modi;
-            logger.info('scope.modified', scope.modified);
-            scope.originalTime = [];
-            scope.originalTime.push(prepareTimeSeries(scope.original.original.values));
-            if(scope.original.type == 'timeseries'){
-                scope.modifiedTime = [];
-                scope.modifiedTime.push(prepareTimeSeries(scope.modified));
-            }
-
-            attrs.$observe('orig', function(value){
-                
-                scope.original = value;
-                logger.info('original', scope.original);
-                if(scope.original.type == 'timeseries'){
-                    scope.originalTime = [];
-                    scope.originalTime.push(prepareTimeSeries(scope.original.original.values));
-                }
-            });
-
-
-            attrs.$observe('modi', function(value){
-                scope.modified = value;
-                if(scope.original.type == 'timeseries'){
-                    scope.modifiedTime = [];
-                    scope.modifiedTime.push(prepareTimeSeries(value));
-                }
-            });
-
-            function prepareTimeSeries(arr){
-                var result = {};
-                // structure: result{
-                //     pointForecast: [],
-                //     lo80: []    
-                // }
-                for(var i in arr[0][0]){
-                    if(arr[0][0].hasOwnProperty(i)){
-                        result[i] = [];
-                    }
-                }
-                for(var i in arr[0]){
-                    for(var j in arr[0][i]){
-                        if(arr[0][i].hasOwnProperty(j)){
-                            result[j].push(arr[0][i][j]);
-                        }
-                    }
-                }
-                return result;
-
-            }
-        }
     }
 })();
