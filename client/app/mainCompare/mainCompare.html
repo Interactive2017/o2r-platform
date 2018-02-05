@@ -63,11 +63,11 @@
 				<peephole ng-if="vm.type == 'Peephole'"></peephole>
 				<hans-approach ng-if="vm.type == 'Overlay'"></hans-approach>
 	
-				<div ng-if="vm.overlayImage == 'loaded'">
+				<!-- <div ng-if="vm.overlayImage == 'loaded'"> -->
 					<md-button ng-if="vm.type == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">switch images</md-button>
 					<p ng-if="vm.type == 'Overlay'">{{vm.overlayOnTop}}</p>
 					<slide-image-comparison info="vm.images" ng-if="vm.type == 'Overlay'"></slide-image-comparison>
-				</div>
+				<!-- </div> -->
 			</div>
 
 
