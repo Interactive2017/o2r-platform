@@ -67,6 +67,15 @@ The environment parameters are as follows:
 - `SHIPPER_REPO_TOKENS` a JSON object, that holds the authentication tokens for shipping to remote repositories such as [Zenodo](https://zenodo.org/) (optional). Must have the form `{"zenodo": "$ZENODO_TOKEN", "zenodo_sandbox": "$ZENODO_SANDBOX_TOKEN", "download": "" }`. Replace `$ZENODO_TOKEN` etc. with your personal access token.
 - `SLACK_BOT_TOKEN` and `SLACK_VERIFICATION_TOKEN`, required for monitoring with Slack (optional)
 
+### Elasticsearch setting
+
+Elasticsearch uses a mmapfs directory by default to store its indices. The default operating system limits on mmap counts is likely to be too low, which may result in out of memory exceptions.
+
+You have to adjust your `vm.max_map_count to 262144`, so that elasticsearch can start.
+On linux you can do this with : sysctl -w vm.max_map_count=262144. (non-permanent)
+
+To set this value permanently, update the vm.max_map_count setting in /etc/sysctl.conf. To verify after rebooting, run sysctl vm.max_map_count.
+
 ### Linux
 
 ```bash
