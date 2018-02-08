@@ -22,30 +22,29 @@
 			<!-- Comparison type selection -->
 			<div layout="row">
 				<span flex></span>
-				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
-					<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-						<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-					</md-button>
-					<md-menu-content width="4">
-						<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
-							<md-button ng-click="vm.maptype = type">
-								{{type}}
-							</md-button>
-						</md-menu-item>
-					</md-menu-content>
-				</md-menu>
-				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
-					<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-						<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-					</md-button>
-					<md-menu-content width="4">
-						<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
-							<md-button ng-click="vm.timeseriestype = type">
-								{{type}}
-							</md-button>
-						</md-menu-item>
-					</md-menu-content>
-				</md-menu>
+				<div layout="row" ng-if="vm.compareType == 'map'">
+					<span flex>
+						<md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="vm.maptype == 'Side-by-side'" ng-click="vm.maptype = 'Side-by-side'">
+							<md-icon md-menu-origin md-svg-icon="{{icons.mapSideBySide}}"></md-icon>
+						</md-button>
+						<md-button aria-label="Overlay" class="md-fab md-mini md-raised" ng-disabled="vm.maptype == 'Overlay'" ng-click="vm.maptype = 'Overlay'">
+								<md-icon md-menu-origin md-svg-icon="{{icons.mapOverlaySlider}}"></md-icon>
+						</md-button>
+						<md-button aria-label="Peephole" class="md-fab md-mini md-raised" ng-disabled="vm.maptype == 'Peephole'" ng-click="vm.maptype = 'Peephole'">
+								<md-icon md-menu-origin md-svg-icon="{{icons.mapPeephole}}"></md-icon>
+						</md-button>
+					</span>
+				</div>
+				<div layout="row" ng-if="vm.compareType == 'timeseries'">
+					<span flex>
+						<md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="vm.timeseriestype == 'Side-by-side'" ng-click="vm.timeseriestype = 'Side-by-side'">
+							<md-icon md-menu-origin md-svg-icon="{{icons.timeseriesSideBySide}}"></md-icon>
+						</md-button>
+						<md-button aria-label="Combined" class="md-fab md-mini md-raised" ng-disabled="vm.timeseriestype == 'Combined'" ng-click="vm.timeseriestype = 'Combined'">
+								<md-icon md-menu-origin md-svg-icon="{{icons.timeseriesOverlay}}"></md-icon>
+						</md-button>
+					</span>
+				</div>
 			</div>
 			<!-- <o2r-side-by-side o2r-original-figure="{{vm.figures[]}}" o2r-modified-figure="{{vm.changedMap}}"></o2r-side-by-side> -->
 

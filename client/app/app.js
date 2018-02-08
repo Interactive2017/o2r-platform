@@ -322,7 +322,7 @@
             {name: 'timeseriesOverlay', category:'typeSelection', fn: 'timeseries_overlay'},
             {name: 'timeseriesSideBySide', category:'typeSelection', fn: 'timeseries_sideBySide'},            
             {name: 'mapSideBySide', category:'typeSelection', fn: 'map_sideBySide'},
-            {name: 'mapOverlaySlider', category:'typeSelection', fn: 'map_overlay_slider'},
+            {name: 'mapOverlaySlider', category:'typeSelection', fn: 'map_overlaySlider'},
             {name: 'mapPeephole', category:'typeSelection', fn: 'map_peephole'}
         ];
 
