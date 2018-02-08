@@ -43,53 +43,57 @@
         };
 
         
-        function link(scope, element, attrs){
+        function link(scope, element, attrs) {
 
-            scope.options = {showLink: false, displayLogo: false};
-                //check if there are two lines in the timeseries
-                if(scope.data.length > 1) {
+            scope.options = { showLink: false, displayLogo: false };
+            console.log(scope.data);
+            //check if there are two lines in the timeseries
+            if (scope.data.length > 1) {
+                scope.two = true;
+                scope.data[0].push({name: 'Original'});
+                scope.data[1].push({name: 'Modified'});
+                //calculat the statistics for the modified data
+                calcStats(1);
+            }
+            else {
+                scope.two = false;
+                //calculate the statistics for the original data
+                calcStats(0);
+            }
+
+            scope.$watch('data', function (newvalue, oldvalue) {
+                scope.data = newvalue;
+                if (scope.data.length > 1) {
+                    scope.data[0].name =  'Original';
+                    scope.data[1].name = 'Modified';
                     scope.two = true;
-                    //calculat the statistics for the modified data
                     calcStats(1);
                 }
                 else {
                     scope.two = false;
-                    //calculate the statistics for the original data
-                    calcStats(0);
                 }
+                calcStats(0);
+            });
+            //the original statistics are calculated every time
+            function calcStats(index) {
+                if (index == 0) {
 
-                scope.$watch('data', function(newvalue, oldvalue){
-                    scope.data = newvalue;
-                    if(scope.data.length > 1) {
-                        console.info('in observe true');
-                        scope.two = true;
-                        calcStats(1);
-                    }
-                    else {
-                        scope.two = false;
-                        calcStats(0);
-                    }
-                });
-                //the original statistics are calculated every time
-                function calcStats(index){
-                    if(index == 0) {
-
-                        scope.meanOriginal = mean(scope.data, index);
-                        scope.minOriginal = min(scope.data, index);
-                        scope.maxOriginal = max(scope.data, index);
-                        scope.sdOriginal = standardDeviation(scope.data, index);
-                        scope.varianceOriginal = variance(scope.data, index);
-                        scope.numOriginal = numberOfValues(scope.data, index);
-                    }
-                    else {
-                        scope.meanModified = mean(scope.data, index);
-                        scope.minModified = min(scope.data, index);
-                        scope.maxModified = max(scope.data, index);
-                        scope.sdModified = standardDeviation(scope.data, index);
-                        scope.varianceModified = variance(scope.data, index);
-                        scope.numModified = numberOfValues(scope.data, index);
-                    }
+                    scope.meanOriginal = mean(scope.data, index);
+                    scope.minOriginal = min(scope.data, index);
+                    scope.maxOriginal = max(scope.data, index);
+                    scope.sdOriginal = standardDeviation(scope.data, index);
+                    scope.varianceOriginal = variance(scope.data, index);
+                    scope.numOriginal = numberOfValues(scope.data, index);
                 }
+                else {
+                    scope.meanModified = mean(scope.data, index);
+                    scope.minModified = min(scope.data, index);
+                    scope.maxModified = max(scope.data, index);
+                    scope.sdModified = standardDeviation(scope.data, index);
+                    scope.varianceModified = variance(scope.data, index);
+                    scope.numModified = numberOfValues(scope.data, index);
+                }
+            }
         }
     
         //calculate the mean of a timeseries / do we need that for both or only the maipulated TS? Right now working for the manipulated only
