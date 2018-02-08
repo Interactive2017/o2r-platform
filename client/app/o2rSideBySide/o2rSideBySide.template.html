@@ -4,13 +4,13 @@
         <h3>Original</h3>
         <o2r-timeseries ng-if="orig.type == 'timeseries'" o2r-data="orig.original.values" flex></o2r-timeseries>
         <!-- <o2r-display-files ng-if="original.type == 'map'" o2r-file="{{original.original.image}}"></o2r-display-files> -->
-        <img ng-if="orig.type == 'map'" ng-src="{{orig.original.image}}" alt="image" flex>
+        <img ng-if="orig.type == 'map'" ng-src="{{orig.original.image}}" alt="image" style="max-width: 100%">
     </div>
     <!-- Right Side -->
     <div flex="50">
         <h3>Modified</h3>
         <o2r-timeseries ng-if="orig.type == 'timeseries'" o2r-data="modi" flex></o2r-timeseries>
         <!-- <o2r-display-files ng-if="original.type == 'map'" o2r-file="{{modifiedMap}}"></o2r-display-files>         -->
-        <img ng-if="orig.type == 'map'" ng-src="{{modi}}" alt="image" flex>
+        <img ng-if="orig.type == 'map'" ng-src="{{modi}}" alt="image" style="max-width: 100%">
     </div>
 </div>
