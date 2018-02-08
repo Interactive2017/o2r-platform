@@ -318,7 +318,12 @@
             {name: 'assignment', category: 'action', fn: 'assignment'},
             {name: 'compass', category: 'action', fn: 'explore'},
             {name: 'folder', category: 'file', fn: 'folder'},
-            {name: 'substitution_options', category: 'action', fn: 'swap_horiz_black'}
+            {name: 'substitution_options', category: 'action', fn: 'swap_horiz_black'},
+            {name: 'timeseriesOverlay', category:'typeSelection', fn: 'timeseries_overlay'},
+            {name: 'timeseriesSideBySide', category:'typeSelection', fn: 'timeseries_sideBySide'},            
+            {name: 'mapSideBySide', category:'typeSelection', fn: 'map_sideBySide'},
+            {name: 'mapOverlaySlider', category:'typeSelection', fn: 'map_overlay_slider'},
+            {name: 'mapPeephole', category:'typeSelection', fn: 'map_peephole'}
         ];
 
         for(var i in icons){
