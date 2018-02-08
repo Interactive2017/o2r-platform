@@ -72,7 +72,7 @@ The environment parameters are as follows:
 Elasticsearch uses a mmapfs directory by default to store its indices. The default operating system limits on mmap counts is likely to be too low, which may result in out of memory exceptions.
 
 You have to adjust your `vm.max_map_count to 262144`, so that elasticsearch can start.
-On linux you can do this with : sysctl -w vm.max_map_count=262144. (non-permanent)
+On linux you can do this with : `sysctl -w vm.max_map_count=262144`. (non-permanent)
 
 To set this value permanently, update the vm.max_map_count setting in /etc/sysctl.conf. To verify after rebooting, run sysctl vm.max_map_count.
 
