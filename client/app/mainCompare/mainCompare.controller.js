@@ -14,7 +14,7 @@
         vm.initialTab = 0;
         vm.selectedTab = 0;
         vm.figures = erc.metadata.o2r.interaction;
-
+        vm.ercId = erc.id;
 
     }
-})()
+})();

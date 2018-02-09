@@ -11,7 +11,8 @@
             restrict: 'E',
             templateUrl: 'app/o2rInteractiveFigure/o2rInteractiveFigure.template.html',
             scope: {
-                figure: '=o2rFigure'
+                figure: '=o2rFigure',
+                ercId: '@ercid'
             },
             link: link
         };
@@ -21,7 +22,7 @@
         function link(scope, element, attrs){
             var logger = $log.getInstance('o2rInteractiveFigure');
             logger.info('running directive');
-
+            var downloadData;
             scope.compareType = scope.figure.type;
             scope.initializeSlider = initializeSlider;
             scope.initializeSlider();
@@ -30,6 +31,7 @@
             scope.timeseriestype = 'Side-by-side';
             scope.changeMapType = changeMapType;
             scope.changeTsType = changeTsType;
+            scope.download = download;
             var first = true;
 
             scope.icons = icons;
@@ -123,6 +125,8 @@
                     }
                 }
 
+                downloadData = JSON.parse(params);
+
 
                 //call ocpu with slider params
                 httpRequests.ocpuCalculate(params, scope.figure.endpoint).then(function(linkList){
@@ -157,6 +161,10 @@
                             var img = new Image();
                             img.src = compareImage.config.url;    // compareImage.data
                             scope.modifiedFigure = img.src;
+                            scope.images = {
+                                image1: scope.figure.original.image,
+                                image2: scope.modifiedFigure
+                            };
                             img.onload = function() {
                                 var canvas, ctx, dataURL, base64;
                                 canvas = document.createElement("canvas");
@@ -220,27 +228,71 @@
 
             }
 
-            // Load figure when tab was changed
-            // scope.$watch('selectedTab', function(newVal, oldVal){  /** another tab/figure has been selected by the user */
-
-            //         logger.info("Changed Tab", newVal);
-            //         scope.selectedTab = newVal;
-
-            //         // set new comparison type
-            //         scope.compareType = compare.metadata.o2r.interaction[scope.selectedTab].type;
-            //         if (scope.compareType == 'timeseries') {
-            //             scope.modifiedFigure = scope.figures[scope.selectedTab].original.values;
-            //         } else {
-            //             scope.modifiedFigure = scope.figures[scope.selectedTab].original.image;
-            //         }
-
-            //         // build new sliders
-            //         scope.initializeSlider(scope.selectedTab);
-
-            //         //TODO draw new visualization?
-            //         //scope.changeVisualization();
-
-            // });
+            function download(){
+                if (downloadData == undefined) {
+                    var paramText = "no parameter changed\nboth images are the original image";
+                } else {
+                    var paramText = "";
+                    var downloadParams = downloadData;
+                    for (var k in downloadParams) {
+                        paramText += k + " : " + downloadParams[k] + " \n"; 
+                    }
+                }
+    
+                if(scope.compareType == "timeseries"){
+                    // Downlaod timeseries
+                    Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(0), {format: 'png', width: 800, height: 600})
+                    .then(function(dataUrl01) {
+                        Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(1), {format: 'png', width: 800, height: 600})
+                        .then(function(dataUrl02) {
+                            console.log(dataUrl01);
+                            console.log(dataUrl02);
+    
+                            //create zip containing a text file (parameter values) and images
+                            var zip = new JSZip();
+                            zip.file("parameters.txt", paramText);
+                            var img = zip.folder("images");
+    
+                            var base64_left = dataUrl01.replace(/^data:image\/(png|jpg);base64,/, "");
+                            var base64_right = dataUrl02.replace(/^data:image\/(png|jpg);base64,/, "");
+    
+                            img.file("original.png", base64_left, {base64: true});
+                            img.file("modified.png", base64_right, {base64: true});
+    
+                            // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                            zip.generateAsync({type:"blob"})
+                            .then(function(content) {
+                                var figureName = scope.figure.figure_id;
+                                // see FileSaver.js
+                                saveAs(content, scope.ercId+"_figure" + figureName + ".zip");
+                            });
+    
+                        })
+                    })
+                } else {
+                    // Download map
+                    var modifiedMap = scope.modifiedFigure;
+                    
+                    //create zip containing a text file (parameter values) and images
+                    var zip = new JSZip();
+                    zip.file("parameters.txt", paramText);
+                    var img = zip.folder("images");
+    
+                    var base64_original = scope.figure.original.image.replace(/^data:image\/(png|jpg);base64,/, "");
+                    var base64_manipulated = scope.modifiedFigure.replace(/^data:image\/(png|jpg);base64,/, "");
+                    
+                    img.file("original.png", base64_original, {base64: true});
+                    img.file("manipulated.png", base64_manipulated, {base64: true});
+    
+                    // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                    zip.generateAsync({type:"blob"})
+                    .then(function(content) {
+                        var figureName = scope.figure.figure_id;
+                        // see FileSaver.js
+                        saveAs(content, scope.ercId+"_figure" + figureName + ".zip");
+                    });
+                }
+            }
         }
     }
 })();
