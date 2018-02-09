@@ -13,6 +13,8 @@
             "starter.o2rSideBySide",
             "starter.o2rTimeseries",
             "starter.slideImageComparison",
+            "starter.o2rInteractiveFigure",
+            // "rasterSweep",
             "treeControl",
             "hljs",
             "ui.router",

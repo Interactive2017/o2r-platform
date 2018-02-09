@@ -3,73 +3,7 @@
 	<md-tabs md-selected="vm.selectedTab" md-dynamic-height md-border-bottom md-autoselect>
 		<md-tab ng-repeat="figure in vm.figures track by $index" label="Figure {{$index + 1}}">
 
-
-
-			<!--slider-->
-			<div ng-repeat="slider in vm.sliders" style="padding-top: 0.5em">
-				{{slider.description}}: &emsp;
-				<rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" style="width: 50%"></rzslider>
-			</div>
-			<div layout-padding></div>
-
-			<!-- <div layout="row">
-				<span flex></span> -->
-			<md-button ng-if="vm.compareType == 'map'" ng-click="vm.changeVisualization(vm.maptype)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
-			<md-button ng-if="vm.compareType == 'timeseries'" ng-click="vm.changeVisualization(vm.timeseriestype)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
-			<!-- </div> -->
-			<div layout-padding></div>
-			<md-divider></md-divider>
-			<div layout-padding></div>
-			<!-- Comparison type selection -->
-			<div layout="row">
-				<span flex></span>
-				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'map'">
-					<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-						<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-					</md-button>
-					<md-menu-content width="4">
-						<md-menu-item ng-repeat="type in mapCompareTypes track by $index">
-							<md-button ng-click="vm.maptype = type">
-								{{type}}
-							</md-button>
-						</md-menu-item>
-					</md-menu-content>
-				</md-menu>
-				<md-menu md-position-mode="target-right target" ng-if="vm.compareType == 'timeseries'">
-					<md-button aria-label="Codefiles Menu" class="md-icon-button inspect-menu-button" ng-click="$mdMenu.open($event)">
-						<md-icon md-menu-origin md-svg-icon="{{icons.menu}}"></md-icon>
-					</md-button>
-					<md-menu-content width="4">
-						<md-menu-item ng-repeat="type in tsCompareTypes track by $index">
-							<md-button ng-click="vm.timeseriestype = type">
-								{{type}}
-							</md-button>
-						</md-menu-item>
-					</md-menu-content>
-				</md-menu>
-			</div>
-			<!-- <o2r-side-by-side o2r-original-figure="{{vm.figures[]}}" o2r-modified-figure="{{vm.changedMap}}"></o2r-side-by-side> -->
-
-			<!--timeseries items-->
-			<div ng-if="vm.compareType == 'timeseries'">
-				<o2r-timeseries o2r-data="vm.combinedTimeseriesData" o2r-layout="vm.layout" ng-if="vm.timeseriestype == 'Combined'"></o2r-timeseries>
-				<o2r-side-by-side ng-if="vm.timeseriestype == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]"
-				 o2r-modified-figure="vm.modifiedFigure"></o2r-side-by-side>
-			</div>
-
-			<!--map items to display-->
-			<div ng-if="vm.compareType == 'map'">
-
-				<o2r-side-by-side ng-if="vm.maptype == 'Side-by-side'" o2r-original-figure="vm.figures[vm.selectedTab]" o2r-modified-figure="vm.modifiedFigure"></o2r-side-by-side>
-				<peephole ng-if="vm.maptype == 'Peephole'"></peephole>
-				<hans-approach ng-if="vm.maptype == 'Overlay'"></hans-approach>
-	
-				<div ng-if="vm.overlayImage == 'loaded'">
-					<md-button ng-if="vm.maptype == 'Overlay'" ng-click="vm.switchImages()" class="md-raised">switch images</md-button>
-					<p ng-if="vm.maptype == 'Overlay'">{{vm.overlayOnTop}}</p>
-					<slide-image-comparison info="vm.images" ng-if="vm.maptype == 'Overlay'"></slide-image-comparison>
-				</div>
-			</div>
+			<o2r-interactive-figure o2r-figure="figure"></o2r-interactive-figure>
 
 
 		</md-tab>
