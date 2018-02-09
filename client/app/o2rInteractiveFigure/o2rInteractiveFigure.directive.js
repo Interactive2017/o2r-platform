@@ -26,6 +26,7 @@
             scope.compareType = scope.figure.type;
             scope.initializeSlider = initializeSlider;
             scope.initializeSlider();
+            scope.modifiedFigure = scope.figure.modifiedFigure;
 
             scope.maptype = 'Side-by-side';
             scope.timeseriestype = 'Side-by-side';
@@ -36,7 +37,9 @@
 
             scope.icons = icons;
             // prepare all timeseries values to fit to required structure
-            if(scope.figure.type == 'timeseries') {
+            if(scope.figure.type == 'timeseries' 
+            && Array.isArray(scope.figure.original.values[0])) {
+                logger.info('parseTimeSeries');
                 scope.figure.original.values = [parseTimeseriesJson(scope.figure.original.values)];
             }
             scope.combinedTimeseriesData = scope.figure.original.values;
@@ -141,7 +144,8 @@
                     if(activeCompareType == 'timeseries') {
                         httpRequests.ocpuResultsVal(ocpuID).then(function(compareValues){
                             //call the timeseries directive with the parameters from the response
-                            scope.modifiedFigure =  [parseTimeseriesJson(compareValues.data)]; //hand this over to the directive
+                            scope.figure.modifiedFigure =  [parseTimeseriesJson(compareValues.data)]; //hand this over to the directive
+                            scope.modifiedFigure = scope.figure.modifiedFigure;
                             var originalValues = scope.figure.original.values;
                             //set the title of the plot to combined Plot
                             scope.layout = {
@@ -160,7 +164,8 @@
                             //do something with the image
                             var img = new Image();
                             img.src = compareImage.config.url;    // compareImage.data
-                            scope.modifiedFigure = img.src;
+                            scope.figure.modifiedFigure = img.src;
+                            scope.modifiedFigure = scope.figure.modifiedFigure;
                             scope.images = {
                                 image1: scope.figure.original.image,
                                 image2: scope.modifiedFigure
