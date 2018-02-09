@@ -243,54 +243,65 @@
                     // Downlaod timeseries
                     Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(0), {format: 'png', width: 800, height: 600})
                     .then(function(dataUrl01) {
-                        Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(1), {format: 'png', width: 800, height: 600})
-                        .then(function(dataUrl02) {
-                            console.log(dataUrl01);
-                            console.log(dataUrl02);
-    
-                            //create zip containing a text file (parameter values) and images
-                            var zip = new JSZip();
-                            zip.file("parameters.txt", paramText);
-                            var img = zip.folder("images");
-    
-                            var base64_left = dataUrl01.replace(/^data:image\/(png|jpg);base64,/, "");
-                            var base64_right = dataUrl02.replace(/^data:image\/(png|jpg);base64,/, "");
-    
-                            img.file("original.png", base64_left, {base64: true});
-                            img.file("modified.png", base64_right, {base64: true});
-    
-                            // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
-                            zip.generateAsync({type:"blob"})
-                            .then(function(content) {
-                                var figureName = scope.figure.figure_id;
-                                // see FileSaver.js
-                                saveAs(content, scope.ercId+"_figure" + figureName + ".zip");
+                        var zip = new JSZip();
+                        zip.file("parameters.txt", paramText);
+                        var img = zip.folder("images");
+                        var base64_original = dataUrl01.replace(/^data:image\/(png|jpg);base64,/, "");
+                        img.file("original.png", base64_original, {base64: true});
+                        // if parameter was changed add modified figure to zip file
+                        if(angular.isDefined(scope.modifiedFigure)){
+                            Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(1), {format: 'png', width: 800, height: 600})
+                            .then(function(dataUrl02) {
+                                
+                                var base64_modified = dataUrl02.replace(/^data:image\/(png|jpg);base64,/, "");
+                                img.file("modified.png", base64_modified, {base64: true});
+                                
+                                zip.generateAsync({type:"blob"})
+                                .then(function(content) {
+                                    var figureName = scope.figure.figure_id;
+                                    // see FileSaver.js
+                                    saveAs(content, scope.ercId+"_" + figureName + "_figure.zip");
+                                });
                             });
-    
-                        })
+                        } else {
+                            zip.generateAsync({type:"blob"})
+                                .then(function(content) {
+                                    var figureName = scope.figure.figure_id;
+                                    // see FileSaver.js
+                                    saveAs(content, scope.ercId+"_" + figureName + "_figure.zip");
+                                });
+                        }
+                        // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
                     })
                 } else {
-                    // Download map
-                    var modifiedMap = scope.modifiedFigure;
-                    
                     //create zip containing a text file (parameter values) and images
                     var zip = new JSZip();
                     zip.file("parameters.txt", paramText);
                     var img = zip.folder("images");
     
                     var base64_original = scope.figure.original.image.replace(/^data:image\/(png|jpg);base64,/, "");
-                    var base64_manipulated = scope.modifiedFigure.replace(/^data:image\/(png|jpg);base64,/, "");
-                    
                     img.file("original.png", base64_original, {base64: true});
-                    img.file("manipulated.png", base64_manipulated, {base64: true});
+                    // if a parameter was changed, add the modified map to zip file
+                    if(scope.modifiedFigure){
+                        var base64_manipulated = scope.modifiedFigure.replace(/^data:image\/(png|jpg);base64,/, "");
+                        img.file("manipulated.png", base64_manipulated, {base64: true});
+                        zip.generateAsync({type:"blob"})
+                        .then(function(content) {
+                            var figureName = scope.figure.figure_id;
+                            // see FileSaver.js
+                            saveAs(content, scope.ercId+"_" + figureName + "_figure.zip");
+                        });
+                    } else {
+                        // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                        zip.generateAsync({type:"blob"})
+                        .then(function(content) {
+                            var figureName = scope.figure.figure_id;
+                            // see FileSaver.js
+                            saveAs(content, scope.ercId+"_" + figureName + "_figure.zip");
+                        });
+                    }
+                    
     
-                    // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
-                    zip.generateAsync({type:"blob"})
-                    .then(function(content) {
-                        var figureName = scope.figure.figure_id;
-                        // see FileSaver.js
-                        saveAs(content, scope.ercId+"_figure" + figureName + ".zip");
-                    });
                 }
             }
         }
