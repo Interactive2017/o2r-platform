@@ -127,7 +127,7 @@
                 //call ocpu with slider params
                 httpRequests.ocpuCalculate(params, scope.figure.endpoint).then(function(linkList){
                     //some regex with the response link list
-                    logger.info(linkList.data);
+                    // logger.info(linkList.data);
                     var body = linkList.data;
 
                     var splitBody = body.split('/');
@@ -167,7 +167,7 @@
                                 dataURL = canvas.toDataURL("image/png");
                                 scope.modifiedFigure = dataURL;
 
-                                logger.info(compareImage);
+                                // logger.info(compareImage);
                                 if(type == 'Side-by-side') {
                                     //call the side by side directive with the image
                                     var originalImage = scope.figure.original.image; //this is just the path to ocpu
@@ -183,10 +183,10 @@
                                             image2: overlayImage
                                     }
 
-                                    console.log(scope.overlayImage);
+                                    // console.log(scope.overlayImage);
 
                                     scope.overlayImage = 'loaded';
-                                    console.log(scope.overlayImage);
+                                    // console.log(scope.overlayImage);
                                 }
                                 else {
                                     //Peephole image stuff
