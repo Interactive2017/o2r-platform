@@ -20,13 +20,13 @@
 
     <div layout="row" ng-if="compareType == 'map'">
         <span flex>
-            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Side-by-side'" ng-click="maptype = 'Side-by-side'">
+            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Side-by-side'" ng-click="changeMapType('Side-by-side')">
                 <md-icon md-menu-origin md-svg-icon="{{icons.mapSideBySide}}"></md-icon>
             </md-button>
-            <md-button aria-label="Overlay" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Overlay'" ng-click="maptype = 'Overlay'">
+            <md-button aria-label="Overlay" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Overlay'" ng-click="changeMapType('Overlay')">
                     <md-icon md-menu-origin md-svg-icon="{{icons.mapOverlaySlider}}"></md-icon>
             </md-button>
-            <md-button aria-label="Peephole" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Peephole'" ng-click="maptype = 'Peephole'">
+            <md-button aria-label="Peephole" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Peephole'" ng-click="changeMapType('Peephole')">
                     <md-icon md-menu-origin md-svg-icon="{{icons.mapPeephole}}"></md-icon>
             </md-button>
         </span>
@@ -59,15 +59,14 @@
     <!-- ng-class="{'rs-parent-height': maptype == 'Peephole'}" -->
     <o2r-side-by-side ng-if="maptype == 'Side-by-side'" o2r-original-figure="figure" o2r-modified-figure="modifiedFigure"></o2r-side-by-side>
     <!-- <raster-sweep ng-if="maptype == 'Peephole'" rs-base="{{figure.original.image}}" rs-overlay="{{modifiedFigure}}"></raster-sweep> -->
-    <hans-approach ng-if="maptype == 'Overlay'"></hans-approach>
+    <!-- <hans-approach ng-if="maptype == 'Overlay'"></hans-approach> -->
 
-    <div ng-if="maptype == 'Overlay'">
-        <md-button ng-click="switchImages()" class="md-raised">switch images</md-button>
-        <p>{{overlayOnTop}}</p>
-        <slide-image-comparison info="images"></slide-image-comparison>
-    </div>
+    <md-button ng-if="maptype == 'Overlay'" ng-click="switchImages()" class="md-raised">switch images</md-button>
+    <p ng-if="maptype == 'Overlay'">{{overlayOnTop}}</p>
+    <slide-image-comparison ng-if="maptype == 'Overlay'" info="images"></slide-image-comparison>
 
 </div>
 <div ng-if="compareType == 'map' && !modifiedFigure">
-    <img ng-src="{{figure.original.image}}" alt="image" width="100%">
+    <!-- <img ng-src="{{figure.original.image}}" alt="image" width="100%"> -->
+    <slide-image-comparison info="images"></slide-image-comparison>
 </div>
