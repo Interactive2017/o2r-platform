@@ -20,23 +20,23 @@
 
     <div layout="row" ng-if="compareType == 'map'">
         <span flex>
-            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Side-by-side'" ng-click="maptype = 'Side-by-side'">
+            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Side-by-side'" ng-click="changeMapType('Side-by-side')">
                 <md-icon md-menu-origin md-svg-icon="{{icons.mapSideBySide}}"></md-icon>
             </md-button>
-            <md-button aria-label="Overlay" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Overlay'" ng-click="maptype = 'Overlay'">
+            <md-button aria-label="Overlay" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Overlay'" ng-click="changeMapType('Overlay')">
                     <md-icon md-menu-origin md-svg-icon="{{icons.mapOverlaySlider}}"></md-icon>
             </md-button>
-            <md-button aria-label="Peephole" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Peephole'" ng-click="maptype = 'Peephole'">
+            <md-button aria-label="Peephole" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Peephole'" ng-click="changeMapType('Peephole')">
                     <md-icon md-menu-origin md-svg-icon="{{icons.mapPeephole}}"></md-icon>
             </md-button>
         </span>
     </div>
     <div layout="row" ng-if="compareType == 'timeseries'">
         <span flex>
-            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="timeseriestype == 'Side-by-side'" ng-click="timeseriestype = 'Side-by-side'">
+            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="timeseriestype == 'Side-by-side'" ng-click="changeTsType('Side-by-side')">
                 <md-icon md-menu-origin md-svg-icon="{{icons.timeseriesSideBySide}}"></md-icon>
             </md-button>
-            <md-button aria-label="Combined" class="md-fab md-mini md-raised" ng-disabled="timeseriestype == 'Combined'" ng-click="timeseriestype = 'Combined'">
+            <md-button aria-label="Combined" class="md-fab md-mini md-raised" ng-disabled="timeseriestype == 'Combined'" ng-click="changeTsType('Combined')">
                     <md-icon md-menu-origin md-svg-icon="{{icons.timeseriesOverlay}}"></md-icon>
             </md-button>
         </span>
