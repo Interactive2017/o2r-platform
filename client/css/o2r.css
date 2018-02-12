@@ -684,13 +684,22 @@ div.slide-comb .divider {
 	top: 0;
 	bottom: 0;
 	width: 4px;
-	margin-left: -2px;
 	background: rgba(0,0,0,.5);
 }
+div.slide-comb .divider .divider-drag {
+	position: absolute;
+	left: calc(50% - 12px);
+	top: calc(50% - 7.5%);
+	bottom: 0;
+	width: 24px;
+	height: 15%;
+	background: rgba(0,0,0,.3);
+}
 
-/*div.slide-comb .divider:hover{
+div.slide-comb .divider:hover{
 	cursor: pointer;
-}*/
+}
+
 @media (max-width: 767px) {
 	div.slide-comb {
 		width: 300px;

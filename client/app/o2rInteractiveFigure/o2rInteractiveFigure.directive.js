@@ -35,6 +35,11 @@
             scope.download = download;
             var first = true;
 
+            scope.images = {
+                image1: scope.figure.original.image,
+                image2: scope.figure.original.image
+            }
+
             scope.icons = icons;
             // prepare all timeseries values to fit to required structure
             if(scope.figure.type == 'timeseries' 
@@ -93,23 +98,22 @@
                 scope.maptype = type;
             }
 
-            scope.overlayOnTop = "overlay on top";
+            scope.overlayOnTop = "overlay left";
             scope.switchImages = function() {
                 scope.images = {
                     image1: scope.images.image2,
                     image2: scope.images.image1
                 };
-                if (scope.overlayOnTop == "original on top") {
-                    scope.overlayOnTop = "overlay on top";
+                if (scope.overlayOnTop == "original left") {
+                    scope.overlayOnTop = "overlay left";
                 } else {
-                    scope.overlayOnTop = "original on top";
+                    scope.overlayOnTop = "original left";
                 }
             }
 
             // function to show comparison visulization
             scope.changeVisualization = function(type){
                 logger.info("Change visualization");
-                scope.overlayImage = 'unloaded';
                 // get visualization type
                 var activeCompareType = scope.compareType;
 
@@ -163,7 +167,6 @@
                     //if the type is "map" then the image is requested
                     else {
                         httpRequests.ocpuImages(ocpuID).then(function(compareImage){
-                            //do something with the image
                             var img = new Image();
                             img.src = compareImage.config.url;    // compareImage.data
                             scope.figure.modifiedFigure = img.src;
@@ -172,41 +175,6 @@
                                 image1: scope.figure.original.image,
                                 image2: scope.modifiedFigure
                             };
-                            img.onload = function() {
-                                var canvas, ctx, dataURL, base64;
-                                canvas = document.createElement("canvas");
-                                ctx = canvas.getContext("2d");
-                                canvas.width = img.width;
-                                canvas.height = img.height;
-                                ctx.drawImage(img, 0, 0);
-                                dataURL = canvas.toDataURL("image/png");
-                                scope.modifiedFigure = dataURL;
-
-                                // logger.info(compareImage);
-                                if(type == 'Side-by-side') {
-                                    //call the side by side directive with the image
-                                    var originalImage = scope.figure.original.image; //this is just the path to ocpu
-
-                                }
-                                else if(type == 'Overlay') {
-                                    //call the Hans apporach with the image
-                                    var originalImage = scope.figure.original.image // original image for comparison // "data:image/png;base64, " +
-                                    var overlayImage = scope.modifiedFigure // overlay image for comparison
-
-                                    scope.images = {
-                                            image1: originalImage,
-                                            image2: overlayImage
-                                    }
-
-                                    // console.log(scope.overlayImage);
-
-                                    scope.overlayImage = 'loaded';
-                                    // console.log(scope.overlayImage);
-                                }
-                                else {
-                                    //Peephole image stuff
-                                }
-                            }
                         })
                     }
 
