@@ -7,6 +7,10 @@
 
 <!-- <div layout="row">
     <span flex></span> -->
+<div style="position: absolute; display: flex; justify-content: center; align-content: center; width: 100%; height: 100%; top: 300; left: 0" ng-if="loading">
+    <md-progress-circular style="margin: auto; width: 100%; height: 100%; z-index: 100" md-mode="indeterminate"></md-progress-circular>
+    <div style="position: absolute; top:300; left: 0; width: 100%; height: 100%; background-color: grey; z-index: 99; opacity: .5"></div>
+</div>
 <md-button ng-if="compareType == 'map'" ng-click="changeVisualization(maptype)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
 <md-button ng-if="compareType == 'timeseries'" ng-click="changeVisualization(timeseriestype)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
 <md-button ng-click="download()" class="md-raised md-primary white-font">Download</md-button>
@@ -15,28 +19,28 @@
 <md-divider></md-divider>
 <div layout-padding></div>
 <!-- Comparison type selection -->
-<div layout="row">
+<div ng-show="modifiedFigure" layout="row">
     <span flex></span>
 
     <div layout="row" ng-if="compareType == 'map'">
         <span flex>
-            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Side-by-side'" ng-click="maptype = 'Side-by-side'">
+            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Side-by-side'" ng-click="changeMapType('Side-by-side')">
                 <md-icon md-menu-origin md-svg-icon="{{icons.mapSideBySide}}"></md-icon>
             </md-button>
-            <md-button aria-label="Overlay" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Overlay'" ng-click="maptype = 'Overlay'">
+            <md-button aria-label="Overlay" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Overlay'" ng-click="changeMapType('Overlay')">
                     <md-icon md-menu-origin md-svg-icon="{{icons.mapOverlaySlider}}"></md-icon>
             </md-button>
-            <md-button aria-label="Peephole" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Peephole'" ng-click="maptype = 'Peephole'">
+            <md-button aria-label="Peephole" class="md-fab md-mini md-raised" ng-disabled="maptype == 'Peephole'" ng-click="changeMapType('Peephole')">
                     <md-icon md-menu-origin md-svg-icon="{{icons.mapPeephole}}"></md-icon>
             </md-button>
         </span>
     </div>
     <div layout="row" ng-if="compareType == 'timeseries'">
         <span flex>
-            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="timeseriestype == 'Side-by-side'" ng-click="timeseriestype = 'Side-by-side'">
+            <md-button aria-label="Side-by-side" class="md-fab md-mini md-raised" ng-disabled="timeseriestype == 'Side-by-side'" ng-click="changeTsType('Side-by-side')">
                 <md-icon md-menu-origin md-svg-icon="{{icons.timeseriesSideBySide}}"></md-icon>
             </md-button>
-            <md-button aria-label="Combined" class="md-fab md-mini md-raised" ng-disabled="timeseriestype == 'Combined'" ng-click="timeseriestype = 'Combined'">
+            <md-button aria-label="Combined" class="md-fab md-mini md-raised" ng-disabled="timeseriestype == 'Combined'" ng-click="changeTsType('Combined')">
                     <md-icon md-menu-origin md-svg-icon="{{icons.timeseriesOverlay}}"></md-icon>
             </md-button>
         </span>
@@ -48,7 +52,8 @@
 <div ng-if="compareType == 'timeseries' && modifiedFigure">
     <o2r-timeseries o2r-data="combinedTimeseriesData" o2r-layout="layout" ng-if="timeseriestype == 'Combined'"></o2r-timeseries>
     <o2r-side-by-side ng-if="timeseriestype == 'Side-by-side'" o2r-original-figure="figure"
-        o2r-modified-figure="modifiedFigure"></o2r-side-by-side>
+        o2r-modified-figure="modifiedFigure"
+        plotly-Layout="layout"></o2r-side-by-side>
 </div>
 <div ng-if="compareType == 'timeseries' && !modifiedFigure">
     <o2r-timeseries o2r-data="combinedTimeseriesData" o2r-layout="layout"></o2r-timeseries>
@@ -59,13 +64,11 @@
     <!-- ng-class="{'rs-parent-height': maptype == 'Peephole'}" -->
     <o2r-side-by-side ng-if="maptype == 'Side-by-side'" o2r-original-figure="figure" o2r-modified-figure="modifiedFigure"></o2r-side-by-side>
     <!-- <raster-sweep ng-if="maptype == 'Peephole'" rs-base="{{figure.original.image}}" rs-overlay="{{modifiedFigure}}"></raster-sweep> -->
-    <hans-approach ng-if="maptype == 'Overlay'"></hans-approach>
+    <!-- <hans-approach ng-if="maptype == 'Overlay'"></hans-approach> -->
 
-    <div ng-if="maptype == 'Overlay'">
-        <md-button ng-click="switchImages()" class="md-raised">switch images</md-button>
-        <p>{{overlayOnTop}}</p>
-        <slide-image-comparison info="images"></slide-image-comparison>
-    </div>
+    <md-button ng-if="maptype == 'Overlay'" ng-click="switchImages()" class="md-raised">switch images</md-button>
+    <p ng-if="maptype == 'Overlay'">{{overlayOnTop}}</p>
+    <slide-image-comparison ng-if="maptype == 'Overlay'" info="images"></slide-image-comparison>
 
 </div>
 <div ng-if="compareType == 'map' && !modifiedFigure">

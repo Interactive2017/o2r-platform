@@ -24,7 +24,8 @@
             restrict: 'E',
             scope: {
                 orig: '=o2rOriginalFigure',
-                modi: '=o2rModifiedFigure'
+                modi: '=o2rModifiedFigure',
+                layout: '=plotlyLayout'
             },
             templateUrl: 'app/o2rSideBySide/o2rSideBySide.template.html'
         };

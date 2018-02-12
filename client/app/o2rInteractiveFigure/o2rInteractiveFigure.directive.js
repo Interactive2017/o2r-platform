@@ -26,6 +26,7 @@
             scope.compareType = scope.figure.type;
             scope.initializeSlider = initializeSlider;
             scope.initializeSlider();
+            scope.modifiedFigure = scope.figure.modifiedFigure;
 
             scope.maptype = 'Side-by-side';
             scope.timeseriestype = 'Side-by-side';
@@ -33,17 +34,23 @@
             scope.changeTsType = changeTsType;
             scope.download = download;
             var first = true;
+            //define variable for the loading animation
+            scope.loading = false;
 
             scope.icons = icons;
             // prepare all timeseries values to fit to required structure
-            if(scope.figure.type == 'timeseries') {
+            if(scope.figure.type == 'timeseries' 
+            && Array.isArray(scope.figure.original.values[0])) {
+                logger.info('parseTimeSeries');
                 scope.figure.original.values = [parseTimeseriesJson(scope.figure.original.values)];
             }
             scope.combinedTimeseriesData = scope.figure.original.values;
             scope.layout = {
-                title: "Combined plot",
                 xaxis: {
-                    rangeslider:{}
+                    title: scope.figure.x_axis_label
+                },
+                yaxis: {
+                    title: scope.figure.y_axis_label
                 }
             };
 
@@ -88,25 +95,27 @@
                 scope.maptype = type;
             }
 
-            scope.overlayOnTop = "overlay on top";
+            scope.overlayOnTop = "overlay left";
             scope.switchImages = function() {
                 scope.images = {
                     image1: scope.images.image2,
                     image2: scope.images.image1
                 };
-                if (scope.overlayOnTop == "original on top") {
-                    scope.overlayOnTop = "overlay on top";
+                if (scope.overlayOnTop == "original left") {
+                    scope.overlayOnTop = "overlay left";
                 } else {
-                    scope.overlayOnTop = "original on top";
+                    scope.overlayOnTop = "original left";
                 }
             }
 
             // function to show comparison visulization
             scope.changeVisualization = function(type){
                 logger.info("Change visualization");
-                scope.overlayImage = 'unloaded';
                 // get visualization type
                 var activeCompareType = scope.compareType;
+
+                //set the variable for the loading animation
+                scope.loading = true;
 
                 var params = '{';
 
@@ -141,65 +150,35 @@
                     if(activeCompareType == 'timeseries') {
                         httpRequests.ocpuResultsVal(ocpuID).then(function(compareValues){
                             //call the timeseries directive with the parameters from the response
-                            scope.modifiedFigure =  [parseTimeseriesJson(compareValues.data)]; //hand this over to the directive
+                            scope.figure.modifiedFigure =  [parseTimeseriesJson(compareValues.data)]; //hand this over to the directive
+                            scope.modifiedFigure = scope.figure.modifiedFigure;
                             var originalValues = scope.figure.original.values;
                             //set the title of the plot to combined Plot
-                            scope.layout = {
-                                title: "Combined plot",
-                                xaxis: {rangeslider:{}}
-                            };
+                            // scope.layout = {
+                            //     title: "Combined plot",
+                            //     xaxis: {rangeslider:{}}
+                            // };
                             //pass the timeseries itmes into a structure that plotly can handle
                             var visualization = [originalValues[0], scope.modifiedFigure[0]];
                             //call the timeseries directive with the original and new values
                             scope.combinedTimeseriesData = visualization;
+                            //stop loading animation                            
+                            scope.loading = false;
                         })
                     }
                     //if the type is "map" then the image is requested
                     else {
                         httpRequests.ocpuImages(ocpuID).then(function(compareImage){
-                            //do something with the image
                             var img = new Image();
                             img.src = compareImage.config.url;    // compareImage.data
-                            scope.modifiedFigure = img.src;
+                            scope.figure.modifiedFigure = img.src;
+                            scope.modifiedFigure = scope.figure.modifiedFigure;
                             scope.images = {
                                 image1: scope.figure.original.image,
                                 image2: scope.modifiedFigure
                             };
-                            img.onload = function() {
-                                var canvas, ctx, dataURL, base64;
-                                canvas = document.createElement("canvas");
-                                ctx = canvas.getContext("2d");
-                                canvas.width = img.width;
-                                canvas.height = img.height;
-                                ctx.drawImage(img, 0, 0);
-                                dataURL = canvas.toDataURL("image/png");
-                                scope.modifiedFigure = dataURL;
-
-                                // logger.info(compareImage);
-                                if(type == 'Side-by-side') {
-                                    //call the side by side directive with the image
-                                    var originalImage = scope.figure.original.image; //this is just the path to ocpu
-
-                                }
-                                else if(type == 'Overlay') {
-                                    //call the Hans apporach with the image
-                                    var originalImage = scope.figure.original.image // original image for comparison // "data:image/png;base64, " +
-                                    var overlayImage = scope.modifiedFigure // overlay image for comparison
-
-                                    scope.images = {
-                                            image1: originalImage,
-                                            image2: overlayImage
-                                    }
-
-                                    // console.log(scope.overlayImage);
-
-                                    scope.overlayImage = 'loaded';
-                                    // console.log(scope.overlayImage);
-                                }
-                                else {
-                                    //Peephole image stuff
-                                }
-                            }
+                            //stop loading animation
+                            scope.loading = false;                            
                         })
                     }
 
@@ -229,13 +208,25 @@
             }
 
             function download(){
+                var paramText = "";
+                paramText += "figure data:";
+
+                for (var slider in scope.sliders) {
+                    paramText += " \n \nparameter : " + scope.sliders[slider].param_name;
+                    paramText += " \n \noriginal value:" + scope.sliders[slider].default_value;
+                    paramText += " \ndescription : " + scope.sliders[slider].description;
+                    paramText += " \nminimum value : " + scope.sliders[slider].min_value;
+                    paramText += " \nmaximum value : " + scope.sliders[slider].max_value;
+                    paramText += " \nstep size : " + scope.sliders[slider].steps_size;
+                }
+
                 if (downloadData == undefined) {
-                    var paramText = "no parameter changed\nboth images are the original image";
+                    paramText += " \n \nno modified figure calculated";
                 } else {
-                    var paramText = "";
+                    paramText += " \nmodified value:";
                     var downloadParams = downloadData;
                     for (var k in downloadParams) {
-                        paramText += k + " : " + downloadParams[k] + " \n"; 
+                        paramText += " \n" + k + " : " + downloadParams[k]; 
                     }
                 }
     
@@ -243,54 +234,65 @@
                     // Downlaod timeseries
                     Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(0), {format: 'png', width: 800, height: 600})
                     .then(function(dataUrl01) {
-                        Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(1), {format: 'png', width: 800, height: 600})
-                        .then(function(dataUrl02) {
-                            console.log(dataUrl01);
-                            console.log(dataUrl02);
-    
-                            //create zip containing a text file (parameter values) and images
-                            var zip = new JSZip();
-                            zip.file("parameters.txt", paramText);
-                            var img = zip.folder("images");
-    
-                            var base64_left = dataUrl01.replace(/^data:image\/(png|jpg);base64,/, "");
-                            var base64_right = dataUrl02.replace(/^data:image\/(png|jpg);base64,/, "");
-    
-                            img.file("original.png", base64_left, {base64: true});
-                            img.file("modified.png", base64_right, {base64: true});
-    
-                            // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
-                            zip.generateAsync({type:"blob"})
-                            .then(function(content) {
-                                var figureName = scope.figure.figure_id;
-                                // see FileSaver.js
-                                saveAs(content, scope.ercId+"_figure" + figureName + ".zip");
+                        var zip = new JSZip();
+                        zip.file("parameters.txt", paramText);
+                        var img = zip.folder("images");
+                        var base64_original = dataUrl01.replace(/^data:image\/(png|jpg);base64,/, "");
+                        img.file("original.png", base64_original, {base64: true});
+                        // if parameter was changed add modified figure to zip file
+                        if(angular.isDefined(scope.modifiedFigure)){
+                            Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(1), {format: 'png', width: 800, height: 600})
+                            .then(function(dataUrl02) {
+                                
+                                var base64_modified = dataUrl02.replace(/^data:image\/(png|jpg);base64,/, "");
+                                img.file("modified.png", base64_modified, {base64: true});
+                                
+                                zip.generateAsync({type:"blob"})
+                                .then(function(content) {
+                                    var figureName = scope.figure.figure_id;
+                                    // see FileSaver.js
+                                    saveAs(content, scope.ercId+"_" + figureName + "_figure.zip");
+                                });
                             });
-    
-                        })
+                        } else {
+                            zip.generateAsync({type:"blob"})
+                                .then(function(content) {
+                                    var figureName = scope.figure.figure_id;
+                                    // see FileSaver.js
+                                    saveAs(content, scope.ercId+"_" + figureName + "_figure.zip");
+                                });
+                        }
+                        // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
                     })
                 } else {
-                    // Download map
-                    var modifiedMap = scope.modifiedFigure;
-                    
                     //create zip containing a text file (parameter values) and images
                     var zip = new JSZip();
                     zip.file("parameters.txt", paramText);
                     var img = zip.folder("images");
     
                     var base64_original = scope.figure.original.image.replace(/^data:image\/(png|jpg);base64,/, "");
-                    var base64_manipulated = scope.modifiedFigure.replace(/^data:image\/(png|jpg);base64,/, "");
-                    
                     img.file("original.png", base64_original, {base64: true});
-                    img.file("manipulated.png", base64_manipulated, {base64: true});
+                    // if a parameter was changed, add the modified map to zip file
+                    if(scope.modifiedFigure){
+                        var base64_manipulated = scope.modifiedFigure.replace(/^data:image\/(png|jpg);base64,/, "");
+                        img.file("manipulated.png", base64_manipulated, {base64: true});
+                        zip.generateAsync({type:"blob"})
+                        .then(function(content) {
+                            var figureName = scope.figure.figure_id;
+                            // see FileSaver.js
+                            saveAs(content, scope.ercId+"_" + figureName + "_figure.zip");
+                        });
+                    } else {
+                        // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
+                        zip.generateAsync({type:"blob"})
+                        .then(function(content) {
+                            var figureName = scope.figure.figure_id;
+                            // see FileSaver.js
+                            saveAs(content, scope.ercId+"_" + figureName + "_figure.zip");
+                        });
+                    }
+                    
     
-                    // download functionality (maybe need to use https://github.com/jimmywarting/StreamSaver.js for big files)
-                    zip.generateAsync({type:"blob"})
-                    .then(function(content) {
-                        var figureName = scope.figure.figure_id;
-                        // see FileSaver.js
-                        saveAs(content, scope.ercId+"_figure" + figureName + ".zip");
-                    });
                 }
             }
         }
