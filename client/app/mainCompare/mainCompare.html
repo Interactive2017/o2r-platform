@@ -2,12 +2,16 @@
 
 	<md-tabs md-selected="vm.selectedTab" md-dynamic-height md-border-bottom md-autoselect>
 		<md-tab ng-repeat="figure in vm.figures track by $index" label="Figure {{$index + 1}}">
-
+				
+			<large-interactive-view o2r-figure="figure" ercid="{{vm.ercId}}"></large-interactive-view>
+			
 			<o2r-interactive-figure o2r-figure="figure" ercid="{{vm.ercId}}"></o2r-interactive-figure>
 
 
 		</md-tab>
+		
 	</md-tabs>
 
 
 </div>
+

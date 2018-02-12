@@ -1,0 +1,19 @@
+<md-dialog flex aria-label="Manipulate">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <a class="white-font">ERC: {{figure.figure_id}}</a>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon class="o2r-white-icon" md-svg-src="img/ic_close_24px.svg"  aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+      <md-dialog-content>
+        <div class="md-dialog-content"> 
+               <o2r-interactive-figure  o2r-figure="figure" ercid="{{ercId}}"></o2r-interactive-figure>
+            </div>
+      </md-dialog-content>
+
+    </form>
+  </md-dialog>
+  

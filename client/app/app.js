@@ -14,6 +14,7 @@
             "starter.o2rTimeseries",
             "starter.slideImageComparison",
             "starter.o2rInteractiveFigure",
+            "starter.largeInteractiveView",
             // "rasterSweep",
             "treeControl",
             "hljs",
