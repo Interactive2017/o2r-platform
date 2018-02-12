@@ -58,7 +58,7 @@
 <div ng-if="compareType == 'map' && modifiedFigure" >
     <!-- ng-class="{'rs-parent-height': maptype == 'Peephole'}" -->
     <o2r-side-by-side ng-if="maptype == 'Side-by-side'" o2r-original-figure="figure" o2r-modified-figure="modifiedFigure"></o2r-side-by-side>
-    <!-- <raster-sweep ng-if="maptype == 'Peephole'" rs-base="{{figure.original.image}}" rs-overlay="{{modifiedFigure}}"></raster-sweep> -->
+    <raster-sweep ng-if="maptype == 'Peephole'" rs-base="{{figure.original.image}}" rs-overlay="{{modifiedFigure}}"></raster-sweep>
     <hans-approach ng-if="maptype == 'Overlay'"></hans-approach>
 
     <div ng-if="maptype == 'Overlay'">
