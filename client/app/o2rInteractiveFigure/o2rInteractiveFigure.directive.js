@@ -34,6 +34,8 @@
             scope.changeTsType = changeTsType;
             scope.download = download;
             var first = true;
+            //define variable for the loading animation
+            scope.loading = false;
 
             scope.images = {
                 image1: scope.figure.original.image,
@@ -117,6 +119,9 @@
                 // get visualization type
                 var activeCompareType = scope.compareType;
 
+                //set the variable for the loading animation
+                scope.loading = true;
+
                 var params = '{';
 
                 // get slider value
@@ -162,6 +167,8 @@
                             var visualization = [originalValues[0], scope.modifiedFigure[0]];
                             //call the timeseries directive with the original and new values
                             scope.combinedTimeseriesData = visualization;
+                            //stop loading animation                            
+                            scope.loading = false;
                         })
                     }
                     //if the type is "map" then the image is requested
@@ -175,6 +182,8 @@
                                 image1: scope.figure.original.image,
                                 image2: scope.modifiedFigure
                             };
+                            //stop loading animation
+                            scope.loading = false;                            
                         })
                     }
 
