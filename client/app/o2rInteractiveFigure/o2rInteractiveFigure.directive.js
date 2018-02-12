@@ -37,11 +37,6 @@
             //define variable for the loading animation
             scope.loading = false;
 
-            scope.images = {
-                image1: scope.figure.original.image,
-                image2: scope.figure.original.image
-            }
-
             scope.icons = icons;
             // prepare all timeseries values to fit to required structure
             if(scope.figure.type == 'timeseries' 
