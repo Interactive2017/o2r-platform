@@ -234,13 +234,25 @@
             }
 
             function download(){
+                var paramText = "";
+                paramText += "figure data:";
+
+                for (var slider in scope.sliders) {
+                    paramText += " \n \nparameter : " + scope.sliders[slider].param_name;
+                    paramText += " \n \noriginal value:" + scope.sliders[slider].default_value;
+                    paramText += " \ndescription : " + scope.sliders[slider].description;
+                    paramText += " \nminimum value : " + scope.sliders[slider].min_value;
+                    paramText += " \nmaximum value : " + scope.sliders[slider].max_value;
+                    paramText += " \nstep size : " + scope.sliders[slider].steps_size;
+                }
+
                 if (downloadData == undefined) {
-                    var paramText = "no parameter changed\nboth images are the original image";
+                    paramText += " \n \nno modified figure calculated";
                 } else {
-                    var paramText = "";
+                    paramText += " \nmodified value:";
                     var downloadParams = downloadData;
                     for (var k in downloadParams) {
-                        paramText += k + " : " + downloadParams[k] + " \n"; 
+                        paramText += " \n" + k + " : " + downloadParams[k]; 
                     }
                 }
     
