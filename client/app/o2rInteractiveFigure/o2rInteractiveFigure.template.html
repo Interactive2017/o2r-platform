@@ -7,6 +7,10 @@
 
 <!-- <div layout="row">
     <span flex></span> -->
+<div style="position: absolute; display: flex; justify-content: center; align-content: center; width: 100%; height: 100%; top: 300; left: 0" ng-if="loading">
+    <md-progress-circular style="margin: auto; width: 100%; height: 100%; z-index: 100" md-mode="indeterminate"></md-progress-circular>
+    <div style="position: absolute; top:300; left: 0; width: 100%; height: 100%; background-color: grey; z-index: 99; opacity: .5"></div>
+</div>
 <md-button ng-if="compareType == 'map'" ng-click="changeVisualization(maptype)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
 <md-button ng-if="compareType == 'timeseries'" ng-click="changeVisualization(timeseriestype)" class="md-raised md-primary white-font">Run with new parameter(s)</md-button>
 <md-button ng-click="download()" class="md-raised md-primary white-font">Download</md-button>

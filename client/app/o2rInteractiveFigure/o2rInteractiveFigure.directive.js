@@ -34,6 +34,8 @@
             scope.changeTsType = changeTsType;
             scope.download = download;
             var first = true;
+            //define variable for the loading animation
+            scope.loading = false;
 
             scope.icons = icons;
             // prepare all timeseries values to fit to required structure
@@ -111,6 +113,9 @@
                 // get visualization type
                 var activeCompareType = scope.compareType;
 
+                //set the variable for the loading animation
+                scope.loading = true;
+
                 var params = '{';
 
                 // get slider value
@@ -156,6 +161,8 @@
                             var visualization = [originalValues[0], scope.modifiedFigure[0]];
                             //call the timeseries directive with the original and new values
                             scope.combinedTimeseriesData = visualization;
+                            //stop loading animation                            
+                            scope.loading = false;
                         })
                     }
                     //if the type is "map" then the image is requested
@@ -205,6 +212,8 @@
                                     //Peephole image stuff
                                 }
                             }
+                            //stop loading animation
+                            scope.loading = false;                            
                         })
                     }
 
