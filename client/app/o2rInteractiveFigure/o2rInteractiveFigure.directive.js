@@ -44,9 +44,11 @@
             }
             scope.combinedTimeseriesData = scope.figure.original.values;
             scope.layout = {
-                title: "Combined plot",
                 xaxis: {
-                    rangeslider:{}
+                    title: scope.figure.x_axis_label
+                },
+                yaxis: {
+                    title: scope.figure.y_axis_label
                 }
             };
 
@@ -148,10 +150,10 @@
                             scope.modifiedFigure = scope.figure.modifiedFigure;
                             var originalValues = scope.figure.original.values;
                             //set the title of the plot to combined Plot
-                            scope.layout = {
-                                title: "Combined plot",
-                                xaxis: {rangeslider:{}}
-                            };
+                            // scope.layout = {
+                            //     title: "Combined plot",
+                            //     xaxis: {rangeslider:{}}
+                            // };
                             //pass the timeseries itmes into a structure that plotly can handle
                             var visualization = [originalValues[0], scope.modifiedFigure[0]];
                             //call the timeseries directive with the original and new values

@@ -50,13 +50,18 @@
             //check if there are two lines in the timeseries
             if (scope.data.length > 1) {
                 scope.two = true;
-                scope.data[0].push({name: 'Original'});
-                scope.data[1].push({name: 'Modified'});
+                console.log(scope.data[0]);
+                scope.data[0].name = 'Original';
+                scope.data[1].name = 'Modified';
+                scope.layout.title = "Combined plot";
+                scope.layout.xaxis.rangeslider = {};
                 //calculat the statistics for the modified data
                 calcStats(1);
             }
             else {
                 scope.two = false;
+                scope.layout.title = null;
+                scope.layout.xaxis.rangeslider = null;
                 //calculate the statistics for the original data
                 calcStats(0);
             }
