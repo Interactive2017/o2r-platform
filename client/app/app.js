@@ -326,7 +326,8 @@
             {name: 'timeseriesSideBySide', category:'typeSelection', fn: 'timeseries_sideBySide'},            
             {name: 'mapSideBySide', category:'typeSelection', fn: 'map_sideBySide'},
             {name: 'mapOverlaySlider', category:'typeSelection', fn: 'map_overlaySlider'},
-            {name: 'mapPeephole', category:'typeSelection', fn: 'map_peephole'}
+            {name: 'mapPeephole', category:'typeSelection', fn: 'map_peephole'},
+            {name: 'enlarge', category:'action', fn: 'enlarge'}            
         ];
 
         for(var i in icons){
