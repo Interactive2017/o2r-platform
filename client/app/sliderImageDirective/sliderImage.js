@@ -21,13 +21,6 @@ angular
 .module('starter.slideImageComparison')
 .directive('slideImageComparison', function($window) {
 
-	function switchImages(scope) {
-			scope.imageInfo = {
-					image1: scope.imageInfo.image2,
-					image2: scope.imageInfo.image1
-			}
-	}
-
 	function moveOver(handle, resized, container, clicked) {
 
 		var move = {};
@@ -62,17 +55,12 @@ angular
 
 		}
 
-		// onClick move - second click stop move
-		container[0].addEventListener('click', function() {
-				if (clicked == true) {
-						container[0].removeEventListener('mousemove', moveSlide, false);
-						clicked = false;
-				} else {
-						container[0].addEventListener('mousemove', moveSlide, false);
-						clicked = true;
-				}
+		handle[0].addEventListener('mousedown', function() {
+			container[0].addEventListener('mousemove', moveSlide, false);
 		}, false);
-		// container[0].addEventListener('drag', moveSlide, false);
+		container[0].addEventListener('mouseup', function() {
+			container[0].removeEventListener('mousemove', moveSlide, false);
+		},  false);
 
 	}
 
