@@ -40,9 +40,12 @@ angular
 				top: pageY - containerOffsetTop
 			};
 
+			if (move.left <= 0) {move.left = 0 + (containerWidth*0.01);}
+			if (move.left >= containerWidth) {move.left = containerWidth - (containerWidth*0.01);}
+
 			moveWidth = ((move.left)*100/containerWidth)-100;
 			if (moveWidth < 0) {
-					moveWidth = ((move.left)*100/containerWidth);
+				moveWidth = ((move.left)*100/containerWidth);
 			}
 			moveWidth = moveWidth+'%';
 

@@ -240,7 +240,7 @@
                         var base64_original = dataUrl01.replace(/^data:image\/(png|jpg);base64,/, "");
                         img.file("original.png", base64_original, {base64: true});
                         // if parameter was changed add modified figure to zip file
-                        if(angular.isDefined(scope.modifiedFigure)){
+                        if(angular.isDefined(scope.modifiedFigure) && scope.timeseriestype == "Side-by-side"){
                             Plotly.toImage(document.getElementsByClassName("js-plotly-plot").item(1), {format: 'png', width: 800, height: 600})
                             .then(function(dataUrl02) {
                                 
