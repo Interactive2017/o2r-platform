@@ -9,7 +9,10 @@
     function largeInteractiveView($log, icons, $mdDialog){
         return {
             restrict: 'E',
-            template: '<div layout="row"><span flex></span><md-button class="md-icon-button"  ng-click="enlargeInteractiveView($event)"><md-icon md-menu-origin md-svg-icon="{{icons.enlarge}}"></md-icon></md-button></div> ',
+            template: '<div layout="row">'
+                    + '<span flex></span><md-button class="md-icon-button"  ng-click="enlargeInteractiveView($event)">'
+                    + '<md-icon md-menu-origin md-svg-icon="{{icons.enlarge}}"></md-icon>'
+                    + '</md-button></div> ',
             scope: {
                 figure: '=o2rFigure',
                 ercId: '@ercid'
