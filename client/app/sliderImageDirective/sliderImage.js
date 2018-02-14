@@ -21,82 +21,108 @@ angular
 .module('starter.slideImageComparison')
 .directive('slideImageComparison', function($window) {
 
-	function moveOver(handle, resized, container, clicked) {
-
-		var move = {};
-
-		var divideWidth = handle.prop('offsetWidth'),
-			containerOffsetLeft = $('.slide-comb').offset().left, // container.prop('offsetLeft'),
-			containerOffsetTop = container.prop('offsetTop'),
-			containerWidth = container.prop('offsetWidth');
-
-		var moveSlide = function(e) {
-
-			var pageX = e.pageX || e.targetTouches[0].pageX;
-			var pageY = e.pageY || e.targetTouches[0].pageY;
-
-			move = {
-				left: pageX - containerOffsetLeft,
-				top: pageY - containerOffsetTop
-			};
-
-			if (move.left <= 0) {move.left = 0 + (containerWidth*0.01);}
-			if (move.left >= containerWidth) {move.left = containerWidth - (containerWidth*0.01);}
-
-			moveWidth = ((move.left)*100/containerWidth)-100;
-			if (moveWidth < 0) {
-				moveWidth = ((move.left)*100/containerWidth);
-			}
-			moveWidth = moveWidth+'%';
-
-			handle.css({
-				left: moveWidth
-			});
-			resized.css({
-				width: moveWidth
-			});
-
-		}
-
-		handle[0].addEventListener('mousedown', function() {
-			container[0].addEventListener('mousemove', moveSlide, false);
-		}, false);
-		container[0].addEventListener('mouseup', function() {
-			container[0].removeEventListener('mousemove', moveSlide, false);
-		},  false);
-
-	}
-
 	return {
 		restrict: 'E',
 		scope: {
-			imageInfo: '=info'
+			image1:	'=o2rOriginalFigure',
+			image2: '=o2rModifiedFigure'
 		},
 		link: function(scope, elem, attr) {
-        		var w = angular.element($window);
+			
+			scope.images = {
+				image1: scope.image1,
+				image2: scope.image2
+			}
+			scope.overlayOnTop = "modified left";
 
-			   var container = angular.element(elem[0].querySelector('.slide-comb'));
+			var imageDiv = elem.find("#originalImage");
+			
+			imageDiv.bind('load', function() {
 
-			// Adjust resize image
-			var resized = angular.element(elem[0].querySelector('.resized'));
-			var resizedImage = elem[0].querySelector('.resized img');
-			angular.element(resizedImage).css({
-				width: container.prop('offsetWidth')+'px'
-			})
+				var w = angular.element($window);
+				var container = angular.element(elem[0].querySelector('.slide-comb'));
 
-			// Change resized image width on window resize
-			w.bind('resize', function () {
+				container.css('height', imageDiv[0].height + 'px');
+
+				scope.switchImages = function() {
+					scope.images = {
+						image1: scope.images.image2,
+						image2: scope.images.image1
+					};
+					if (scope.overlayOnTop == "original left") {
+						scope.overlayOnTop = "modified left";
+					} else {
+						scope.overlayOnTop = "original left";
+					}
+				}
+
+				// Adjust resize image
+				var resized = angular.element(elem[0].querySelector('.resized'));
+				var resizedImage = elem[0].querySelector('.resized img');
 				angular.element(resizedImage).css({
 					width: container.prop('offsetWidth')+'px'
 				})
+
+				// Change resized image width on window resize
+				w.bind('resize', function () {
+					angular.element(resizedImage).css({
+						width: container.prop('offsetWidth')+'px'
+					})
+				});
+
+				// Get divider
+				var divider = angular.element(elem[0].querySelector('.divider'));
+				var clicked = false;
+
+				// Bind move event
+				moveOver(divider, resized, container, clicked);
 			});
 
-			// Get divider
-			var divider = angular.element(elem[0].querySelector('.divider'));
-			var clicked = false;
+			function moveOver(handle, resized, container, clicked) {
 
-			// Bind move event
-			moveOver(divider, resized, container, clicked);
+				var move = {};
+		
+				var divideWidth = handle.prop('offsetWidth'),
+					containerOffsetLeft = $('.slide-comb').offset().left, // container.prop('offsetLeft'),
+					containerOffsetTop = container.prop('offsetTop'),
+					containerWidth = container.prop('offsetWidth');
+		
+				var moveSlide = function(e) {		
+					var pageX = e.pageX || e.targetTouches[0].pageX;
+					var pageY = e.pageY || e.targetTouches[0].pageY;
+		
+					if (pageX <= containerOffsetLeft) {
+						pageX = containerOffsetLeft;
+					}
+					if (pageX >= (containerOffsetLeft+containerWidth)) {
+						pageX = (containerOffsetLeft+containerWidth);
+					}
+
+					move = {
+						left: pageX - containerOffsetLeft,
+						top: pageY - containerOffsetTop
+					};
+					moveWidth = ((move.left)*100/containerWidth);
+					moveWidth = moveWidth+'%';
+		
+					handle.css({
+						left: moveWidth
+					});
+					resized.css({
+						width: moveWidth
+					});
+		
+				}
+		
+				handle[0].addEventListener('mousedown', function(e) {
+					e.preventDefault();
+					container[0].addEventListener('mousemove', moveSlide, false);
+				}, false);
+				container[0].addEventListener('mouseup', function() {
+					container[0].removeEventListener('mousemove', moveSlide, false);
+				},  false);
+		
+			}
 
 		},
 		templateUrl: 'app/sliderImageDirective/sliderImage.html'
