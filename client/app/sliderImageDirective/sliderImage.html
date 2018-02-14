@@ -1,7 +1,9 @@
+<md-button ng-click="switchImages()" class="md-raised">switch images</md-button>
+<p>{{overlayOnTop}}</p>
 <div class="slide-comb">
-		<img class="image" ng-src="{{ imageInfo.image1 }}">
+		<img id="originalImage" class="image" ng-src="{{ images.image1 }}">
 		<div class="resized">
-				<img ng-src="{{ imageInfo.image2 }}">
+				<img ng-src="{{ images.image2 }}">
 		</div>
 		<div class="divider">
 			<div class="divider-drag"></div>
