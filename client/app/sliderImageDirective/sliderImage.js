@@ -56,6 +56,9 @@ angular
 					}
 				}
 
+				console.log($('.slide-comb'));
+				console.log(container);
+
 				// Adjust resize image
 				var resized = angular.element(elem[0].querySelector('.resized'));
 				var resizedImage = elem[0].querySelector('.resized img');
@@ -83,14 +86,16 @@ angular
 				var move = {};
 		
 				var divideWidth = handle.prop('offsetWidth'),
-					containerOffsetLeft = $('.slide-comb').offset().left, // container.prop('offsetLeft'),
 					containerOffsetTop = container.prop('offsetTop'),
 					containerWidth = container.prop('offsetWidth');
+
+				var contOffset = angular.element(elem[0].querySelector('.slide-comb'));
+				var containerOffsetLeft = contOffset.offset().left;
 		
 				var moveSlide = function(e) {		
 					var pageX = e.pageX || e.targetTouches[0].pageX;
 					var pageY = e.pageY || e.targetTouches[0].pageY;
-		
+
 					if (pageX <= containerOffsetLeft) {
 						pageX = containerOffsetLeft;
 					}
