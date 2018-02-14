@@ -15,7 +15,7 @@
             "starter.slideImageComparison",
             "starter.o2rInteractiveFigure",
             "starter.largeInteractiveView",
-            // "rasterSweep",
+            "rasterSweep",
             "treeControl",
             "hljs",
             "ui.router",
