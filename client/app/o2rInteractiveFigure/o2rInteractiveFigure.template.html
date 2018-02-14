@@ -66,9 +66,7 @@
     <raster-sweep ng-if="maptype == 'Peephole'" rs-base="{{figure.original.image}}" rs-overlay="{{modifiedFigure}}"></raster-sweep>
     <hans-approach ng-if="maptype == 'Overlay'"></hans-approach>
 
-    <md-button ng-if="maptype == 'Overlay'" ng-click="switchImages()" class="md-raised">switch images</md-button>
-    <p ng-if="maptype == 'Overlay'">{{overlayOnTop}}</p>
-    <slide-image-comparison ng-if="maptype == 'Overlay'" info="images"></slide-image-comparison>
+    <slide-image-comparison ng-if="maptype == 'Overlay'" o2r-original-figure="figure.original.image" o2r-modified-figure="modifiedFigure"></slide-image-comparison>
 
 </div>
 <div ng-if="compareType == 'map' && !modifiedFigure">

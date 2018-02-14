@@ -95,19 +95,6 @@
                 scope.maptype = type;
             }
 
-            scope.overlayOnTop = "overlay left";
-            scope.switchImages = function() {
-                scope.images = {
-                    image1: scope.images.image2,
-                    image2: scope.images.image1
-                };
-                if (scope.overlayOnTop == "original left") {
-                    scope.overlayOnTop = "overlay left";
-                } else {
-                    scope.overlayOnTop = "original left";
-                }
-            }
-
             // function to show comparison visulization
             scope.changeVisualization = function(type){
                 logger.info("Change visualization");
@@ -173,10 +160,6 @@
                             img.src = compareImage.config.url;    // compareImage.data
                             scope.figure.modifiedFigure = img.src;
                             scope.modifiedFigure = scope.figure.modifiedFigure;
-                            scope.images = {
-                                image1: scope.figure.original.image,
-                                image2: scope.modifiedFigure
-                            };
                             //stop loading animation
                             scope.loading = false;                            
                         })
