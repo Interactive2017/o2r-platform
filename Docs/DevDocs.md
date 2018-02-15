@@ -17,6 +17,8 @@ __Example:__
 <o2r-interactive-figure o2r-figure="figure" ercid="{{ercId}}"></o2r-interactive-figure>
 ```
 
+***
+
 ### **largeInteractiveView**
 
 __Path__: `client/app/largeInteractiveView`
@@ -31,6 +33,8 @@ __Example:__
 ```html 
 <large-interactive-view o2r-figure="figure" ercid="{{ercId}}"></large-interactive-view>
 ```
+
+***
 
 ### **o2rSideBySide**
 
@@ -47,6 +51,9 @@ __Example:__
 ```html 
 <o2r-side-by-side o2r-original-figure="figure" o2r-modified-figure="modifiedFigure" plotly-Layout="layout"></o2r-side-by-side>
 ```
+
+***
+
 ### **o2rTimeseries**
 
 __Path__: `client/app/o2rTimeseries`
@@ -70,7 +77,8 @@ __Example:__
 ```html 
 <o2r-timeseries o2r-data="data" o2r-layout="layout" </o2r-timeseries>
 ```
-    
+
+***    
 
 ### **sliderImageDirective**
 
@@ -86,6 +94,8 @@ __Example:__
 ```html 
 <slide-image-comparison o2r-original-figure="figure.original.image" o2r-modified-figure="figure.modifiedFigure"></slide-image-comparison>
 ```
+
+***
 
 ### **raster-sweep**
 __Github Repo:__ https://github.com/Interactive2017/rasterSweep  
