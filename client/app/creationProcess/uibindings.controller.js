@@ -26,6 +26,8 @@
         $scope.widgetModel = {};
         $scope.widgetModel.type = "slider";
 
+        vm.tsType;
+
         logger.info('UploadPackageCtrl with params:', $stateParams);
 
         /////
@@ -37,6 +39,12 @@
             logger.info('updated ', attr);
           } else {
             vm.required[attr] = val;
+            if (attr == "figure_type" && val == "timeseries") {
+                vm.tsType = true;
+            }
+            if (attr == "figure_type" && val == "map") {
+                vm.tsType = false;
+            }
             logger.info('updated ', attr);
           }
         };
@@ -54,11 +62,13 @@
                 var reqData = vm.required;
                 vm.packageData.figure_id = reqData.figure_id;
                 vm.packageData.type = reqData.figure_type;
-                vm.packageData.endpoint = reqData.figure_endpoint;
-                vm.packageData.x_axis_label = reqData.x_axis_label;
-                vm.packageData.y_axis_label = reqData.y_axis_label;
-                vm.packageData.x_axis_parameter = reqData.x_axis_parameter;
-                vm.packageData.y_axis_parameter = reqData.y_axis_parameter;
+                vm.packageData.endpoint = "/ocpu/library/"+vm.erc.id+"/R/"+reqData.figure_endpoint;
+                if (vm.tsType == true) {
+                    vm.packageData.x_axis_label = reqData.x_axis_label;
+                    vm.packageData.y_axis_label = reqData.y_axis_label;
+                    vm.packageData.x_axis_parameter = reqData.x_axis_parameter;
+                    vm.packageData.y_axis_parameter = reqData.y_axis_parameter;
+                }
 
                 var addWidgetValue = addWidget();
                 // check if widget inputfields are filled
